@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel - Login | Filtro Amazon</title>
     
-    <!-- GOOGLE FONTS - Amazon Ember -->
     <link href="https://fonts.googleapis.com/css2?family=Amazon+Ember:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- FONT AWESOME -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
@@ -80,7 +78,6 @@
         .login-header p {
             color: #565959;
             font-size: 14px;
-            font-weight: 400;
         }
         
         .alert {
@@ -94,26 +91,10 @@
             border-left: 4px solid transparent;
         }
         
-        .alert-success {
-            background: #d4edda;
-            color: #0f5c2e;
-            border-left-color: #28a745;
-        }
+        .alert-success { background: #d4edda; color: #0f5c2e; border-left-color: #28a745; }
+        .alert-danger, .alert-error { background: #f8d7da; color: #a71d2a; border-left-color: #dc3545; }
         
-        .alert-error {
-            background: #f8d7da;
-            color: #a71d2a;
-            border-left-color: #dc3545;
-        }
-        
-        .alert i {
-            font-size: 18px;
-        }
-        
-        .form-group {
-            margin-bottom: 22px;
-        }
-        
+        .form-group { margin-bottom: 22px; }
         .form-group label {
             display: block;
             margin-bottom: 6px;
@@ -122,10 +103,7 @@
             font-weight: 600;
         }
         
-        .input-wrapper {
-            position: relative;
-        }
-        
+        .input-wrapper { position: relative; }
         .input-wrapper i {
             position: absolute;
             left: 14px;
@@ -142,18 +120,12 @@
             border-radius: 8px;
             font-size: 15px;
             transition: all 0.2s ease;
-            font-family: 'Amazon Ember', sans-serif;
         }
         
         .input-wrapper input:focus {
             border-color: #ff9900;
             outline: none;
             box-shadow: 0 0 0 3px rgba(255, 153, 0, 0.2);
-        }
-        
-        .input-wrapper input::placeholder {
-            color: #aaa;
-            font-size: 14px;
         }
         
         .btn-login {
@@ -171,70 +143,16 @@
             justify-content: center;
             gap: 10px;
             transition: all 0.2s ease;
-            margin-top: 10px;
-            box-shadow: 0 2px 5px rgba(255, 153, 0, 0.3);
-            font-family: 'Amazon Ember', sans-serif;
         }
         
         .btn-login:hover {
             background: linear-gradient(to bottom, #e68900, #cc7a00);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 153, 0, 0.4);
-        }
-        
-        .btn-login i {
-            font-size: 16px;
         }
         
         .login-footer {
             margin-top: 25px;
             text-align: center;
-        }
-        
-        .demo-creds {
-            background: #f3f3f3;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #e7e9ec;
-        }
-        
-        .demo-creds p {
-            font-size: 13px;
-            color: #565959;
-            margin-bottom: 8px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .creds-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 8px 0;
-            border-bottom: 1px dashed #e7e9ec;
-        }
-        
-        .creds-row:last-child {
-            border-bottom: none;
-        }
-        
-        .creds-row i {
-            width: 20px;
-            color: #ff9900;
-            font-size: 14px;
-        }
-        
-        .creds-row code {
-            font-family: 'Courier New', monospace;
-            background: #ffffff;
-            padding: 4px 8px;
-            border-radius: 4px;
-            color: #232f3e;
-            font-weight: 600;
-            font-size: 13px;
-            border: 1px solid #e7e9ec;
         }
         
         .back-link {
@@ -245,16 +163,6 @@
             text-decoration: none;
             font-size: 13px;
             font-weight: 500;
-            transition: color 0.2s ease;
-        }
-        
-        .back-link:hover {
-            color: #c7511f;
-            text-decoration: underline;
-        }
-        
-        .back-link i {
-            font-size: 12px;
         }
         
         .amazon-badge {
@@ -265,30 +173,6 @@
             align-items: center;
             justify-content: center;
             gap: 5px;
-        }
-        
-        .amazon-badge i {
-            color: #ff9900;
-        }
-        
-        /* Responsive */
-        @media (max-width: 480px) {
-            .login-card {
-                padding: 25px 20px;
-            }
-            
-            .login-header h2 {
-                font-size: 22px;
-            }
-            
-            .logo-icon {
-                width: 70px;
-                height: 70px;
-            }
-            
-            .logo-icon i {
-                font-size: 30px;
-            }
         }
     </style>
 </head>
@@ -306,7 +190,7 @@
             {% if messages %}
                 {% for category, message in messages %}
                     <div class="alert alert-{{ category }}">
-                        <i class="fas fa-{% if category == 'success' %}check-circle{% else %}exclamation-circle{% endif %}"></i>
+                        <i class="fas fa-exclamation-circle"></i>
                         {{ message }}
                     </div>
                 {% endfor %}
@@ -314,22 +198,21 @@
         {% endwith %}
         
         <form method="POST">
-            <!-- 🔐 TOKEN CSRF AGREGADO -->
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             
             <div class="form-group">
-                <label><i class="fas fa-user" style="margin-right: 5px;"></i> Usuario</label>
+                <label>Usuario</label>
                 <div class="input-wrapper">
                     <i class="fas fa-user"></i>
-                    <input type="text" name="username" placeholder="Tu usuario" value="admin" required>
+                    <input type="text" name="username" placeholder="Tu usuario" required autocomplete="username">
                 </div>
             </div>
             
             <div class="form-group">
-                <label><i class="fas fa-lock" style="margin-right: 5px;"></i> Contraseña</label>
+                <label>Contraseña</label>
                 <div class="input-wrapper">
                     <i class="fas fa-lock"></i>
-                    <input type="password" name="password" placeholder="••••••" value="admin123" required>
+                    <input type="password" name="password" placeholder="Tu contraseña" required autocomplete="current-password">
                 </div>
             </div>
             
@@ -340,26 +223,12 @@
         </form>
         
         <div class="login-footer">
-            <div class="demo-creds">
-                <p>🔐 Credenciales de prueba</p>
-                <div class="creds-row">
-                    <i class="fas fa-user-circle"></i>
-                    <code>admin</code>
-                    <span style="margin-left: auto; color: #565959;">admin123</span>
-                </div>
-                <div class="creds-row">
-                    <i class="fas fa-user-circle"></i>
-                    <code>editor</code>
-                    <span style="margin-left: auto; color: #565959;">editor123</span>
-                </div>
-            </div>
-
             <a href="/" class="back-link">
                 <i class="fas fa-arrow-left"></i> Volver a la tienda
             </a>
             
             <div class="amazon-badge">
-                <i class="fab fa-amazon"></i> Estilo Amazon
+                <i class="fab fa-amazon"></i> Sistema Seguro
             </div>
         </div>
     </div>
