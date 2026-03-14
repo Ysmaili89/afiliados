@@ -1,0 +1,846 @@
+{% extends "base.html" %}
+
+{% block title %}Preguntas Frecuentes - {{ config.nombre }} | Resolvemos tus dudas sobre nuestro filtro{% endblock %}
+
+{% block meta_description %}Encuentra respuestas a las preguntas más frecuentes sobre nuestro filtro de Amazon. Aclaramos cómo funcionamos, las compras, devoluciones y el programa de afiliados.{% endblock %}
+
+{% block meta_keywords %}preguntas frecuentes, faq, ayuda, dudas, filtro amazon, afiliados, devoluciones, compras{% endblock %}
+
+{% block content %}
+<!-- Encabezado de página -->
+<section class="page-header">
+    <div class="page-header-content">
+        <span class="header-badge">❓ AYUDA</span>
+        <h1>Preguntas <span class="resaltado">Frecuentes</span></h1>
+        <p class="header-descripcion">Todas las respuestas sobre cómo funciona nuestro <strong>filtro</strong> de productos Amazon</p>
+    </div>
+</section>
+
+<!-- AVISO IMPORTANTE - BANNER ROJO -->
+<div class="aviso-importante">
+    <div class="aviso-content">
+        <i class="fas fa-exclamation-triangle"></i>
+        <div>
+            <h2>⚠️ LEER PRIMERO: SOLO SOMOS UN FILTRO</h2>
+            <p><strong>{{ config.nombre }}</strong> <span class="resaltado-rojo">NO VENDE PRODUCTOS</span>, no tenemos inventario, no enviamos nada y no gestionamos devoluciones.</p>
+            <p class="aviso-destacado">Si tienes dudas sobre un pedido, envío o devolución, contacta DIRECTAMENTE con <strong><i class="fab fa-amazon"></i> Amazon</strong>.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Buscador de FAQ -->
+<div class="faq-search-container">
+    <div class="faq-search">
+        <i class="fas fa-search"></i>
+        <input type="text" id="faqSearch" placeholder="Buscar pregunta... (ej: devolución, precio, compra)" onkeyup="buscarFAQ()">
+    </div>
+</div>
+
+<!-- Categorías de FAQ -->
+<div class="faq-categorias">
+    <button class="faq-cat-btn active" onclick="filtrarCategoria('todas')">📋 Todas</button>
+    <button class="faq-cat-btn" onclick="filtrarCategoria('filtro')">🔍 Sobre el filtro</button>
+    <button class="faq-cat-btn" onclick="filtrarCategoria('compras')">🛒 Compras en Amazon</button>
+    <button class="faq-cat-btn" onclick="filtrarCategoria('devoluciones')">📦 Devoluciones</button>
+    <button class="faq-cat-btn" onclick="filtrarCategoria('afiliado')">🤝 Programa de afiliados</button>
+    <button class="faq-cat-btn" onclick="filtrarCategoria('tecnicas')">⚙️ Técnicas</button>
+</div>
+
+<!-- Contenedor principal -->
+<div class="faq-container">
+
+    <!-- CATEGORÍA: SOBRE EL FILTRO (LO MÁS IMPORTANTE) -->
+    <div class="faq-categoria" id="categoria-filtro">
+        <h2 class="categoria-titulo"><i class="fas fa-filter"></i> Sobre nuestro filtro</h2>
+        
+        <div class="faq-item" data-categoria="filtro">
+            <div class="faq-pregunta" onclick="toggleFAQ(this)">
+                <h3>¿Qué es exactamente {{ config.nombre }}?</h3>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-respuesta">
+                <p>Somos un <strong>filtro independiente de productos de Amazon</strong>. No vendemos nada directamente. Nuestro trabajo es:</p>
+                <ul>
+                    <li>✅ Buscar y seleccionar los mejores productos de Amazon</li>
+                    <li>✅ Analizar valoraciones, reseñas y calidad</li>
+                    <li>✅ Presentártelos de forma organizada para que sea fácil elegir</li>
+                </ul>
+                <p class="nota-importante"><i class="fas fa-exclamation-circle"></i> <strong>Importante:</strong> No gestionamos pagos, envíos ni devoluciones. Todo eso lo hace Amazon.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item" data-categoria="filtro">
+            <div class="faq-pregunta" onclick="toggleFAQ(this)">
+                <h3>¿Cómo funciona el filtro?</h3>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-respuesta">
+                <p>Es muy simple:</p>
+                <ol>
+                    <li><strong>Buscamos:</strong> Investigamos productos en Amazon (ventas, valoraciones, opiniones)</li>
+                    <li><strong>Filtramos:</strong> Nos quedamos solo con los mejores (nota media alta, muchas reseñas, buena relación calidad-precio)</li>
+                    <li><strong>Recomendamos:</strong> Te mostramos los productos seleccionados en nuestra web</li>
+                    <li><strong>Te enviamos a Amazon:</strong> Cuando eliges uno, haces clic y vas directamente a Amazon a comprar</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="faq-item" data-categoria="filtro">
+            <div class="faq-pregunta" onclick="toggleFAQ(this)">
+                <h3>¿Son ustedes Amazon? ¿Trabajan para Amazon?</h3>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-respuesta">
+                <p><strong>No, somos independientes</strong>. No somos Amazon ni trabajamos para ellos. Somos un sitio web de afiliados: recomendamos productos de Amazon porque creemos que es la mejor tienda, pero no tenemos ninguna relación laboral con ellos.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item" data-categoria="filtro">
+            <div class="faq-pregunta" onclick="toggleFAQ(this)">
+                <h3>¿Cómo ganan dinero si no venden nada?</h3>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-respuesta">
+                <p>Participamos en el <strong>Programa de Afiliados de Amazon</strong>. Funciona así:</p>
+                <ul>
+                    <li>Cuando haces clic en "IR A COMPRAR" y compras algo en Amazon (en esa visita o en los siguientes 30 días), Amazon nos paga una pequeña comisión</li>
+                    <li><strong>Tú pagas el MISMO PRECIO</strong> que si fueras directamente a Amazon</li>
+                    <li>La comisión NO afecta al precio, la paga Amazon de su margen</li>
+                </ul>
+                <p>Es como si Amazon nos pagara por recomendarte buenos productos.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CATEGORÍA: COMPRAS EN AMAZON -->
+    <div class="faq-categoria" id="categoria-compras">
+        <h2 class="categoria-titulo"><i class="fas fa-shopping-cart"></i> Compras en Amazon</h2>
+        
+        <div class="faq-item" data-categoria="compras">
+            <div class="faq-pregunta" onclick="toggleFAQ(this)">
+                <h3>¿Cómo compro un producto que veo aquí?</h3>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-respuesta">
+                <p>Pasos para comprar:</p>
+                <ol>
+                    <li>Encuentra el producto que te gusta en nuestra web</li>
+                    <li>Haz clic en el botón <strong>"IR A COMPRAR"</strong> o <strong>"VER EN AMAZON"</strong></li>
+                    <li>Serás redirigido automáticamente a Amazon</li>
+                    <li>En Amazon, añade el producto al carrito y completa la compra normalmente</li>
+                </ol>
+                <p class="nota"><i class="fas fa-info-circle"></i> Todo el proceso de pago es 100% seguro y lo gestiona Amazon.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item" data-categoria="compras">
+            <div class="faq-pregunta" onclick="toggleFAQ(this)">
+                <h3>¿Es más caro comprar por aquí?</h3>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-respuesta">
+                <p><strong>NO, pagas exactamente el mismo precio</strong>. La comisión que nos paga Amazon no la pagas tú, la paga Amazon. De hecho, en nuestra web mostramos productos con ofertas y descuentos, pero el precio final es el mismo que verías en Amazon.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item" data-categoria="compras">
+            <div class="faq-pregunta" onclick="toggleFAQ(this)">
+                <h3>¿Por qué no veo los precios en su web?</h3>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-respuesta">
+                <p><strong>Para no confundirte con precios desactualizados</strong>. Los precios de Amazon cambian constantemente. Preferimos no mostrar un precio fijo que podría no ser el actual. Cuando haces clic en "IR A COMPRAR", ves el precio exacto y actualizado en Amazon.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item" data-categoria="compras">
+            <div class="faq-pregunta" onclick="toggleFAQ(this)">
+                <h3>¿Puedo comprar varios productos a la vez?</h3>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-respuesta">
+                <p>Sí, cuando llegues a Amazon puedes añadir al carrito todos los productos que quieras, igual que si hubieras entrado directamente. Nuestro enlace te lleva al producto concreto, pero luego puedes seguir navegando en Amazon y añadir más artículos.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item" data-categoria="compras">
+            <div class="faq-pregunta" onclick="toggleFAQ(this)">
+                <h3>¿Qué métodos de pago aceptan?</h3>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-respuesta">
+                <p><strong>Nosotros no aceptamos pagos</strong> (no vendemos). La compra se hace en Amazon, así que aceptan todos los métodos de pago que Amazon acepta: tarjetas de crédito/débito, PayPal, tarjetas regalo Amazon, etc.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CATEGORÍA: DEVOLUCIONES (MUY IMPORTANTE) -->
+    <div class="faq-categoria" id="categoria-devoluciones">
+        <h2 class="categoria-titulo"><i class="fas fa-undo-alt"></i> Devoluciones y problemas con pedidos</h2>
+        
+        <div class="faq-item" data-categoria="devoluciones">
+            <div class="faq-pregunta destacada" onclick="toggleFAQ(this)">
+                <h3>⚠️ ¿Puedo devolver un producto con ustedes?</h3>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-respuesta">
+                <div class="respuesta-destacada">
+                    <p><strong>NO, NO podemos gestionar devoluciones.</strong></p>
+                    <p>Como no vendemos productos ni tenemos inventario, no podemos aceptar devoluciones. La devolución debes gestionarla DIRECTAMENTE con Amazon.</p>
+                    <p><a href="https://amazon.es/gp/css/returns/homepage.html" target="_blank" rel="nofollow" class="btn-amazon-pequeno">👉 Ir a devoluciones de Amazon</a></p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="faq-item" data-categoria="devoluciones">
+            <div class="faq-pregunta" onclick="toggleFAQ(this)">
+                <h3>¿Cómo devuelvo un producto a Amazon?</h3>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-respuesta">
+                <p>Para devolver un producto a Amazon:</p>
+                <ol>
+                    <li>Ve a <a href="https://amazon.es/mis-pedidos" target="_blank" rel="nofollow">"Mis pedidos" en Amazon</a></li>
+                    <li>Localiza el producto que quieres devolver</li>
+                    <li>Selecciona "Devolver o reemplazar productos"</li>
+                    <li>Sigue las instrucciones de Amazon (te darán una etiqueta de devolución)</li>
+                </ol>
+                <p>Amazon suele aceptar devoluciones en 30 días. Si el producto está defectuoso, el plazo puede ser mayor.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item" data-categoria="devoluciones">
+            <div class="faq-pregunta" onclick="toggleFAQ(this)">
+                <h3>Mi producto llegó dañado / no funciona. ¿Qué hago?</h3>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-respuesta">
+                <p>Contacta inmediatamente con el <strong>servicio de atención al cliente de Amazon</strong>:</p>
+                <ul>
+                    <li>Web: <a href="https://amazon.es/contacto" target="_blank" rel="nofollow">https://amazon.es/contacto</a></li>
+                    <li>Teléfono: 900 800 900 (España) / 800 300 400 (México) / según tu país</li>
+                </ul>
+                <p>Amazon suele cubrir los gastos de devolución en estos casos y te enviará un reemplazo o te reembolsará.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item" data-categoria="devoluciones">
+            <div class="faq-pregunta" onclick="toggleFAQ(this)">
+                <h3>¿Cuánto tarda el reembolso?</h3>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-respuesta">
+                <p>Los reembolsos los gestiona Amazon. Normalmente:</p>
+                <ul>
+                    <li>Una vez que Amazon recibe la devolución, procesan el reembolso en 3-5 días hábiles</li>
+                    <li>El dinero puede tardar unos días más en aparecer en tu cuenta, dependiendo de tu banco</li>
+                </ul>
+                <p>Puedes ver el estado en <a href="https://amazon.es/mis-pedidos" target="_blank" rel="nofollow">Mis pedidos de Amazon</a>.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CATEGORÍA: PROGRAMA DE AFILIADOS -->
+    <div class="faq-categoria" id="categoria-afiliado">
+        <h2 class="categoria-titulo"><i class="fas fa-handshake"></i> Programa de afiliados</h2>
+        
+        <div class="faq-item" data-categoria="afiliado">
+            <div class="faq-pregunta" onclick="toggleFAQ(this)">
+                <h3>¿Qué significa que son afiliados de Amazon?</h3>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-respuesta">
+                <p>Significa que tenemos un acuerdo con Amazon para recomendar sus productos. Cuando un usuario hace clic en nuestros enlaces y compra, Amazon nos reconoce la venta y nos paga una comisión.</p>
+                <p>Es como si Amazon nos dijera: "si recomiendas mis productos a tus usuarios y ellos compran, te doy una parte".</p>
+            </div>
+        </div>
+        
+        <div class="faq-item" data-categoria="afiliado">
+            <div class="faq-pregunta" onclick="toggleFAQ(this)">
+                <h3>¿Cómo sé qué enlaces son de afiliado?</h3>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-respuesta">
+                <p>Todos los enlaces a productos de Amazon en nuestra web son de afiliado. Siempre llevan un pequeño identificador que permite a Amazon saber que vienes de nuestra web. Esto no afecta tu compra ni el precio.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item" data-categoria="afiliado">
+            <div class="faq-pregunta" onclick="toggleFAQ(this)">
+                <h3>Si no quiero participar en el programa de afiliados, ¿puedo comprar igual?</h3>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-respuesta">
+                <p>Sí, puedes ir directamente a Amazon sin hacer clic en nuestros enlaces. Si prefieres no contribuir con nuestra comisión, simplemente abre Amazon en otra pestaña y busca el producto tú mismo.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CATEGORÍA: TÉCNICAS -->
+    <div class="faq-categoria" id="categoria-tecnicas">
+        <h2 class="categoria-titulo"><i class="fas fa-cog"></i> Preguntas técnicas</h2>
+        
+        <div class="faq-item" data-categoria="tecnicas">
+            <div class="faq-pregunta" onclick="toggleFAQ(this)">
+                <h3>¿Usan cookies? ¿Qué hacen con mis datos?</h3>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-respuesta">
+                <p>Sí, usamos cookies para:</p>
+                <ul>
+                    <li><strong>Funcionamiento básico:</strong> recordar tus preferencias, idioma, etc.</li>
+                    <li><strong>Afiliación:</strong> que Amazon sepa que vienes de nuestra web</li>
+                    <li><strong>Analítica:</strong> saber qué páginas son más visitadas para mejorar</li>
+                </ul>
+                <p><strong>No recopilamos datos personales</strong> como nombre, email o dirección, a menos que tú nos los proporciones voluntariamente. Para más información, consulta nuestra <a href="/cookies">Política de Cookies</a>.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item" data-categoria="tecnicas">
+            <div class="faq-pregunta" onclick="toggleFAQ(this)">
+                <h3>¿La web funciona en móviles?</h3>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-respuesta">
+                <p>Sí, nuestra web está diseñada para verse bien en todos los dispositivos: ordenadores, tablets y móviles. Si tienes algún problema de visualización, prueba a actualizar la página o limpiar la caché del navegador.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item" data-categoria="tecnicas">
+            <div class="faq-pregunta" onclick="toggleFAQ(this)">
+                <h3>Encontré un error/enlace roto. ¿Cómo lo reporto?</h3>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-respuesta">
+                <p>Si ves algún error (enlace que no funciona, imagen que no carga, información incorrecta), puedes notificarlo a través de nuestro <a href="/contacto">formulario de contacto</a>.</p>
+                <p class="nota-pequena">Ten en cuenta que solo atendemos consultas sobre el funcionamiento de la web, no sobre compras en Amazon.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTONES DE ACCIÓN RÁPIDA -->
+    <div class="faq-acciones-rapidas">
+        <h3>¿Necesitas ayuda inmediata?</h3>
+        <div class="acciones-grid">
+            <a href="https://amazon.es/contacto" target="_blank" rel="nofollow" class="accion-rapida amazon">
+                <i class="fab fa-amazon"></i>
+                <span>Contactar con Amazon</span>
+                <small>Pedidos, devoluciones, envíos</small>
+            </a>
+            <a href="https://amazon.es/gp/help/customer/display.html" target="_blank" rel="nofollow" class="accion-rapida">
+                <i class="fas fa-question-circle"></i>
+                <span>Centro de ayuda Amazon</span>
+                <small>Guías oficiales</small>
+            </a>
+            <a href="/cookies" class="accion-rapida">
+                <i class="fas fa-cookie-bite"></i>
+                <span>Política de Cookies</span>
+                <small>Info sobre cookies</small>
+            </a>
+        </div>
+    </div>
+
+    <!-- Mensaje de no resultados (para búsqueda) -->
+    <div id="noResultados" class="no-resultados" style="display: none;">
+        <i class="fas fa-search"></i>
+        <p>No encontramos preguntas con esa palabra</p>
+        <small>Prueba con otros términos</small>
+    </div>
+</div>
+
+<script>
+// Función para mostrar/ocultar respuestas
+function toggleFAQ(elemento) {
+    const faqItem = elemento.closest('.faq-item');
+    const respuesta = faqItem.querySelector('.faq-respuesta');
+    const icono = elemento.querySelector('i');
+    
+    // Si está abierto, cerrar
+    if (faqItem.classList.contains('active')) {
+        faqItem.classList.remove('active');
+        respuesta.style.maxHeight = '0';
+        respuesta.style.opacity = '0';
+        icono.style.transform = 'rotate(0deg)';
+    } else {
+        // Abrir este
+        faqItem.classList.add('active');
+        respuesta.style.maxHeight = respuesta.scrollHeight + 'px';
+        respuesta.style.opacity = '1';
+        icono.style.transform = 'rotate(180deg)';
+    }
+}
+
+// Función para buscar en FAQ
+function buscarFAQ() {
+    const input = document.getElementById('faqSearch');
+    const filter = input.value.toLowerCase().trim();
+    const items = document.querySelectorAll('.faq-item');
+    const noResultados = document.getElementById('noResultados');
+    let resultados = 0;
+    
+    items.forEach(item => {
+        const pregunta = item.querySelector('.faq-pregunta h3').textContent.toLowerCase();
+        const respuesta = item.querySelector('.faq-respuesta').textContent.toLowerCase();
+        
+        if (filter === '' || pregunta.includes(filter) || respuesta.includes(filter)) {
+            item.style.display = 'block';
+            resultados++;
+        } else {
+            item.style.display = 'none';
+        }
+    });
+    
+    // Mostrar u ocultar mensaje de no resultados
+    if (resultados === 0 && filter !== '') {
+        noResultados.style.display = 'block';
+    } else {
+        noResultados.style.display = 'none';
+    }
+}
+
+// Función para filtrar por categoría
+function filtrarCategoria(categoria) {
+    const items = document.querySelectorAll('.faq-item');
+    const botones = document.querySelectorAll('.faq-cat-btn');
+    
+    // Actualizar botón activo
+    botones.forEach(btn => {
+        btn.classList.remove('active');
+    });
+    event.target.classList.add('active');
+    
+    // Filtrar items
+    items.forEach(item => {
+        if (categoria === 'todas') {
+            item.style.display = 'block';
+        } else {
+            const itemCat = item.getAttribute('data-categoria');
+            item.style.display = (itemCat === categoria) ? 'block' : 'none';
+        }
+    });
+    
+    // Limpiar búsqueda
+    document.getElementById('faqSearch').value = '';
+    document.getElementById('noResultados').style.display = 'none';
+}
+
+// Cerrar FAQ al hacer clic fuera (opcional)
+document.addEventListener('click', function(event) {
+    if (!event.target.closest('.faq-item')) {
+        document.querySelectorAll('.faq-item.active').forEach(item => {
+            item.classList.remove('active');
+            item.querySelector('.faq-respuesta').style.maxHeight = '0';
+            item.querySelector('.faq-respuesta').style.opacity = '0';
+            item.querySelector('.faq-pregunta i').style.transform = 'rotate(0deg)';
+        });
+    }
+});
+</script>
+{% endblock %}
+
+{% block extra_scripts %}
+<style>
+/* ===== ESTILOS ESPECÍFICOS PARA FAQ (sin afectar base) ===== */
+
+/* Encabezado */
+.page-header {
+    background: linear-gradient(135deg, #232f3e, #131921);
+    color: white;
+    padding: 60px 20px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.header-badge {
+    display: inline-block;
+    background: #ff9900;
+    color: #232f3e;
+    padding: 8px 20px;
+    border-radius: 30px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.resaltado {
+    background: #ff9900;
+    color: #232f3e;
+    padding: 0 10px;
+    font-weight: 800;
+    display: inline-block;
+    transform: skew(-5deg);
+}
+
+/* AVISO IMPORTANTE */
+.aviso-importante {
+    max-width: 900px;
+    margin: 0 auto 40px;
+    padding: 0 20px;
+}
+
+.aviso-content {
+    background: #f8d7da;
+    border: 3px solid #dc3545;
+    border-radius: 15px;
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: #721c24;
+}
+
+.aviso-content i {
+    font-size: 3em;
+    color: #dc3545;
+}
+
+.aviso-content h2 {
+    margin: 0 0 10px;
+    font-size: 1.4em;
+    font-weight: 700;
+}
+
+.aviso-destacado {
+    font-weight: 700;
+    font-size: 1.1em;
+    background: rgba(220, 53, 69, 0.1);
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.resaltado-rojo {
+    background: #dc3545;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+/* Buscador */
+.faq-search-container {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.faq-search {
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 50px;
+    padding: 5px 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border: 2px solid transparent;
+    transition: all 0.3s;
+}
+
+.faq-search:focus-within {
+    border-color: #ff9900;
+    box-shadow: 0 4px 20px rgba(255,153,0,0.2);
+}
+
+.faq-search i {
+    color: #ff9900;
+    font-size: 1.2em;
+    margin-right: 10px;
+}
+
+.faq-search input {
+    flex: 1;
+    padding: 15px 0;
+    border: none;
+    font-size: 1em;
+    outline: none;
+    background: transparent;
+}
+
+/* Categorías */
+.faq-categorias {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 0 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.faq-cat-btn {
+    padding: 12px 20px;
+    border: 2px solid #ff9900;
+    background: white;
+    color: #232f3e;
+    border-radius: 40px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.faq-cat-btn:hover,
+.faq-cat-btn.active {
+    background: #ff9900;
+    color: #232f3e;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255,153,0,0.3);
+}
+
+/* Contenedor principal */
+.faq-container {
+    max-width: 800px;
+    margin: 0 auto 60px;
+    padding: 0 20px;
+}
+
+.faq-categoria {
+    margin-bottom: 40px;
+}
+
+.categoria-titulo {
+    color: #232f3e;
+    margin: 40px 0 20px;
+    padding-bottom: 10px;
+    border-bottom: 4px solid #ff9900;
+    font-size: 1.8em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Items FAQ */
+.faq-item {
+    background: white;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    overflow: hidden;
+    border: 1px solid #eee;
+    transition: all 0.3s;
+}
+
+.faq-item:hover {
+    box-shadow: 0 5px 20px rgba(255,153,0,0.15);
+    border-color: #ff9900;
+}
+
+.faq-pregunta {
+    padding: 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.3s;
+}
+
+.faq-pregunta:hover {
+    background: #f8f9fa;
+}
+
+.faq-pregunta.destacada {
+    background: #fff3cd;
+    border-left: 5px solid #ff9900;
+}
+
+.faq-pregunta h3 {
+    margin: 0;
+    font-size: 1.1em;
+    color: #232f3e;
+    font-weight: 600;
+}
+
+.faq-pregunta i {
+    color: #ff9900;
+    transition: transform 0.3s;
+}
+
+.faq-respuesta {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: all 0.5s ease;
+    background: #f8f9fa;
+    border-top: 1px solid #eee;
+    line-height: 1.8;
+}
+
+.faq-item.active .faq-respuesta {
+    max-height: 500px;
+    opacity: 1;
+    padding: 20px;
+}
+
+.faq-respuesta p {
+    margin: 0 0 15px;
+}
+
+.faq-respuesta ul,
+.faq-respuesta ol {
+    margin: 10px 0;
+    padding-left: 25px;
+}
+
+.faq-respuesta li {
+    margin: 8px 0;
+}
+
+.faq-respuesta a {
+    color: #ff9900;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.faq-respuesta a:hover {
+    text-decoration: underline;
+}
+
+/* Notas especiales */
+.nota-importante {
+    background: #fff3cd;
+    border-left: 4px solid #ffc107;
+    padding: 15px;
+    border-radius: 5px;
+    margin: 15px 0;
+}
+
+.respuesta-destacada {
+    background: #fff0e0;
+    border: 2px solid #ff9900;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.btn-amazon-pequeno {
+    display: inline-block;
+    background: #ff9900;
+    color: #232f3e;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-weight: 600;
+    margin-top: 10px;
+    transition: all 0.3s;
+}
+
+.btn-amazon-pequeno:hover {
+    background: #e47911;
+    transform: translateY(-2px);
+    text-decoration: none;
+}
+
+/* Acciones rápidas */
+.faq-acciones-rapidas {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: 20px;
+    padding: 40px 30px;
+    margin: 50px 0;
+    text-align: center;
+}
+
+.faq-acciones-rapidas h3 {
+    color: #232f3e;
+    margin: 0 0 25px;
+    font-size: 1.5em;
+}
+
+.acciones-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.accion-rapida {
+    background: white;
+    padding: 25px 15px;
+    border-radius: 15px;
+    text-decoration: none;
+    color: #232f3e;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.accion-rapida:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(255,153,0,0.2);
+}
+
+.accion-rapida.amazon {
+    background: #232f3e;
+    color: white;
+}
+
+.accion-rapida.amazon:hover {
+    background: #131921;
+}
+
+.accion-rapida i {
+    font-size: 2em;
+    color: #ff9900;
+}
+
+.accion-rapida span {
+    font-weight: 600;
+}
+
+.accion-rapida small {
+    font-size: 0.8em;
+    opacity: 0.8;
+}
+
+/* No resultados */
+.no-resultados {
+    text-align: center;
+    padding: 40px;
+    background: white;
+    border-radius: 12px;
+    margin: 20px 0;
+    border: 2px dashed #ff9900;
+}
+
+.no-resultados i {
+    font-size: 3em;
+    color: #ff9900;
+    margin-bottom: 15px;
+}
+
+.no-resultados p {
+    color: #232f3e;
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .aviso-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .acciones-grid {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+    }
+}
+
+@media (max-width: 768px) {
+    .faq-categorias {
+        flex-direction: column;
+    }
+    
+    .faq-cat-btn {
+        width: 100%;
+    }
+    
+    .categoria-titulo {
+        font-size: 1.5em;
+    }
+    
+    .faq-pregunta h3 {
+        font-size: 1em;
+    }
+}
+</style>
+{% endblock %}

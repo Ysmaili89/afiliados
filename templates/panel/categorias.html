@@ -1,0 +1,236 @@
+{% extends "panel/base_admin.html" %}
+
+{% block title %}Categorías - Panel de Control | Filtro Amazon{% endblock %}
+
+{% block breadcrumb %}Gestión de Categorías{% endblock %}
+
+{% block content %}
+<div class="categorias-wrapper">
+    <!-- Encabezado de página -->
+    <div class="page-header-amazon">
+        <div class="header-title">
+            <h1><i class="fas fa-tags"></i> Categorías</h1>
+            <p class="header-subtitle">Organiza los productos de tu filtro por categorías</p>
+        </div>
+        <button class="amazon-btn-primary" onclick="mostrarNuevaCategoria()">
+            <i class="fas fa-plus"></i> Nueva categoría
+        </button>
+    </div>
+    
+    <!-- Formulario nueva categoría (oculto por defecto) -->
+    <div class="form-card" id="nuevaCategoriaForm" style="display: none;">
+        <div class="card-header">
+            <h3><i class="fas fa-plus-circle"></i> Crear nueva categoría</h3>
+        </div>
+        
+        <form method="POST" action="{{ url_for('panel_categoria_nueva') }}" class="categoria-form">
+            <!-- 🔐 TOKEN CSRF AGREGADO -->
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            
+            <div class="form-group">
+                <label for="nombre" class="required-field">
+                    <i class="fas fa-tag"></i> Nombre de la categoría
+                </label>
+                <input type="text" 
+                       id="nombre" 
+                       name="nombre" 
+                       class="form-control"
+                       placeholder="Ej: electronica"
+                       required>
+                <small class="form-hint">Usa minúsculas, sin espacios (ej: electronica, hogar, libros)</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="slug" class="required-field">
+                    <i class="fas fa-link"></i> Slug (URL)
+                </label>
+                <input type="text" 
+                       id="slug" 
+                       name="slug" 
+                       class="form-control"
+                       placeholder="electronica"
+                       required>
+                <small class="form-hint">Se generará automáticamente desde el nombre</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="descripcion">
+                    <i class="fas fa-align-left"></i> Descripción (opcional)
+                </label>
+                <textarea id="descripcion" 
+                          name="descripcion" 
+                          class="form-control"
+                          rows="3"
+                          placeholder="Breve descripción de la categoría"></textarea>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn-guardar">
+                    <i class="fas fa-save"></i> Guardar categoría
+                </button>
+                <button type="button" class="btn-cancelar" onclick="ocultarNuevaCategoria()">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+            </div>
+        </form>
+    </div>
+    
+    <!-- Estadísticas rápidas -->
+    <div class="categorias-stats">
+        <div class="stat-mini-item">
+            <span class="stat-mini-label">Total categorías</span>
+            <span class="stat-mini-value">{{ categorias|length }}</span>
+        </div>
+        <div class="stat-mini-item">
+            <span class="stat-mini-label">Con productos</span>
+            <span class="stat-mini-value">
+                {{ categorias_con_productos }}
+            </span>
+        </div>
+    </div>
+    
+    <!-- Grid de categorías -->
+    <div class="categorias-grid">
+        {% if categorias and categorias|length > 0 %}
+            {% for cat in categorias %}
+            <div class="categoria-card">
+                <div class="categoria-header">
+                    <i class="fas fa-folder"></i>
+                    <h3>{{ cat.nombre }}</h3>
+                </div>
+                
+                <div class="categoria-body">
+                    <div class="categoria-info">
+                        <div class="info-row">
+                            <i class="fas fa-link"></i>
+                            <span><strong>Slug:</strong> /categoria/{{ cat.id }}</span>
+                        </div>
+                        <div class="info-row">
+                            <i class="fas fa-box"></i>
+                            <span>
+                                <strong>Productos:</strong> 
+                                {{ cat.productos_count }}
+                            </span>
+                        </div>
+                        <div class="info-row">
+                            <i class="fas fa-calendar"></i>
+                            <span><strong>Creada:</strong> {{ cat.fecha_creacion|default('No especificada') }}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="categoria-footer">
+                    <a href="/categoria/{{ cat.id }}" target="_blank" class="action-btn view-btn" title="Ver en sitio">
+                        <i class="fas fa-eye"></i>
+                    </a>
+                    <button onclick="editarCategoria('{{ cat.id }}')" class="action-btn edit-btn" title="Editar">
+                        <i class="fas fa-pencil-alt"></i>
+                    </button>
+                    <button onclick="eliminarCategoria('{{ cat.id }}')" class="action-btn delete-btn" title="Eliminar">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty-state">
+                <i class="fas fa-tags"></i>
+                <h3>No hay categorías</h3>
+                <p>Crea tu primera categoría para organizar los productos</p>
+                <button class="amazon-btn-primary" onclick="mostrarNuevaCategoria()">
+                    <i class="fas fa-plus"></i> Crear primera categoría
+                </button>
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Información de categorías -->
+    <div class="info-box">
+        <i class="fas fa-info-circle"></i>
+        <div>
+            <strong>Total categorías:</strong> {{ categorias|length }}<br>
+            <small>Las categorías se muestran en el menú y en los filtros del sitio. Puedes tener hasta 50 categorías.</small>
+        </div>
+    </div>
+    
+    <!-- Recordatorio de filtro -->
+    <div class="filtro-reminder">
+        <i class="fas fa-filter"></i>
+        <p><strong>Organización de tu filtro</strong> - Las categorías ayudan a los usuarios a encontrar productos más fácilmente</p>
+    </div>
+</div>
+
+<script>
+function mostrarNuevaCategoria() {
+    document.getElementById('nuevaCategoriaForm').style.display = 'block';
+    document.getElementById('nuevaCategoriaForm').scrollIntoView({ behavior: 'smooth' });
+}
+
+function ocultarNuevaCategoria() {
+    document.getElementById('nuevaCategoriaForm').style.display = 'none';
+}
+
+function editarCategoria(categoria) {
+    window.location.href = '/panel/categorias/editar/' + categoria;
+}
+
+function eliminarCategoria(categoria) {
+    if (confirm('¿Eliminar la categoría "' + categoria + '"?\nLos productos asociados quedarán sin categoría.\n\nEsta acción no se puede deshacer.')) {
+        fetch('/panel/categorias/eliminar/' + categoria, { 
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token() }}'  // 🔐 Token CSRF para fetch
+            }
+        })
+        .then(function(response) {
+            if (response.ok) {
+                mostrarNotificacion('Categoría eliminada correctamente', 'success');
+                setTimeout(function() { location.reload(); }, 1000);
+            } else {
+                mostrarNotificacion('Error al eliminar la categoría', 'error');
+            }
+        })
+        .catch(function(error) {
+            console.error('Error:', error);
+            mostrarNotificacion('Error de conexión', 'error');
+        });
+    }
+}
+
+// Generar slug automáticamente desde el nombre
+document.getElementById('nombre')?.addEventListener('input', function() {
+    var slug = this.value.toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-|-$/g, '');
+    document.getElementById('slug').value = slug;
+});
+
+function mostrarNotificacion(mensaje, tipo) {
+    var notificacion = document.createElement('div');
+    notificacion.className = 'notificacion-flotante notificacion-' + tipo;
+    
+    var icono = document.createElement('i');
+    icono.className = 'fas fa-' + (tipo === 'success' ? 'check-circle' : 'exclamation-circle');
+    
+    var texto = document.createElement('span');
+    texto.textContent = mensaje;
+    
+    notificacion.appendChild(icono);
+    notificacion.appendChild(texto);
+    
+    document.body.appendChild(notificacion);
+    
+    setTimeout(function() {
+        notificacion.classList.add('show');
+    }, 10);
+    
+    setTimeout(function() {
+        notificacion.classList.remove('show');
+        setTimeout(function() {
+            notificacion.remove();
+        }, 300);
+    }, 3000);
+}
+</script>
+{% endblock %}

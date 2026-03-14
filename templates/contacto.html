@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+
+{% block title %}Contacto - {{ config.nombre }} | Solo somos un filtro{% endblock %}
+
+{% block meta_description %}Contacta con nosotros solo para temas relacionados con el funcionamiento de este sitio web. Para compras, devoluciones o envíos, contacta directamente con Amazon.{% endblock %}
+
+{% block meta_keywords %}contacto, filtro amazon, dudas sitio web{% endblock %}
+
+{% block content %}
+<!-- Encabezado simple -->
+<section class="page-header">
+    <div class="page-header-content">
+        <h1><i class="fas fa-envelope"></i> Contacto</h1>
+        <p class="header-subtitle">¿Sobre qué necesitas contactarnos?</p>
+    </div>
+</section>
+
+<!-- AVISO IMPORTANTE - BANNER ROJO -->
+<div class="aviso-importante">
+    <div class="aviso-content">
+        <i class="fas fa-exclamation-triangle"></i>
+        <div>
+            <h2>⚠️ IMPORTANTE: SOLO SOMOS UN FILTRO</h2>
+            <p><strong>{{ config.nombre }}</strong> <span class="resaltado-rojo">NO VENDE PRODUCTOS</span>, no tiene inventario, no gestiona envíos y no puede ayudarte con devoluciones, garantías o problemas con pedidos.</p>
+            <p class="aviso-destacado">Si tienes dudas sobre una compra, un envío o una devolución, <strong>DEBES CONTACTAR DIRECTAMENTE CON AMAZON</strong>.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Dos opciones claras -->
+<div class="opciones-grid">
+    <!-- Opción 1: Contactar con Amazon (destacada) -->
+    <div class="opcion-card amazon-card">
+        <div class="opcion-icono">
+            <i class="fab fa-amazon"></i>
+        </div>
+        <h2>¿Problemas con una compra?</h2>
+        <p class="opcion-descripcion">Si necesitas ayuda con:</p>
+        <ul class="opcion-lista">
+            <li><i class="fas fa-times-circle"></i> Un pedido que no llega</li>
+            <li><i class="fas fa-times-circle"></i> Devoluciones o reembolsos</li>
+            <li><i class="fas fa-times-circle"></i> Garantía de productos</li>
+            <li><i class="fas fa-times-circle"></i> Facturas o tickets de compra</li>
+            <li><i class="fas fa-times-circle"></i> Problemas con el pago</li>
+            <li><i class="fas fa-times-circle"></i> Cualquier gestión de compra</li>
+        </ul>
+        <div class="opcion-accion">
+            <a href="https://amazon.es/contacto" target="_blank" rel="nofollow" class="btn-amazon">
+                <i class="fab fa-amazon"></i> CONTACTAR CON AMAZON
+            </a>
+            <p class="nota">Amazon tiene atención al cliente 24/7</p>
+        </div>
+    </div>
+
+    <!-- Opción 2: Contactar con el filtro (solo web) -->
+    <div class="opcion-card filtro-card">
+        <div class="opcion-icono">
+            <i class="fas fa-filter"></i>
+        </div>
+        <h2>¿Dudas sobre este sitio web?</h2>
+        <p class="opcion-descripcion">Solo podemos ayudarte con:</p>
+        <ul class="opcion-lista">
+            <li><i class="fas fa-check-circle"></i> Problemas técnicos de la web</li>
+            <li><i class="fas fa-check-circle"></i> Sugerencias de productos</li>
+            <li><i class="fas fa-check-circle"></i> Proponer nuevas categorías</li>
+            <li><i class="fas fa-check-circle"></i> Reportar enlaces rotos</li>
+            <li><i class="fas fa-check-circle"></i> Dudas sobre cómo funciona el filtro</li>
+            <li><i class="fas fa-check-circle"></i> Temas legales o de privacidad</li>
+        </ul>
+        <div class="opcion-accion">
+            <p class="texto-pequeno">Para todo lo demás, contacta con Amazon</p>
+            <a href="#formulario-filtro" class="btn-filtro">
+                <i class="fas fa-envelope"></i> CONTACTAR CON EL FILTRO
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Enlaces directos a Amazon -->
+<div class="enlaces-amazon-container">
+    <h3><i class="fab fa-amazon"></i> Accede directamente a Amazon para:</h3>
+    <div class="enlaces-grid">
+        <a href="https://amazon.es/contacto" target="_blank" rel="nofollow" class="enlace-amazon">
+            <i class="fas fa-headset"></i>
+            <span>Atención al cliente</span>
+        </a>
+        <a href="https://amazon.es/gp/help/customer/display.html" target="_blank" rel="nofollow" class="enlace-amazon">
+            <i class="fas fa-question-circle"></i>
+            <span>Centro de ayuda</span>
+        </a>
+        <a href="https://amazon.es/gp/css/returns/homepage.html" target="_blank" rel="nofollow" class="enlace-amazon">
+            <i class="fas fa-undo-alt"></i>
+            <span>Devoluciones</span>
+        </a>
+        <a href="https://amazon.es/gp/help/customer/display.html/ref=hp_gtv_ord_status?nodeId=G202189910" target="_blank" rel="nofollow" class="enlace-amazon">
+            <i class="fas fa-truck"></i>
+            <span>Estado del pedido</span>
+        </a>
+        <a href="https://amazon.es/gp/help/customer/display.html?nodeId=G202069490" target="_blank" rel="nofollow" class="enlace-amazon">
+            <i class="fas fa-credit-card"></i>
+            <span>Facturas</span>
+        </a>
+        <a href="https://amazon.es/gp/help/customer/display.html?nodeId=G202189990" target="_blank" rel="nofollow" class="enlace-amazon">
+            <i class="fas fa-gift"></i>
+            <span>Tarjetas regalo</span>
+        </a>
+    </div>
+</div>
+
+<!-- Formulario solo para temas del filtro (oculto por defecto) -->
+<div id="formulario-filtro" class="formulario-filtro-container">
+    <div class="formulario-header">
+        <i class="fas fa-filter"></i>
+        <h3>Contactar con el equipo del filtro</h3>
+        <p class="formulario-nota">* Este formulario es SOLO para temas relacionados con el funcionamiento de esta web. Para compras, contacta con Amazon.</p>
+    </div>
+
+    <!-- ⚠️ FORMULARIO SIMULADO - NO ENVÍA DATOS REALES -->
+    <form method="POST" action="#" onsubmit="return false;" class="formulario-filtro" id="contactForm">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="tu@email.com" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="asunto-filtro">Asunto</label>
+            <select id="asunto-filtro" name="asunto" required>
+                <option value="" disabled selected>Selecciona un asunto</option>
+                <option value="problema-tecnico">Problema técnico con la web</option>
+                <option value="sugerencia-producto">Sugerir un producto</option>
+                <option value="sugerencia-categoria">Sugerir una categoría</option>
+                <option value="enlace-roto">Reportar enlace roto</option>
+                <option value="privacidad">Tema de privacidad/legal</option>
+                <option value="otro-filtro">Otro tema sobre el filtro</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="mensaje">Mensaje</label>
+            <textarea id="mensaje" name="mensaje" rows="5" placeholder="Describe tu consulta..." required></textarea>
+        </div>
+
+        <!-- Recordatorio importante -->
+        <div class="recordatorio-filtro">
+            <i class="fas fa-info-circle"></i>
+            <p><strong>Recuerda:</strong> Solo podemos responderte sobre el funcionamiento de esta web. Si tu consulta es sobre una compra en Amazon, utiliza los enlaces de arriba para contactar con ellos.</p>
+        </div>
+
+        <div class="checkbox-group">
+            <input type="checkbox" id="privacidad" name="privacidad" required>
+            <label for="privacidad">Acepto la <a href="/privacidad">Política de Privacidad</a></label>
+        </div>
+
+        <button type="submit" class="btn-enviar" onclick="return mostrarMensajeContacto()">
+            <i class="fas fa-paper-plane"></i> Enviar mensaje
+        </button>
+    </form>
+</div>
+
+<!-- Mensaje final claro -->
+<div class="mensaje-final">
+    <i class="fas fa-filter"></i>
+    <p>
+        <strong>{{ config.nombre }} es SOLO UN FILTRO DE PRODUCTOS.</strong><br>
+        No vendemos, no enviamos, no gestionamos devoluciones.<br>
+        <span class="texto-amazon">Para todo lo relacionado con compras, contacta SIEMPRE con Amazon.</span>
+    </p>
+</div>
+
+<script>
+// Smooth scroll para el enlace del formulario
+document.querySelectorAll('a[href="#formulario-filtro"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector('#formulario-filtro').scrollIntoView({
+            behavior: 'smooth'
+        });
+    });
+});
+
+// Función para mostrar mensaje sin enviar datos
+function mostrarMensajeContacto() {
+    // Verificar que el checkbox esté marcado
+    const checkbox = document.getElementById('privacidad');
+    if (!checkbox.checked) {
+        alert('Debes aceptar la Política de Privacidad');
+        return false;
+    }
+    
+    // Mostrar mensaje informativo
+    alert('📧 GRACIAS POR CONTACTARNOS\n\n' +
+          'Este es un formulario de demostración. Para temas reales:\n\n' +
+          '✅ PROBLEMAS CON LA WEB: Utiliza los enlaces de Amazon que aparecen arriba\n\n' +
+          '⚠️ COMPRAS O DEVOLUCIONES: Contacta DIRECTAMENTE con Amazon\n\n' +
+          '🔗 Enlace directo: https://amazon.es/contacto');
+    
+    // Redirigir a Amazon después del mensaje (opcional)
+    if (confirm('¿Quieres ir ahora al centro de ayuda de Amazon?')) {
+        window.open('https://amazon.es/contacto', '_blank');
+    }
+    
+    return false; // Evita el envío del formulario
+}
+
+// También prevenir el envío normal
+document.getElementById('contactForm')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    mostrarMensajeContacto();
+});
+
+// Validación simple del formulario (opcional)
+document.querySelector('.formulario-filtro')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+});
+</script>
+{% endblock %}

@@ -1,0 +1,358 @@
+{% extends "panel/base_admin.html" %}
+
+{% block title %}Configuración - Panel de Control | Filtro Amazon{% endblock %}
+
+{% block breadcrumb %}Configuración del Sitio{% endblock %}
+
+{% block content %}
+<div class="config-wrapper">
+    <!-- Encabezado de página -->
+    <div class="page-header-amazon">
+        <div class="header-title">
+            <h1><i class="fas fa-cog"></i> Configuración del sitio</h1>
+            <p class="header-subtitle">Administra la configuración general de tu filtro de Amazon</p>
+        </div>
+    </div>
+    
+    <div class="config-grid">
+        <!-- ===== TARJETA 1: INFORMACIÓN GENERAL ===== -->
+        <div class="config-card">
+            <div class="card-header">
+                <h3><i class="fas fa-globe"></i> Información general</h3>
+            </div>
+            
+            <form method="POST" action="{{ url_for('panel_configuracion') }}" class="config-form">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                
+                <div class="form-group">
+                    <label for="nombre_sitio" class="required-field">
+                        <i class="fas fa-store"></i> Nombre del sitio
+                    </label>
+                    <input type="text" 
+                           id="nombre_sitio" 
+                           name="nombre_sitio" 
+                           value="{{ config.nombre }}" 
+                           class="form-control"
+                           required
+                           placeholder="Mi Filtro Amazon">
+                </div>
+                
+                <div class="form-group">
+                    <label for="dominio" class="required-field">
+                        <i class="fas fa-link"></i> Dominio
+                    </label>
+                    <input type="text" 
+                           id="dominio" 
+                           name="dominio" 
+                           value="{{ config.dominio }}" 
+                           class="form-control"
+                           required
+                           placeholder="mifiltro.com">
+                    <small class="form-hint">Ej: mifiltro.com (sin https://)</small>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email_contacto" class="required-field">
+                            <i class="fas fa-envelope"></i> Email de contacto
+                        </label>
+                        <input type="email" 
+                               id="email_contacto" 
+                               name="email_contacto" 
+                               value="{{ config.email_contacto }}" 
+                               class="form-control"
+                               required
+                               placeholder="contacto@mifiltro.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="telefono">
+                            <i class="fas fa-phone"></i> Teléfono
+                        </label>
+                        <input type="text" 
+                               id="telefono" 
+                               name="telefono" 
+                               value="{{ config.telefono }}" 
+                               class="form-control"
+                               placeholder="+34 123 456 789">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="direccion">
+                        <i class="fas fa-map-marker-alt"></i> Dirección
+                    </label>
+                    <input type="text" 
+                           id="direccion" 
+                           name="direccion" 
+                           value="{{ config.direccion }}" 
+                           class="form-control"
+                           placeholder="Madrid, España">
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn-guardar">
+                        <i class="fas fa-save"></i> Guardar cambios
+                    </button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- ===== TARJETA 2: CONFIGURACIÓN DE AFILIADO (LA QUE NO VES) ===== -->
+        <div class="config-card amazon-card">
+            <div class="card-header">
+                <h3><i class="fab fa-amazon"></i> Configuración de afiliado</h3>
+            </div>
+            
+            <form method="POST" action="{{ url_for('panel_config_afiliado') }}" class="config-form">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                
+                <div class="form-group">
+                    <label for="amazon_tag" class="required-field">
+                        <i class="fas fa-tag"></i> Tag de afiliado Amazon
+                    </label>
+                    <input type="text" 
+                           id="amazon_tag" 
+                           name="amazon_tag" 
+                           value="{{ config.amazon_tag }}" 
+                           class="form-control"
+                           required
+                           placeholder="tufiltro-21">
+                    <small class="form-hint">Tu ID de afiliado de Amazon (ej: mifiltro-21)</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="amazon_pais">
+                        <i class="fas fa-globe"></i> País de Amazon
+                    </label>
+                    <select id="amazon_pais" name="amazon_pais" class="form-control">
+                        <option value="es" {% if config.amazon_pais == 'es' %}selected{% endif %}>España (amazon.es)</option>
+                        <option value="com" {% if config.amazon_pais == 'com' %}selected{% endif %}>USA (amazon.com)</option>
+                        <option value="mx" {% if config.amazon_pais == 'mx' %}selected{% endif %}>México (amazon.com.mx)</option>
+                        <option value="fr" {% if config.amazon_pais == 'fr' %}selected{% endif %}>Francia (amazon.fr)</option>
+                        <option value="it" {% if config.amazon_pais == 'it' %}selected{% endif %}>Italia (amazon.it)</option>
+                        <option value="de" {% if config.amazon_pais == 'de' %}selected{% endif %}>Alemania (amazon.de)</option>
+                    </select>
+                    <small class="form-hint">Selecciona el país de Amazon para tus enlaces</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="amazon_access_key">
+                        <i class="fas fa-key"></i> Access Key (opcional)
+                    </label>
+                    <input type="text" 
+                           id="amazon_access_key" 
+                           name="amazon_access_key" 
+                           value="{{ config.amazon_access_key|default('') }}" 
+                           class="form-control"
+                           placeholder="AKIAXXXXXXXXXXXX">
+                    <small class="form-hint">Para API de productos (opcional)</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="amazon_secret_key">
+                        <i class="fas fa-lock"></i> Secret Key (opcional)
+                    </label>
+                    <input type="password" 
+                           id="amazon_secret_key" 
+                           name="amazon_secret_key" 
+                           value="{{ config.amazon_secret_key|default('') }}" 
+                           class="form-control"
+                           placeholder="••••••••••••••••">
+                    <small class="form-hint">Para API de productos (opcional)</small>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn-guardar">
+                        <i class="fas fa-save"></i> Guardar configuración
+                    </button>
+                </div>
+            </form>
+            
+            <div class="info-box">
+                <i class="fas fa-info-circle"></i>
+                <p>Los enlaces de afiliado se generarán automáticamente. <strong>Ejemplo:</strong><br>
+                <code>https://www.amazon.es/dp/B0XXX/?tag={{ config.amazon_tag or 'tutag-21' }}</code></p>
+            </div>
+        </div>
+        
+        <!-- ===== TARJETA 3: SEO Y META TAGS ===== -->
+        <div class="config-card">
+            <div class="card-header">
+                <h3><i class="fas fa-chart-line"></i> SEO y Meta tags</h3>
+            </div>
+            
+            <form method="POST" action="{{ url_for('panel_config_seo') }}" class="config-form">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                
+                <div class="form-group">
+                    <label for="meta_description">
+                        <i class="fas fa-paragraph"></i> Meta descripción
+                    </label>
+                    <textarea id="meta_description" 
+                              name="meta_description" 
+                              class="form-control"
+                              rows="3"
+                              placeholder="Encuentra los mejores productos de Amazon...">{{ config.meta_description|default('Encuentra los mejores productos de Amazon seleccionados especialmente para ti.') }}</textarea>
+                    <small class="form-hint">Máximo 160 caracteres</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="meta_keywords">
+                        <i class="fas fa-tags"></i> Meta keywords
+                    </label>
+                    <input type="text" 
+                           id="meta_keywords" 
+                           name="meta_keywords" 
+                           value="{{ config.meta_keywords|default('amazon, productos, filtro, ofertas') }}" 
+                           class="form-control"
+                           placeholder="amazon, productos, filtro, ofertas">
+                    <small class="form-hint">Separadas por comas</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="google_analytics">
+                        <i class="fab fa-google"></i> Google Analytics
+                    </label>
+                    <input type="text" 
+                           id="google_analytics" 
+                           name="google_analytics" 
+                           value="{{ config.google_analytics|default('') }}" 
+                           class="form-control"
+                           placeholder="G-XXXXXXXXXX">
+                    <small class="form-hint">Código de seguimiento de Google Analytics</small>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn-guardar">
+                        <i class="fas fa-save"></i> Guardar SEO
+                    </button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- ===== TARJETA 4: APARIENCIA ===== -->
+        <div class="config-card">
+            <div class="card-header">
+                <h3><i class="fas fa-paint-brush"></i> Apariencia</h3>
+            </div>
+            
+            <form method="POST" action="{{ url_for('panel_config_apariencia') }}" class="config-form">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                
+                <div class="form-group">
+                    <label for="color_principal">
+                        <i class="fas fa-palette"></i> Color principal
+                    </label>
+                    <div class="color-input-group">
+                        <input type="color" 
+                               id="color_principal" 
+                               name="color_principal" 
+                               value="{{ config.color_principal|default('#ff9900') }}" 
+                               class="color-picker">
+                        <input type="text" 
+                               class="form-control color-text" 
+                               value="{{ config.color_principal|default('#ff9900') }}" 
+                               readonly>
+                    </div>
+                    <small class="form-hint">Color principal de la marca</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="logo_url">
+                        <i class="fas fa-image"></i> URL del logo
+                    </label>
+                    <input type="url" 
+                           id="logo_url" 
+                           name="logo_url" 
+                           value="{{ config.logo_url|default('') }}" 
+                           class="form-control"
+                           placeholder="https://ejemplo.com/logo.png">
+                </div>
+                
+                <div class="form-group">
+                    <label for="favicon_url">
+                        <i class="fas fa-star"></i> URL del favicon
+                    </label>
+                    <input type="url" 
+                           id="favicon_url" 
+                           name="favicon_url" 
+                           value="{{ config.favicon_url|default('') }}" 
+                           class="form-control"
+                           placeholder="https://ejemplo.com/favicon.ico">
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn-guardar">
+                        <i class="fas fa-save"></i> Guardar apariencia
+                    </button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- ===== TARJETA 5: ZONA DE PELIGRO ===== -->
+        <div class="config-card danger-zone">
+            <div class="card-header">
+                <h3><i class="fas fa-exclamation-triangle"></i> Zona de peligro</h3>
+            </div>
+            
+            <div class="danger-actions">
+                <button class="btn-danger" onclick="confirmarAccion('limpiarCache')">
+                    <i class="fas fa-broom"></i> Limpiar caché
+                </button>
+                
+                <button class="btn-danger" onclick="confirmarAccion('reiniciarEstadisticas')">
+                    <i class="fas fa-chart-line"></i> Reiniciar estadísticas
+                </button>
+                
+                <button class="btn-danger" onclick="confirmarAccion('modoMantenimiento')">
+                    <i class="fas fa-tools"></i> Modo mantenimiento
+                </button>
+                
+                <button class="btn-danger" onclick="confirmarAccion('exportarDatos')">
+                    <i class="fas fa-download"></i> Exportar datos
+                </button>
+            </div>
+            
+            <div class="info-box warning">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p><strong>¡Atención!</strong> Estas acciones no se pueden deshacer.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Recordatorio de filtro -->
+    <div class="filtro-reminder">
+        <i class="fas fa-filter"></i>
+        <p><strong>Configuración de tu filtro</strong> - Los cambios afectarán cómo se muestra y funciona tu sitio web</p>
+    </div>
+</div>
+
+<script>
+function confirmarAccion(accion) {
+    const mensajes = {
+        limpiarCache: '¿Limpiar la caché del sitio? Los datos temporales se eliminarán.',
+        reiniciarEstadisticas: '¿Reiniciar todas las estadísticas?\nEsta acción no se puede deshacer.',
+        modoMantenimiento: '¿Activar modo mantenimiento?\nEl sitio no será visible para los usuarios.',
+        exportarDatos: '¿Exportar todos los datos del sitio? Se generará un archivo de respaldo.'
+    };
+    
+    if (confirm(mensajes[accion])) {
+        mostrarNotificacion('Función "' + accion + '" ejecutada', 'success');
+    }
+}
+
+function mostrarNotificacion(mensaje, tipo) {
+    const notificacion = document.createElement('div');
+    notificacion.className = 'notificacion-flotante notificacion-' + tipo;
+    notificacion.innerHTML = `<i class="fas fa-${tipo === 'success' ? 'check-circle' : 'exclamation-circle'}"></i><span>${mensaje}</span>`;
+    document.body.appendChild(notificacion);
+    
+    setTimeout(() => notificacion.classList.add('show'), 10);
+    setTimeout(() => {
+        notificacion.classList.remove('show');
+        setTimeout(() => notificacion.remove(), 300);
+    }, 3000);
+}
+</script>
+{% endblock %}

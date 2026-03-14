@@ -1,0 +1,750 @@
+{% extends "base.html" %}
+
+{% block title %}Nosotros - {{ config.nombre }} | Tu filtro de confianza para Amazon{% endblock %}
+
+{% block meta_description %}Conoce quiénes somos, nuestra misión, visión y valores. Somos un filtro independiente que te ayuda a encontrar los mejores productos de Amazon.{% endblock %}
+
+{% block meta_keywords %}nosotros, sobre nosotros, misión, visión, valores, filtro amazon, equipo{% endblock %}
+
+{% block content %}
+<!-- HERO SECTION -->
+<section class="nosotros-hero">
+    <div class="hero-content">
+        <div class="hero-badge">
+            <i class="fas fa-filter"></i> ¿QUIÉNES SOMOS?
+        </div>
+        <h1 class="hero-title">
+            Somos tu <span class="highlight">filtro</span> de confianza<br>para encontrar lo mejor de Amazon
+        </h1>
+        <p class="hero-subtitle">
+            No vendemos, no almacenamos, no enviamos. Solo filtramos y recomendamos lo mejor para ti.
+        </p>
+    </div>
+    <div class="hero-wave">
+        <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+            <path d="M0,120 C240,100 480,20 720,20 C960,20 1200,100 1440,120 L1440,120 L0,120 Z" fill="white"></path>
+        </svg>
+    </div>
+</section>
+
+<!-- AVISO PRINCIPAL -->
+<div class="aviso-principal">
+    <div class="aviso-contenido">
+        <i class="fas fa-filter"></i>
+        <div>
+            <strong>⚠️ IMPORTANTE: {{ config.nombre }} ES UN FILTRO</strong>
+            <p>No vendemos productos directamente. Todo el proceso de compra se realiza en Amazon.</p>
+        </div>
+    </div>
+</div>
+
+<!-- SECCIÓN: QUÉ SOMOS -->
+<section class="que-somos">
+    <div class="container">
+        <div class="que-somos-grid">
+            <div class="que-somos-texto">
+                <h2>Somos un <span class="resaltado">FILTRO</span>, no una tienda</h2>
+                
+                <div class="frase-destacada">
+                    <i class="fas fa-quote-left"></i>
+                    <p>"Nuestro único trabajo es separar el trigo de la paja en Amazon para ahorrarte tiempo y dinero"</p>
+                </div>
+                
+                <p class="texto-grande">En {{ config.nombre }} no vendemos productos. No tenemos inventario, no gestionamos envíos, no atendemos devoluciones. Somos exclusivamente un filtro que selecciona lo mejor de Amazon para ti.</p>
+                
+                <div class="que-somos-lista">
+                    <div class="que-somos-item positivo">
+                        <i class="fas fa-check-circle"></i>
+                        <div><strong>SÍ somos:</strong> Un filtro que selecciona los mejores productos</div>
+                    </div>
+                    <div class="que-somos-item negativo">
+                        <i class="fas fa-times-circle"></i>
+                        <div><strong>NO somos:</strong> Una tienda, vendedor o distribuidor</div>
+                    </div>
+                    <div class="que-somos-item negativo">
+                        <i class="fas fa-times-circle"></i>
+                        <div><strong>NO gestionamos:</strong> Pagos, envíos, devoluciones</div>
+                    </div>
+                    <div class="que-somos-item positivo">
+                        <i class="fas fa-check-circle"></i>
+                        <div><strong>SÍ hacemos:</strong> Investigar, comparar y recomendar</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="que-somos-imagen">
+                <div class="imagen-filtro">
+                    <i class="fas fa-filter"></i>
+                    <div class="filtro-iconos">
+                        <span class="icono">📱</span>
+                        <span class="icono">💻</span>
+                        <span class="icono">🎧</span>
+                        <span class="icono">📚</span>
+                        <span class="icono">🏠</span>
+                    </div>
+                    <div class="filtro-resultado">
+                        <i class="fas fa-arrow-down"></i>
+                        <span>✅ LOS MEJORES</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- BANNER DESTACADO MEJORADO -->
+<section class="banner-destacado">
+    <div class="banner-contenido">
+        <div class="banner-icono-principal">
+            <i class="fas fa-filter"></i>
+        </div>
+        <div class="banner-texto-principal">
+            <h2>No cobramos, <span class="destacado-amarillo">no vendemos</span>, <span class="destacado-blanco">solo filtramos</span></h2>
+            <p class="banner-frase">Así de simple. Encuentra lo mejor sin perder tiempo buscando.</p>
+            <div class="banner-accion">
+                <a href="/" class="btn-banner-mejorado">
+                    <span>Ver productos filtrados</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+                <small class="banner-disclaimer">* Te llevamos a Amazon, no vendemos aquí</small>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CÓMO FUNCIONA -->
+<section class="como-funciona">
+    <div class="container">
+        <div class="seccion-titulo">
+            <h2>¿Cómo funciona nuestro <span class="resaltado">filtro</span>?</h2>
+            <p>4 pasos simples para encontrar lo que necesitas</p>
+        </div>
+        
+        <div class="pasos-grid">
+            <div class="paso-card">
+                <div class="paso-numero">1</div>
+                <i class="fas fa-search"></i>
+                <h3>Investigamos</h3>
+                <p>Buscamos entre miles de productos de Amazon los que realmente merecen la pena</p>
+            </div>
+            
+            <div class="paso-card">
+                <div class="paso-numero">2</div>
+                <i class="fas fa-filter"></i>
+                <h3>Filtramos</h3>
+                <p>Aplicamos criterios de calidad, precio y valoraciones para quedarnos con lo mejor</p>
+            </div>
+            
+            <div class="paso-card">
+                <div class="paso-numero">3</div>
+                <i class="fas fa-star"></i>
+                <h3>Recomendamos</h3>
+                <p>Te mostramos solo los productos que pasan nuestro filtro, sin ruido ni distracciones</p>
+            </div>
+            
+            <div class="paso-card">
+                <div class="paso-numero">4</div>
+                <i class="fas fa-shopping-cart"></i>
+                <h3>Tú decides</h3>
+                <p>Si te gusta alguno, te llevamos a Amazon para que compres directamente allí</p>
+            </div>
+        </div>
+        
+        <div class="pasos-nota">
+            <i class="fas fa-info-circle"></i>
+            <p>En cada paso, nos mantenemos como filtro. Nunca intervenimos en la compra, solo te mostramos el camino.</p>
+        </div>
+    </div>
+</section>
+
+<!-- MISIÓN, VISIÓN, VALORES -->
+<section class="mvv-section">
+    <div class="container">
+        <div class="seccion-titulo">
+            <h2>Nuestra razón de ser</h2>
+            <p>Lo que nos mueve cada día</p>
+        </div>
+        
+        <div class="mvv-grid">
+            <div class="mvv-card mision">
+                <i class="fas fa-bullseye"></i>
+                <h3>Misión</h3>
+                <p>Filtrar el infinito catálogo de Amazon para que encuentres exactamente lo que necesitas, sin perder horas buscando.</p>
+                <div class="mvv-frase">"Hacer de tu búsqueda una experiencia simple y confiable"</div>
+            </div>
+            
+            <div class="mvv-card vision">
+                <i class="fas fa-eye"></i>
+                <h3>Visión</h3>
+                <p>Ser el filtro de referencia para compradores de Amazon en Latinoamérica y España.</p>
+                <div class="mvv-frase">"Que pienses en nosotros antes de pensar en Amazon"</div>
+            </div>
+            
+            <div class="mvv-card valores">
+                <i class="fas fa-heart"></i>
+                <h3>Valores</h3>
+                <ul>
+                    <li><i class="fas fa-check"></i> <strong>Honestidad:</strong> Recomendamos lo que vale</li>
+                    <li><i class="fas fa-check"></i> <strong>Transparencia:</strong> Siempre avisamos que somos afiliados</li>
+                    <li><i class="fas fa-check"></i> <strong>Utilidad:</strong> Solo contenido que ayuda</li>
+                    <li><i class="fas fa-check"></i> <strong>Independencia:</strong> No nos pagan por hablar bien</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- POR QUÉ CONFIAR (MEJORADO) -->
+<section class="confianza-section">
+    <div class="container">
+        <div class="seccion-titulo">
+            <h2>¿Por qué confiar en nuestro <span class="resaltado">filtro</span>?</h2>
+            <p>Números que avalan nuestro trabajo</p>
+        </div>
+        
+        <div class="confianza-grid">
+            <div class="confianza-item">
+                <i class="fas fa-smile"></i>
+                <div class="confianza-numero">+12.500</div>
+                <div class="confianza-label">Productos analizados</div>
+                <small class="confianza-detalle">desde nuestro inicio</small>
+            </div>
+            <div class="confianza-item">
+                <i class="fas fa-users"></i>
+                <div class="confianza-numero">+8.200</div>
+                <div class="confianza-label">Usuarios mensuales</div>
+                <small class="confianza-detalle">confían en nuestro filtro</small>
+            </div>
+            <div class="confianza-item">
+                <i class="fas fa-star"></i>
+                <div class="confianza-numero">4.8/5</div>
+                <div class="confianza-label">Valoración media</div>
+                <small class="confianza-detalle">según encuestas anónimas</small>
+            </div>
+            <div class="confianza-item">
+                <i class="fas fa-clock"></i>
+                <div class="confianza-numero">Desde 2022</div>
+                <div class="confianza-label">Filtrando para ti</div>
+                <small class="confianza-detalle">3+ años de experiencia</small>
+            </div>
+        </div>
+        
+        <div class="confianza-texto">
+            <i class="fas fa-quote-left"></i>
+            <p><strong>Independencia total:</strong> No aceptamos pagos por recomendar productos. Nuestra única fuente de ingresos es la comisión que Amazon nos paga si compras (sin coste extra para ti). Por eso nos interesa que encuentres productos buenos de verdad.</p>
+        </div>
+        
+        <div class="confianza-nota">
+            <i class="fas fa-info-circle"></i>
+            <p>* Datos aproximados basados en métricas internas y estimaciones de tráfico. No recopilamos información personal de los usuarios.</p>
+        </div>
+    </div>
+</section>
+
+<!-- PREGUNTAS RÁPIDAS (MEJORADO) -->
+<section class="faq-rapido">
+    <div class="container">
+        <div class="seccion-titulo">
+            <h2>Lo que siempre preguntan</h2>
+            <p>Respuestas rápidas a tus dudas</p>
+        </div>
+        
+        <div class="faq-grid">
+            <div class="faq-item destacado">
+                <h4><i class="fas fa-question-circle"></i> ¿Venden ustedes los productos?</h4>
+                <p><span class="respuesta-clara">NO</span> — Somos solo un <strong>filtro independiente</strong>. La venta, el pago y el envío los gestiona Amazon directamente.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h4><i class="fas fa-question-circle"></i> ¿Puedo devolverles un producto?</h4>
+                <p><span class="respuesta-clara">NO</span> — Las devoluciones, cambios y reembolsos son con Amazon. Nosotros no tocamos ni gestionamos productos.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h4><i class="fas fa-question-circle"></i> ¿Son más caros los productos aquí?</h4>
+                <p><span class="respuesta-clara">NO</span> — Pagas el <strong>mismo precio</strong> que yendo directamente a Amazon. Nuestra comisión no afecta tu bolsillo.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h4><i class="fas fa-question-circle"></i> ¿Cómo ganan dinero entonces?</h4>
+                <p><span class="respuesta-clara">Amazon nos paga</span> una comisión si compras a través de nuestros enlaces, pero <strong>a ti no te cuesta más</strong>. Es su forma de agradecernos la recomendación.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h4><i class="fas fa-question-circle"></i> ¿Cómo seleccionan los productos?</h4>
+                <p>Analizamos valoraciones, reseñas, relación calidad-precio y popularidad. Solo incluimos productos con <strong>más de 4 estrellas</strong> y cientos de opiniones reales.</p>
+            </div>
+        </div>
+        
+        <div class="faq-mas">
+            <a href="/faq" class="btn-faq">
+                Ver todas las preguntas frecuentes <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- EQUIPO (MEJORADO) -->
+<section class="equipo-section">
+    <div class="container">
+        <div class="seccion-titulo">
+            <h2>Detrás del <span class="resaltado">filtro</span></h2>
+            <p>El equipo que hace posible este proyecto</p>
+        </div>
+        
+        <div class="equipo-grid">
+            <div class="equipo-card">
+                <div class="equipo-avatar">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <h3>Equipo de Selección</h3>
+                <p class="equipo-cargo">Investigación y Análisis</p>
+                <p class="equipo-desc">Dedicados a encontrar los productos con mejor relación calidad-precio del catálogo de Amazon.</p>
+                <div class="equipo-stats">
+                    <span><i class="fas fa-check-circle"></i> 5.000+ productos revisados</span>
+                </div>
+            </div>
+            
+            <div class="equipo-card">
+                <div class="equipo-avatar">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <h3>Equipo de Calidad</h3>
+                <p class="equipo-cargo">Control y Verificación</p>
+                <p class="equipo-desc">Verificamos cada recomendación para asegurar que cumple nuestros estándares de calidad.</p>
+                <div class="equipo-stats">
+                    <span><i class="fas fa-check-circle"></i> 4.8/5 de media en productos</span>
+                </div>
+            </div>
+            
+            <div class="equipo-card">
+                <div class="equipo-avatar">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <h3>Equipo Técnico</h3>
+                <p class="equipo-cargo">Desarrollo y Mantenimiento</p>
+                <p class="equipo-desc">Mantenemos el filtro actualizado, rápido y funcionando correctamente para tu experiencia.</p>
+                <div class="equipo-stats">
+                    <span><i class="fas fa-check-circle"></i> 99.9% tiempo activo</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="equipo-nota">
+            <i class="fas fa-info-circle"></i>
+            <p>Creemos en el trabajo en equipo por encima de los egos. Por eso destacamos los roles, no los nombres. Todos remamos en la misma dirección: ayudarte a encontrar los mejores productos.</p>
+        </div>
+    </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-section">
+    <div class="cta-contenido">
+        <i class="fas fa-filter"></i>
+        <h2>¿Listo para dejar de buscar y empezar a encontrar?</h2>
+        <p>Deja que nuestro filtro haga el trabajo pesado por ti</p>
+        <a href="/" class="btn-cta">
+            Ver productos filtrados <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
+</section>
+
+<style>
+/* ===== BANNER MEJORADO ===== */
+.banner-destacado {
+    background: linear-gradient(135deg, var(--amazon-dark) 0%, var(--amazon-gray) 100%);
+    padding: 60px 20px;
+    margin: 40px 0;
+    position: relative;
+    overflow: hidden;
+    border-top: 4px solid var(--amazon-orange);
+    border-bottom: 4px solid var(--amazon-orange);
+}
+
+/* Efecto de fondo */
+.banner-destacado::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(255, 153, 0, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.banner-destacado::after {
+    content: '';
+    position: absolute;
+    bottom: -50%;
+    left: -10%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.banner-contenido {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    position: relative;
+    z-index: 2;
+}
+
+.banner-icono-principal {
+    flex-shrink: 0;
+    width: 120px;
+    height: 120px;
+    background: var(--amazon-orange);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 30px rgba(255, 153, 0, 0.5);
+    border: 4px solid white;
+    transform: rotate(0deg);
+    transition: all 0.3s ease;
+    animation: latido 2s ease-in-out infinite;
+}
+
+.banner-icono-principal:hover {
+    transform: rotate(10deg) scale(1.1);
+}
+
+.banner-icono-principal i {
+    font-size: 3.5rem;
+    color: var(--amazon-black);
+    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.2));
+}
+
+.banner-texto-principal {
+    flex: 1;
+    text-align: left;
+}
+
+.banner-texto-principal h2 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 15px;
+    line-height: 1.2;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.destacado-amarillo {
+    color: var(--amazon-orange);
+    font-weight: 900;
+    position: relative;
+    display: inline-block;
+}
+
+.destacado-amarillo::after {
+    content: '';
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 153, 0, 0.3);
+    z-index: -1;
+}
+
+.destacado-blanco {
+    color: white;
+    font-weight: 900;
+    position: relative;
+    display: inline-block;
+}
+
+.destacado-blanco::after {
+    content: '';
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.3);
+    z-index: -1;
+}
+
+.banner-frase {
+    font-size: 1.3rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 25px;
+    line-height: 1.6;
+    max-width: 600px;
+}
+
+.banner-accion {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.btn-banner-mejorado {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding: 18px 40px;
+    background: var(--amazon-orange);
+    color: var(--amazon-black);
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    box-shadow: 0 8px 20px rgba(255, 153, 0, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-banner-mejorado::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn-banner-mejorado:hover {
+    background: var(--amazon-orange-dark);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(255, 153, 0, 0.6);
+    border-color: white;
+}
+
+.btn-banner-mejorado:hover::before {
+    left: 100%;
+}
+
+.btn-banner-mejorado i {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.btn-banner-mejorado:hover i {
+    transform: translateX(8px);
+}
+
+.banner-disclaimer {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-left: 10px;
+}
+
+@keyframes latido {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Estilos adicionales para las secciones mejoradas */
+.confianza-detalle {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: 2px;
+}
+
+.dark-mode .confianza-detalle {
+    color: var(--text-secondary);
+}
+
+.confianza-nota {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    padding: 12px 15px;
+    background: rgba(255, 153, 0, 0.05);
+    border-radius: var(--radius-md);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    border-left: 3px solid var(--amazon-orange);
+}
+
+.confianza-nota i {
+    color: var(--amazon-orange);
+    font-size: 1rem;
+}
+
+.respuesta-clara {
+    display: inline-block;
+    background: var(--amazon-orange);
+    color: var(--amazon-black);
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: 20px;
+    margin-right: 5px;
+    font-size: 0.9rem;
+}
+
+.faq-item.destacado {
+    border-left: 4px solid var(--amazon-orange);
+    background: rgba(255, 153, 0, 0.02);
+}
+
+.btn-faq {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--amazon-orange);
+    color: var(--amazon-black);
+    padding: 12px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all var(--transition-fast);
+}
+
+.btn-faq:hover {
+    background: var(--amazon-orange-dark);
+    transform: translateY(-2px);
+}
+
+.equipo-stats {
+    margin-top: 10px;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.equipo-stats i {
+    color: #059669;
+    margin-right: 4px;
+}
+
+.equipo-nota {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 30px;
+    padding: 15px;
+    background: var(--amazon-light);
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    border-left: 3px solid var(--amazon-orange);
+}
+
+.equipo-nota i {
+    color: var(--amazon-orange);
+    font-size: 1.2rem;
+    margin-top: 2px;
+}
+
+.dark-mode .equipo-nota {
+    background: var(--amazon-white);
+    color: var(--text-primary);
+}
+
+.dark-mode .equipo-stats {
+    color: var(--text-secondary);
+}
+
+/* Responsive adicional */
+@media (max-width: 992px) {
+    .banner-contenido {
+        gap: 30px;
+    }
+    
+    .banner-texto-principal h2 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .banner-contenido {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .banner-texto-principal {
+        text-align: center;
+    }
+    
+    .banner-frase {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .banner-accion {
+        align-items: center;
+    }
+    
+    .banner-icono-principal {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .banner-icono-principal i {
+        font-size: 3rem;
+    }
+    
+    .banner-texto-principal h2 {
+        font-size: 1.8rem;
+    }
+    
+    .banner-frase {
+        font-size: 1.1rem;
+    }
+    
+    .btn-banner-mejorado {
+        padding: 15px 30px;
+        font-size: 1.1rem;
+    }
+    
+    .faq-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .confianza-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .btn-faq {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .banner-texto-principal h2 {
+        font-size: 1.5rem;
+    }
+    
+    .banner-frase {
+        font-size: 1rem;
+    }
+    
+    .confianza-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .equipo-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+<script>
+// Animación para los iconos
+document.addEventListener('DOMContentLoaded', function() {
+    const iconos = document.querySelectorAll('.icono');
+    iconos.forEach((icono, index) => {
+        icono.style.animation = `flotar 3s ease-in-out ${index * 0.2}s infinite`;
+    });
+});
+</script>
+{% endblock %}

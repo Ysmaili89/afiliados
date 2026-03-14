@@ -1,0 +1,114 @@
+{% extends "panel/base_admin.html" %}
+
+{% block title %}Productos API Amazon - Panel{% endblock %}
+
+{% block breadcrumb %}Productos de Amazon{% endblock %}
+
+{% block content %}
+<div class="productos-wrapper">
+    <div class="page-header-amazon">
+        <div class="header-title">
+            <h1><i class="fab fa-amazon"></i> Productos de Amazon API</h1>
+            <p class="header-subtitle">Productos importados directamente desde Amazon</p>
+        </div>
+        <div class="header-actions">
+            <a href="{{ url_for('amazon_buscar') }}" class="amazon-btn-primary">
+                <i class="fas fa-search"></i> Buscar nuevos productos
+            </a>
+        </div>
+    </div>
+
+    <div class="amazon-card">
+        <div class="card-header">
+            <h2><i class="fas fa-list"></i> Catálogo de productos API</h2>
+            <div class="card-filters">
+                <span class="product-count">{{ productos|length }} productos</span>
+            </div>
+        </div>
+        
+        <div class="table-responsive">
+            <table class="amazon-table">
+                <thead>
+                    <tr>
+                        <th>ASIN</th>
+                        <th>Producto</th>
+                        <th>Precio</th>
+                        <th>Rating</th>
+                        <th>Categoría</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for producto in productos %}
+                    <tr>
+                        <td><code>{{ producto.asin }}</code></td>
+                        <td>
+                            <div class="product-info-cell">
+                                <div class="product-thumb">
+                                    <img src="{{ producto.imagen }}" alt="{{ producto.titulo }}"
+                                         onerror="this.src='https://via.placeholder.com/50x50/232f3e/ff9900?text=IMG'">
+                                </div>
+                                <div class="product-details">
+                                    <strong>{{ producto.titulo[:60] }}...</strong>
+                                    <small>{{ producto.marca }}</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="precio-api">{{ producto.precio }} {{ producto.moneda }}</span>
+                        </td>
+                        <td>
+                            <div class="rating-api">
+                                {% for i in range(5) %}
+                                    {% if i < producto.rating|int %}
+                                        <i class="fas fa-star"></i>
+                                    {% elif producto.rating - i > 0.5 %}
+                                        <i class="fas fa-star-half-alt"></i>
+                                    {% else %}
+                                        <i class="far fa-star"></i>
+                                    {% endif %}
+                                {% endfor %}
+                                <small>({{ producto.total_ratings }})</small>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="category-badge">
+                                <i class="fas fa-tag"></i> {{ producto.categoria }}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <a href="{{ producto.url_afiliado }}" target="_blank" class="action-btn" title="Ver en Amazon">
+                                    <i class="fab fa-amazon"></i>
+                                </a>
+                                <form method="POST" action="{{ url_for('panel_producto_api_eliminar', producto_id=producto.id) }}" 
+                                      style="display: inline;" onsubmit="return confirm('¿Eliminar este producto?')">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <button type="submit" class="action-btn delete-btn" title="Eliminar">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" class="empty-state">
+                            <div class="empty-state-content">
+                                <i class="fab fa-amazon"></i>
+                                <h3>No hay productos de Amazon</h3>
+                                <p>Busca productos en Amazon para importarlos</p>
+                                <a href="{{ url_for('amazon_buscar') }}" class="amazon-btn-primary">
+                                    <i class="fas fa-search"></i> Buscar en Amazon
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

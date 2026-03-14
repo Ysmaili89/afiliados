@@ -1,0 +1,308 @@
+{% extends "base.html" %}
+
+{% block title %}Aviso Legal - {{ config.nombre }} | Información legal del sitio{% endblock %}
+
+{% block meta_description %}Aviso legal de {{ config.nombre }}. Información sobre la propiedad del sitio, condiciones de uso y responsabilidades como filtro de productos Amazon.{% endblock %}
+
+{% block meta_keywords %}aviso legal, propiedad intelectual, términos legales, filtro amazon, responsabilidad{% endblock %}
+
+{% block content %}
+<!-- HERO SECTION -->
+<section class="legal-hero">
+    <div class="hero-content">
+        <div class="hero-badge">
+            <i class="fas fa-gavel"></i> AVISO LEGAL
+        </div>
+        <h1 class="hero-title">
+            Aviso <span class="highlight">Legal</span>
+        </h1>
+        <p class="hero-subtitle">
+            Información legal y condiciones generales de uso
+        </p>
+    </div>
+    <div class="hero-wave">
+        <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+            <path d="M0,120 C240,100 480,20 720,20 C960,20 1200,100 1440,120 L1440,120 L0,120 Z" fill="white"></path>
+        </svg>
+    </div>
+</section>
+
+<!-- AVISO PRINCIPAL DE FILTRO -->
+<div class="aviso-filtro">
+    <div class="aviso-contenido">
+        <i class="fas fa-filter"></i>
+        <div>
+            <strong>⚠️ IMPORTANTE: {{ config.nombre }} ES UN FILTRO</strong>
+            <p>Este aviso legal debe leerse entendiendo que no vendemos productos directamente. Todo el proceso de compra se realiza en Amazon.</p>
+        </div>
+    </div>
+</div>
+
+<!-- CONTENEDOR PRINCIPAL -->
+<div class="legal-container">
+    
+    <!-- IDENTIFICACIÓN -->
+    <div class="legal-card">
+        <div class="card-header">
+            <div class="header-icon">
+                <i class="fas fa-id-card"></i>
+            </div>
+            <h2>1. Identificación del titular</h2>
+        </div>
+        <div class="card-body">
+            <p>En cumplimiento con el deber de información recogido en el artículo 10 de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y de Comercio Electrónico, te informamos de que:</p>
+            
+<ul class="lista-identificacion">
+    <li><strong>Titular:</strong> {{ config.nombre }}</li>
+    <li><strong>NIF/CIF:</strong> [Por determinar - Pendiente de registro]</li>
+    <li><strong>Domicilio social:</strong> {{ config.direccion }}</li>
+    <li><strong>Correo electrónico:</strong> <a href="/contacto">A través del formulario de contacto</a></li>
+    <li><strong>Teléfono:</strong> No disponible para consultas comerciales</li>
+    <li><strong>Dominio web:</strong> {{ config.dominio }}</li>
+</ul>
+
+<p class="nota">Al ser un filtro de productos, no realizamos actividades comerciales directas que requieran identificación fiscal completa. Para cualquier consulta legal, utiliza el formulario de contacto.</p>
+        </div>
+    </div>
+    
+    <!-- FINALIDAD DEL SITIO WEB -->
+    <div class="legal-card destacado">
+        <div class="card-header">
+            <div class="-header-icon">
+                <i class="fas fa-bullseye"></i>
+            </div>
+            <h2>2. Finalidad del sitio web</h2>
+        </div>
+        <div class="card-body">
+            <p><strong>{{ config.nombre }}</strong> es un sitio web de carácter <span class="resaltado">informativo y de recomendación</span> que actúa como filtro de productos comercializados en Amazon.</p>
+            
+            <p>La finalidad principal es:</p>
+            <ul class="lista-finalidad">
+                <li><i class="fas fa-check-circle"></i> Seleccionar y recomendar productos de Amazon</li>
+                <li><i class="fas fa-check-circle"></i> Facilitar a los usuarios la búsqueda de productos de calidad</li>
+                <li><i class="fas fa-check-circle"></i> Proporcionar enlaces de afiliado a Amazon</li>
+            </ul>
+            
+            <div class="nota-importante">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p><strong>Importante:</strong> Este sitio NO realiza actividades de comercio electrónico, NO vende productos, NO gestiona pagos, NO maneja inventario y NO realiza envíos.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- PROPIEDAD INTELECTUAL E INDUSTRIAL -->
+    <div class="legal-card">
+        <div class="card-header">
+            <div class="header-icon">
+                <i class="fas fa-copyright"></i>
+            </div>
+            <h2>3. Propiedad intelectual e industrial</h2>
+        </div>
+        <div class="card-body">
+            <p>Todos los contenidos del sitio web (textos, imágenes, logotipos, diseño, estructura, etc.) son propiedad de {{ config.nombre }} o se utilizan con la correspondiente autorización de sus titulares.</p>
+            
+            <p>Queda prohibido:</p>
+            <ul class="lista-prohibiciones">
+                <li><i class="fas fa-times-circle"></i> La reproducción total o parcial sin autorización expresa</li>
+                <li><i class="fas fa-times-circle"></i> La distribución, modificación o alteración de los contenidos</li>
+                <li><i class="fas fa-times-circle"></i> La utilización de los contenidos con fines comerciales sin consentimiento</li>
+            </ul>
+            
+            <p class="nota-pequena">Las marcas Amazon®, Kindle®, Echo®, Prime® y demás logos y productos son propiedad de Amazon Technologies, Inc. o sus filiales. Su uso en este sitio es meramente referencial y no implica ninguna asociación o patrocinio.</p>
+        </div>
+    </div>
+    
+    <!-- ENLACES DE AFILIADO -->
+    <div class="legal-card">
+        <div class="card-header">
+            <div class="header-icon">
+                <i class="fas fa-link"></i>
+            </div>
+            <h2>4. Enlaces de afiliado</h2>
+        </div>
+        <div class="card-body">
+            <p>{{ config.nombre }} participa en el <strong>Programa de Afiliados de Amazon EU</strong>, un programa de publicidad para afiliados diseñado para proporcionar un medio para que los sitios web obtengan comisiones por publicidad mediante la inclusión de enlaces a Amazon.es y otros sitios de Amazon.</p>
+            
+            <p>Esto significa que:</p>
+            <ul class="lista-afiliado">
+                <li><i class="fas fa-info-circle"></i> Los enlaces a productos de Amazon son enlaces de afiliado</li>
+                <li><i class="fas fa-info-circle"></i> Si haces clic en ellos y realizas una compra, Amazon nos paga una comisión</li>
+                <li><i class="fas fa-info-circle"></i> El precio que pagas es el mismo que si fueras directamente a Amazon</li>
+                <li><i class="fas fa-info-circle"></i> La comisión no afecta al precio final</li>
+            </ul>
+            
+            <p class="nota">Amazon y el logotipo de Amazon son marcas comerciales de Amazon.com, Inc. o sus filiales.</p>
+        </div>
+    </div>
+    
+    <!-- EXENCIÓN DE RESPONSABILIDAD -->
+    <div class="legal-card">
+        <div class="card-header">
+            <div class="header-icon">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <h2>5. Exención de responsabilidad</h2>
+        </div>
+        <div class="card-body">
+            <p>Como sitio de afiliados y recomendación, <strong>{{ config.nombre }}</strong> NO se hace responsable de:</p>
+            
+            <div class="responsabilidad-grid">
+                <div class="responsabilidad-item">
+                    <i class="fas fa-box"></i>
+                    <h4>Productos</h4>
+                    <p>Calidad, estado, funcionamiento o veracidad</p>
+                </div>
+                <div class="responsabilidad-item">
+                    <i class="fas fa-credit-card"></i>
+                    <h4>Pagos</h4>
+                    <p>Problemas con cargos, fraudes o devoluciones</p>
+                </div>
+                <div class="responsabilidad-item">
+                    <i class="fas fa-truck"></i>
+                    <h4>Envíos</h4>
+                    <p>Retrasos, pérdidas o daños</p>
+                </div>
+                <div class="responsabilidad-item">
+                    <i class="fas fa-undo-alt"></i>
+                    <h4>Devoluciones</h4>
+                    <p>Reembolsos, cambios o garantías</p>
+                </div>
+                <div class="responsabilidad-item">
+                    <i class="fas fa-headset"></i>
+                    <h4>Atención al cliente</h4>
+                    <p>Post-venta, reclamaciones</p>
+                </div>
+                <div class="responsabilidad-item">
+                    <i class="fas fa-info-circle"></i>
+                    <h4>Información</h4>
+                    <p>Posibles errores u omisiones</p>
+                </div>
+            </div>
+            
+            <div class="nota-aclaratoria">
+                <i class="fas fa-exclamation-circle"></i>
+                <p>Toda la responsabilidad sobre los productos, pagos, envíos y devoluciones recae <strong>exclusivamente en Amazon</strong> como vendedor y plataforma de comercio electrónico.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- LEY APLICABLE Y JURISDICCIÓN -->
+    <div class="legal-card">
+        <div class="card-header">
+            <div class="header-icon">
+                <i class="fas fa-gavel"></i>
+            </div>
+            <h2>6. Ley aplicable y jurisdicción</h2>
+        </div>
+        <div class="card-body">
+            <p>Las presentes condiciones se rigen por la legislación <strong>española</strong>. Para cualquier controversia que pudiera derivarse del acceso o uso del sitio web, las partes se someten a los juzgados y tribunales de <strong>Madrid</strong>, renunciando expresamente a cualquier otro fuero que pudiera corresponderles.</p>
+            
+            <p>Si el usuario tiene su domicilio fuera de España, nos sometemos igualmente a la jurisdicción española.</p>
+        </div>
+    </div>
+    
+    <!-- CONTACTO - MODIFICADO PARA EVITAR COMPROMISOS -->
+    <div class="legal-card contacto-card">
+        <div class="card-header">
+            <div class="header-icon">
+                <i class="fas fa-envelope"></i>
+            </div>
+            <h2>7. Contacto</h2>
+        </div>
+        <div class="card-body">
+            <p>Para cualquier consulta relacionada con el funcionamiento de este sitio web, puedes utilizar nuestro formulario de contacto.</p>
+            
+            <div class="contacto-info">
+                <p><i class="fas fa-exclamation-circle"></i> <strong>Importante:</strong> No gestionamos consultas sobre compras, envíos o devoluciones. Para eso, contacta directamente con Amazon.</p>
+            </div>
+            
+            <div class="contacto-opciones">
+                <a href="/contacto" class="btn-contacto">
+                    <i class="fas fa-paper-plane"></i> Formulario de contacto
+                </a>
+                <a href="https://amazon.es/contacto" target="_blank" rel="nofollow" class="btn-amazon-contacto">
+                    <i class="fab fa-amazon"></i> Contactar con Amazon
+                </a>
+            </div>
+            
+            <p class="nota-pequena">El formulario de contacto es exclusivamente para dudas sobre el funcionamiento de la web. No responderemos consultas sobre pedidos, productos o devoluciones.</p>
+        </div>
+    </div>
+</div>
+
+<!-- FECHA DE ACTUALIZACIÓN -->
+<div class="actualizacion">
+    <i class="fas fa-calendar-alt"></i>
+    <span>Última actualización: <strong>1 de enero de 2024</strong></span>
+</div>
+
+<!-- RECORDATORIO FINAL -->
+<section class="recordatorio-final">
+    <div class="recordatorio-contenido">
+        <i class="fas fa-filter"></i>
+        <div>
+            <h3>{{ config.nombre }} es un FILTRO</h3>
+            <p>No vendemos productos, no gestionamos pagos, no enviamos nada. Toda la responsabilidad comercial es de Amazon.</p>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Estilos adicionales para los botones de contacto */
+.contacto-opciones {
+    display: flex;
+    gap: 15px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+
+.btn-contacto {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 25px;
+    background: #ff9900;
+    color: #232f3e;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn-contacto:hover {
+    background: #e47911;
+    transform: translateY(-2px);
+}
+
+.btn-amazon-contacto {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 25px;
+    background: #232f3e;
+    color: white;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn-amazon-contacto:hover {
+    background: #131921;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .contacto-opciones {
+        flex-direction: column;
+    }
+    
+    .btn-contacto,
+    .btn-amazon-contacto {
+        width: 100%;
+        justify-content: center;
+    }
+}
+</style>
+
+{% endblock %}

@@ -1,0 +1,33 @@
+# Base de datos
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+*.log.*
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+instance/
+.env
+.venv
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Archivos de entorno
+.env.local
+.env.production
+*.env
+
+# Archivos de configuración local
+config.local.py

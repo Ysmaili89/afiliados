@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Meta tags SEO -->
+    <title>{% block title %}Panel de Administración | Filtro Amazon{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Panel de control para gestionar tu filtro de productos Amazon - Productos, categorías y configuración{% endblock %}">
+    <meta name="keywords" content="panel administración, filtro amazon, gestión productos, afiliados">
+    <meta name="author" content="Filtro Amazon">
+    <meta name="robots" content="noindex, nofollow">
+    
+    <!-- 🔐 META TAG PARA CSRF - AGREGADO -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    
+    <!-- Fonts y CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+</head>
+<body>
+    <header class="admin-header">
+        <div class="header-left">
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="admin-logo">
+                <i class="fas fa-filter"></i>
+                <span>Filtro Amazon <small>Admin</small></span>
+            </div>
+        </div>
+        
+        <!-- BUSCADOR CORREGIDO - AHORA FUNCIONA -->
+        <div class="header-search">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchProducts" placeholder="Buscar productos..." onkeyup="buscarProductos(event)">
+        </div>
+        
+        <div class="header-right">
+            <!-- Campanita con contador - CORREGIDA -->
+            <div class="header-notifications" id="notificationsBtn">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge" id="notificationBadge">3</span>
+                
+                <!-- Dropdown de notificaciones -->
+                <div class="notifications-dropdown" id="notificationsDropdown">
+                    <div class="dropdown-header">
+                        <h4>Notificaciones</h4>
+                        <button class="mark-read" id="markAllRead">✓ Marcar todas</button>
+                    </div>
+                    <div class="notifications-list" id="notificationsList">
+                        <div class="notification-item unread" data-id="1">
+                            <i class="fas fa-box"></i>
+                            <div class="notification-content">
+                                <strong>Nuevo producto</strong>
+                                <p>Se añadió "AirPods Pro"</p>
+                                <small>Hace 5 min</small>
+                            </div>
+                        </div>
+                        <div class="notification-item unread" data-id="2">
+                            <i class="fas fa-chart-line"></i>
+                            <div class="notification-content">
+                                <strong>100 visitas hoy</strong>
+                                <p>Has alcanzado 100 visitas</p>
+                                <small>Hace 2 horas</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dropdown-footer">
+                        <a href="#" id="viewAllNotifications">Ver todas</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Usuario con dropdown -->
+            <div class="admin-user" id="userMenuBtn">
+                <div class="user-avatar">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="user-info">
+                    <span class="user-name">{{ usuario }}</span>
+                    <span class="user-role">{{ session.rol|capitalize if session.rol else 'Admin' }}</span>
+                </div>
+                <div class="user-dropdown" id="userDropdownBtn">
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                
+                <!-- Dropdown de usuario -->
+                <div class="user-dropdown-menu" id="userDropdown">
+                    <div class="dropdown-user-header">
+                        <i class="fas fa-user-circle"></i>
+                        <div>
+                            <strong>{{ usuario }}</strong>
+                            <span>{{ session.rol|capitalize if session.rol else 'Administrador' }}</span>
+                        </div>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <a href="{{ url_for('panel_perfil') }}" class="dropdown-item">
+                        <i class="fas fa-id-card"></i> Mi Perfil
+                    </a>
+                    <!-- Los administradores ven acceso directo a gestión de usuarios -->
+                    {% if session.rol == 'admin' %}
+                    <a href="{{ url_for('panel_perfil') }}#usuarios" class="dropdown-item">
+                        <i class="fas fa-users-cog"></i> Gestionar Usuarios
+                    </a>
+                    {% endif %}
+                    <a href="{{ url_for('panel_configuracion') }}" class="dropdown-item">
+                        <i class="fas fa-cog"></i> Configuración
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="{{ url_for('panel_logout') }}" class="dropdown-item logout-item">
+                        <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <nav class="admin-nav" id="adminNav">
+            <div class="nav-header">
+                <div class="nav-user">
+                    <i class="fas fa-user-circle"></i>
+                    <div>
+                        <strong>{{ usuario }}</strong>
+                        <span>{{ session.rol|capitalize if session.rol else 'Admin' }}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="nav-menu">
+                <!-- DASHBOARD -->
+                <a href="{{ url_for('panel_dashboard') }}" class="nav-item {% if request.path == '/panel' %}active{% endif %}">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                
+                <div class="nav-section">GESTIÓN DE FILTRO</div>
+                
+                <!-- PRODUCTOS -->
+                <a href="{{ url_for('panel_productos') }}" class="nav-item {% if '/panel/productos' in request.path %}active{% endif %}">
+                    <i class="fas fa-box"></i>
+                    <span>Productos</span>
+                    <span class="nav-badge">{{ total_productos|default(0) }}</span>
+                </a>
+                
+                <!-- CATEGORÍAS -->
+                <a href="{{ url_for('panel_categorias') }}" class="nav-item {% if '/panel/categorias' in request.path %}active{% endif %}">
+                    <i class="fas fa-tags"></i>
+                    <span>Categorías</span>
+                    <span class="nav-badge">{{ categorias|length|default(0) }}</span>
+                </a>
+                
+                <!-- USUARIOS -->
+                <a href="{{ url_for('panel_perfil') }}#usuarios" class="nav-item {% if request.path == '/panel/perfil' %}active{% endif %}">
+                    <i class="fas fa-users"></i>
+                    <span>Usuarios</span>
+                    <span class="nav-badge">{{ total_usuarios|default(1) }}</span>
+                </a>
+                
+                <div class="nav-section">ANÁLISIS</div>
+                
+                <!-- ESTADÍSTICAS -->
+                <a href="{{ url_for('panel_estadisticas') }}" class="nav-item {% if '/panel/estadisticas' in request.path %}active{% endif %}">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Estadísticas</span>
+                </a>
+                
+                <div class="nav-section">CONFIGURACIÓN</div>
+                
+                <!-- PERFIL -->
+                <a href="{{ url_for('panel_perfil') }}" class="nav-item {% if '/panel/perfil' in request.path %}active{% endif %}">
+                    <i class="fas fa-user"></i>
+                    <span>Mi Perfil</span>
+                </a>
+                
+                <!-- CONFIGURACIÓN -->
+                <a href="{{ url_for('panel_configuracion') }}" class="nav-item {% if '/panel/configuracion' in request.path %}active{% endif %}">
+                    <i class="fas fa-cog"></i>
+                    <span>Configuración</span>
+                </a>
+                
+                <!-- ENLACE AL SITIO PRINCIPAL -->
+                <a href="{{ url_for('index') }}" class="nav-item" target="_blank">
+                    <i class="fas fa-store"></i>
+                    <span>Ver Tienda</span>
+                    <span class="nav-badge" style="background: var(--amazon-orange); color: var(--amazon-dark);">
+                        <i class="fas fa-external-link-alt" style="font-size: 10px;"></i>
+                    </span>
+                </a>
+                
+                <!-- SALIR -->
+                <a href="{{ url_for('panel_logout') }}" class="nav-item logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Salir</span>
+                </a>
+            </div>
+            
+            <div class="nav-footer">
+                <div class="store-status">
+                    <i class="fas fa-circle" style="color: #2ecc71; font-size: 8px;"></i>
+                    <span>Filtro activo</span>
+                </div>
+                <div class="store-version">
+                    v1.0.0
+                </div>
+            </div>
+            
+            <!-- RECORDATORIO -->
+            <div class="nav-reminder">
+                <i class="fas fa-filter"></i>
+                <small>Solo eres un filtro. No gestionas pedidos ni clientes.</small>
+            </div>
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <a href="{{ url_for('panel_dashboard') }}">Inicio</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>{% block breadcrumb %}{% endblock %}</span>
+            </div>
+            
+            <!-- Alerts -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            <i class="fas fa-{% if category == 'success' %}check-circle{% elif category == 'error' %}exclamation-circle{% else %}info-circle{% endif %}"></i>
+                            {{ message }}
+                            <button class="alert-close"><i class="fas fa-times"></i></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            <!-- Dynamic Content -->
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+    
+
+    
+    <script>
+        // Función para obtener token CSRF desde meta tag
+        function getCSRFToken() {
+            const metaToken = document.querySelector('meta[name="csrf-token"]');
+            return metaToken ? metaToken.getAttribute('content') : '';
+        }
+
+        // Toggle sidebar
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            document.getElementById('adminNav').classList.toggle('collapsed');
+            document.querySelector('.admin-main').classList.toggle('expanded');
+        });
+        
+        // Close alerts
+        document.querySelectorAll('.alert-close').forEach(button => {
+            button.addEventListener('click', function() {
+                this.parentElement.style.display = 'none';
+            });
+        });
+        
+        // Auto hide alerts after 5 seconds
+        setTimeout(() => {
+            document.querySelectorAll('.alert').forEach(alert => {
+                alert.style.display = 'none';
+            });
+        }, 5000);
+        
+        // ===== BUSCADOR FUNCIONAL =====
+        function buscarProductos(event) {
+            // Si presiona Enter, redirigir a búsqueda
+            if (event.key === 'Enter') {
+                const query = event.target.value.trim();
+                if (query) {
+                    window.location.href = '/panel/productos?buscar=' + encodeURIComponent(query);
+                }
+            }
+        }
+        
+        // ===== NOTIFICACIONES FUNCIONALES =====
+        document.addEventListener('DOMContentLoaded', function() {
+            const notificationsBtn = document.getElementById('notificationsBtn');
+            const notificationsDropdown = document.getElementById('notificationsDropdown');
+            const notificationBadge = document.getElementById('notificationBadge');
+            const userMenuBtn = document.getElementById('userMenuBtn');
+            const userDropdown = document.getElementById('userDropdown');
+            const userDropdownBtn = document.getElementById('userDropdownBtn');
+            const markAllRead = document.getElementById('markAllRead');
+            const viewAll = document.getElementById('viewAllNotifications');
+            
+            // Toggle notificaciones
+            if (notificationsBtn) {
+                notificationsBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    notificationsDropdown.classList.toggle('show');
+                    if (userDropdown) userDropdown.classList.remove('show');
+                });
+            }
+            
+            // Toggle usuario
+            function toggleUserDropdown(e) {
+                e.stopPropagation();
+                if (userDropdown) {
+                    userDropdown.classList.toggle('show');
+                }
+                if (notificationsDropdown) {
+                    notificationsDropdown.classList.remove('show');
+                }
+            }
+            
+            if (userMenuBtn) {
+                userMenuBtn.addEventListener('click', toggleUserDropdown);
+            }
+            if (userDropdownBtn) {
+                userDropdownBtn.addEventListener('click', toggleUserDropdown);
+            }
+            
+            // Cerrar al hacer clic fuera
+            document.addEventListener('click', function(e) {
+                if (userMenuBtn && !userMenuBtn.contains(e.target)) {
+                    if (userDropdown) userDropdown.classList.remove('show');
+                }
+                if (notificationsBtn && !notificationsBtn.contains(e.target)) {
+                    if (notificationsDropdown) notificationsDropdown.classList.remove('show');
+                }
+            });
+            
+            // Evitar cierre al hacer clic dentro
+            if (userDropdown) {
+                userDropdown.addEventListener('click', e => e.stopPropagation());
+            }
+            if (notificationsDropdown) {
+                notificationsDropdown.addEventListener('click', e => e.stopPropagation());
+            }
+            
+            // Marcar todas como leídas
+            if (markAllRead) {
+                markAllRead.addEventListener('click', function() {
+                    document.querySelectorAll('.notification-item.unread').forEach(item => {
+                        item.classList.remove('unread');
+                    });
+                    if (notificationBadge) {
+                        notificationBadge.style.display = 'none';
+                    }
+                });
+            }
+            
+            // Ver todas las notificaciones
+            if (viewAll) {
+                viewAll.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    window.location.href = '/panel/notificaciones';
+                });
+            }
+            
+            // Marcar individual al hacer clic
+            document.querySelectorAll('.notification-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    this.classList.remove('unread');
+                    const unreadCount = document.querySelectorAll('.notification-item.unread').length;
+                    if (unreadCount === 0 && notificationBadge) {
+                        notificationBadge.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+    
+    {% block scripts %}{% endblock %}
+</body>
+</html>

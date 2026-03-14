@@ -1,0 +1,321 @@
+{% extends "base.html" %}
+
+{% block title %}Política de Cookies - {{ config.nombre }} | Información clara y transparente{% endblock %}
+
+{% block meta_description %}Conoce qué son las cookies, cómo las utilizamos en nuestro filtro de Amazon y cómo gestionarlas. Información clara, sin tecnicismos.{% endblock %}
+
+{% block meta_keywords %}cookies, política de cookies, privacidad, datos, configuración cookies, aviso de cookies, filtro amazon{% endblock %}
+
+{% block content %}
+<!-- Encabezado simple -->
+<section class="page-header">
+    <div class="page-header-content">
+        <h1><i class="fas fa-cookie-bite"></i> Política de Cookies</h1>
+        <p class="header-subtitle">Información clara y transparente sobre las cookies que utilizamos</p>
+    </div>
+</section>
+
+<!-- AVISO IMPORTANTE - FILTRO -->
+<div class="aviso-filtro">
+    <div class="aviso-content">
+        <i class="fas fa-filter"></i>
+        <div>
+            <h2>⚠️ IMPORTANTE: SOMOS UN FILTRO</h2>
+            <p><strong>{{ config.nombre }}</strong> es una web de <span class="resaltado">recomendación de productos</span>. No vendemos nada directamente. Las únicas cookies que podrían afectar tu compra son las de <strong>Amazon</strong> cuando haces clic en "IR A COMPRAR".</p>
+        </div>
+    </div>
+</div>
+
+<!-- Contenedor principal simplificado -->
+<div class="cookies-container">
+    
+    <!-- QUÉ SON LAS COOKIES (EXPLICACIÓN SIMPLE) -->
+    <div class="cookies-card">
+        <div class="card-header">
+            <i class="fas fa-question-circle"></i>
+            <h2>¿Qué son las cookies?</h2>
+        </div>
+        <div class="card-body">
+            <p>Las cookies son pequeños archivos que se guardan en tu navegador cuando visitas una web. Son como una "memoria" que permite que el sitio te reconozca y recuerde tus preferencias.</p>
+            
+            <div class="ejemplo-simple">
+                <p><i class="fas fa-lightbulb"></i> <strong>Ejemplo cotidiano:</strong> Imagina que entras a una tienda y te preguntan si prefieres ver los precios en euros o dólares. Si cuando vuelves al día siguiente la tienda recuerda tu elección, es gracias a una cookie.</p>
+            </div>
+            
+            <p class="nota">No son virus, no dañan tu ordenador y no pueden acceder a tus archivos personales.</p>
+        </div>
+    </div>
+    
+    <!-- COOKIES EN NUESTRO FILTRO -->
+    <div class="cookies-card destacado">
+        <div class="card-header">
+            <i class="fas fa-filter"></i>
+            <h2>Cookies en nuestro filtro</h2>
+        </div>
+        <div class="card-body">
+            <p>En <strong>{{ config.nombre }}</strong> usamos cookies para tres cosas muy simples:</p>
+            
+            <div class="usos-simples">
+                <div class="uso-simple">
+                    <div class="uso-icono">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                    <div class="uso-texto">
+                        <h3>Funcionamiento básico</h3>
+                        <p>Para que la web funcione correctamente (recordar tu idioma, mantener la sesión, etc.)</p>
+                    </div>
+                </div>
+                
+                <div class="uso-simple">
+                    <div class="uso-icono">
+                        <i class="fab fa-amazon"></i>
+                    </div>
+                    <div class="uso-texto">
+                        <h3>Enlaces a Amazon</h3>
+                        <p>Cuando haces clic en "IR A COMPRAR", una cookie permite a Amazon saber que vienes de nuestra web. Así, si compras, Amazon nos paga una pequeña comisión sin que a ti te cueste más.</p>
+                    </div>
+                </div>
+                
+                <div class="uso-simple">
+                    <div class="uso-icono">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="uso-texto">
+                        <h3>Mejora del sitio</h3>
+                        <p>Para saber qué productos y secciones son más populares y así poder mejorar el filtro.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- COOKIES DE AMAZON (LO MÁS IMPORTANTE) -->
+    <div class="cookies-card amazon-card">
+        <div class="card-header">
+            <i class="fab fa-amazon"></i>
+            <h2>Lo que debes saber sobre las cookies de Amazon</h2>
+        </div>
+        <div class="card-body">
+            <p>Esta es la parte más importante para ti como usuario de nuestro filtro:</p>
+            
+            <div class="pregunta-respuesta">
+                <div class="pregunta">
+                    <i class="fas fa-question"></i>
+                    <strong>¿Qué pasa cuando hago clic en "IR A COMPRAR"?</strong>
+                </div>
+                <div class="respuesta">
+                    <p>Al hacer clic, Amazon guarda una cookie en tu navegador que dura 30 días. Esta cookie solo indica que vienes de nuestra web. Si en esos 30 días compras cualquier producto en Amazon (aunque no sea el que viste), Amazon nos paga una pequeña comisión.</p>
+                </div>
+            </div>
+            
+            <div class="pregunta-respuesta">
+                <div class="pregunta">
+                    <i class="fas fa-question"></i>
+                    <strong>¿Esto afecta al precio que pago?</strong>
+                </div>
+                <div class="respuesta">
+                    <p><strong>NO</strong>. Tú pagas exactamente el mismo precio que si fueras directamente a Amazon. La comisión nos la paga Amazon de su parte, no te cobran nada extra a ti.</p>
+                </div>
+            </div>
+            
+            <div class="pregunta-respuesta">
+                <div class="pregunta">
+                    <i class="fas fa-question"></i>
+                    <strong>¿Puedo evitar esta cookie?</strong>
+                </div>
+                <div class="respuesta">
+                    <p>Sí. Si no quieres que usemos cookies de afiliado, simplemente ve directamente a Amazon sin hacer clic en nuestros enlaces. O puedes borrar las cookies después de visitarnos.</p>
+                </div>
+            </div>
+            
+            <div class="importante-rojo">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p><strong>Importante:</strong> Nosotros NO tenemos acceso a tus datos de compra. Toda la información de pago, envío, tarjetas, etc., va directamente a Amazon. Nosotros solo vemos qué productos te han interesado, pero no quién eres ni qué compraste finalmente.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- LISTA SIMPLE DE COOKIES -->
+    <div class="cookies-card">
+        <div class="card-header">
+            <i class="fas fa-list"></i>
+            <h2>Cookies que utilizamos</h2>
+        </div>
+        <div class="card-body">
+            <p>Aquí tienes la lista completa de las cookies que puedes encontrar en nuestro sitio:</p>
+            
+            <div class="tabla-simple">
+                <div class="tabla-fila tabla-header">
+                    <div class="columna">Cookie</div>
+                    <div class="columna">Proveedor</div>
+                    <div class="columna">Para qué sirve</div>
+                    <div class="columna">Duración</div>
+                </div>
+                
+                <div class="tabla-fila">
+                    <div class="columna"><code>session</code></div>
+                    <div class="columna">{{ config.nombre }}</div>
+                    <div class="columna">Mantener tu sesión activa</div>
+                    <div class="columna">Sesión</div>
+                </div>
+                
+                <div class="tabla-fila">
+                    <div class="columna"><code>language</code></div>
+                    <div class="columna">{{ config.nombre }}</div>
+                    <div class="columna">Recordar tu idioma preferido</div>
+                    <div class="columna">1 año</div>
+                </div>
+                
+                <div class="tabla-fila">
+                    <div class="columna"><code>cookie_consent</code></div>
+                    <div class="columna">{{ config.nombre }}</div>
+                    <div class="columna">Recordar si aceptaste las cookies</div>
+                    <div class="columna">1 año</div>
+                </div>
+                
+                <div class="tabla-fila">
+                    <div class="columna"><code>_ga</code></div>
+                    <div class="columna">Google</div>
+                    <div class="columna">Estadísticas de visitas</div>
+                    <div class="columna">2 años</div>
+                </div>
+                
+                <div class="tabla-fila">
+                    <div class="columna"><code>_gid</code></div>
+                    <div class="columna">Google</div>
+                    <div class="columna">Estadísticas de visitas</div>
+                    <div class="columna">24 horas</div>
+                </div>
+                
+                <div class="tabla-fila destacada">
+                    <div class="columna"><code>amazon_tag</code></div>
+                    <div class="columna">Amazon</div>
+                    <div class="columna">Identificar que vienes de nuestro filtro (afiliación)</div>
+                    <div class="columna">30 días</div>
+                </div>
+            </div>
+            
+            <p class="nota-pequena">* La cookie de Amazon es la única que se relaciona con posibles compras.</p>
+        </div>
+    </div>
+    
+    <!-- CÓMO GESTIONAR LAS COOKIES (INSTRUCCIONES SIMPLES) -->
+    <div class="cookies-card">
+        <div class="card-header">
+            <i class="fas fa-sliders-h"></i>
+            <h2>Cómo gestionar las cookies</h2>
+        </div>
+        <div class="card-body">
+            <p>Tienes el control total. Puedes aceptarlas, rechazarlas o eliminarlas cuando quieras.</p>
+            
+            <div class="opciones-gestion">
+                <!-- Opción 1: Configuración desde navegador (principal) -->
+                <div class="opcion-gestion-simple">
+                    <h3><i class="fas fa-browser"></i> Desde tu navegador</h3>
+                    <p>Todos los navegadores permiten gestionar las cookies desde su configuración:</p>
+                    <ul class="lista-navegadores">
+                        <li>
+                            <i class="fab fa-chrome"></i>
+                            <a href="https://support.google.com/chrome/answer/95647" target="_blank" rel="nofollow">Google Chrome</a>
+                        </li>
+                        <li>
+                            <i class="fab fa-firefox"></i>
+                            <a href="https://support.mozilla.org/es/kb/Borrar%20cookies" target="_blank" rel="nofollow">Mozilla Firefox</a>
+                        </li>
+                        <li>
+                            <i class="fab fa-safari"></i>
+                            <a href="https://support.apple.com/es-es/guide/safari/sfri11471/mac" target="_blank" rel="nofollow">Safari</a>
+                        </li>
+                        <li>
+                            <i class="fab fa-edge"></i>
+                            <a href="https://support.microsoft.com/es-es/microsoft-edge/eliminar-las-cookies-en-microsoft-edge-63947406-40ac-c3b8-57b9-2a946a29ae09" target="_blank" rel="nofollow">Microsoft Edge</a>
+                        </li>
+                        <li>
+                            <i class="fab fa-opera"></i>
+                            <a href="https://help.opera.com/en/latest/web-preferences/#cookies" target="_blank" rel="nofollow">Opera</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="consejo">
+                <i class="fas fa-lightbulb"></i>
+                <p><strong>Consejo:</strong> Si bloqueas todas las cookies, algunas funciones de la web pueden no funcionar correctamente (como recordar tu idioma). Pero siempre puedes navegar y ver productos sin problemas.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- CONSENTIMIENTO SIMPLE -->
+    <div class="cookies-card">
+        <div class="card-header">
+            <i class="fas fa-check-circle"></i>
+            <h2>Tu consentimiento</h2>
+        </div>
+        <div class="card-body">
+            <p>Al utilizar nuestra web, aceptas el uso de cookies según esta política. Si no estás de acuerdo, puedes:</p>
+            
+            <ul class="lista-consentimiento">
+                <li><i class="fas fa-times-circle"></i> No hacer clic en los enlaces a Amazon</li>
+                <li><i class="fas fa-times-circle"></i> Configurar tu navegador para rechazar cookies</li>
+                <li><i class="fas fa-times-circle"></i> Borrar las cookies después de visitarnos</li>
+            </ul>
+            
+            <div class="botones-consentimiento">
+                <button class="btn-aceptar-simple" onclick="aceptarCookies()">
+                    <i class="fas fa-check"></i> Aceptar cookies
+                </button>
+                <button class="btn-mas-info" onclick="window.location.href='#gestionar-cookies'">
+                    <i class="fas fa-info-circle"></i> Más información
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ACTUALIZACIONES -->
+    <div class="cookies-card">
+        <div class="card-header">
+            <i class="fas fa-sync-alt"></i>
+            <h2>Actualizaciones</h2>
+        </div>
+        <div class="card-body">
+            <p>Podemos actualizar esta política si es necesario. Los cambios importantes serán notificados en esta misma página.</p>
+            
+            <div class="fecha-actualizacion">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Última actualización: <strong>1 de enero de 2024</strong></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- RECORDATORIO FINAL -->
+<div class="recordatorio-final">
+    <i class="fas fa-filter fa-2x"></i>
+    <div>
+        <p><strong>Recuerda: {{ config.nombre }} es solo un filtro de recomendación.</strong></p>
+        <p class="small">No almacenamos datos de pago, no tenemos acceso a tus compras y no podemos ayudarte con devoluciones. Todo eso se gestiona directamente en Amazon.</p>
+    </div>
+</div>
+
+<script>
+// Función para simular aceptación de cookies (sin almacenar datos reales)
+function aceptarCookies() {
+    // Mostrar mensaje informativo
+    alert('🍪 Preferencia guardada localmente\n\nEsta es una simulación. En un sitio real, esta preferencia se guardaría en tu navegador mediante una cookie.');
+    
+    // Opcional: guardar en localStorage para la sesión actual
+    localStorage.setItem('cookies_aceptadas', 'true');
+    
+    // Ocultar el banner de cookies si existe
+    const cookieBanner = document.getElementById('cookie-banner');
+    if (cookieBanner) {
+        cookieBanner.style.display = 'none';
+    }
+}
+
+// Script simple para el botón de configuración
+document.querySelector('.btn-configurar')?.addEventListener('click', function() {
+    alert('⚙️ Gestión de cookies\n\nPara configurar las cookies, utiliza la configuración de tu navegador.\n\nPuedes acceder a ella desde los enlaces proporcionados en "Cómo gestionar las cookies".');
+});
+</script>
+{% endblock %}

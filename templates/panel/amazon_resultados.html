@@ -1,0 +1,142 @@
+{% extends "panel/base_admin.html" %}
+
+{% block title %}Resultados de Búsqueda Amazon{% endblock %}
+
+{% block breadcrumb %}Resultados para "{{ keywords }}"{% endblock %}
+
+{% block content %}
+<div class="resultados-api-wrapper">
+    <div class="page-header-amazon">
+        <div class="header-title">
+            <h1><i class="fab fa-amazon"></i> Resultados para "{{ keywords }}"</h1>
+            <p class="header-subtitle">Selecciona los productos que quieres guardar</p>
+        </div>
+        <a href="{{ url_for('amazon_buscar') }}" class="btn-volver">
+            <i class="fas fa-arrow-left"></i> Nueva búsqueda
+        </a>
+    </div>
+
+    {% if productos %}
+    <div class="productos-api-grid">
+        {% for producto in productos %}
+        <div class="producto-api-card" data-asin="{{ producto.asin }}">
+            <div class="producto-imagen">
+                <img src="{{ producto.imagen }}" alt="{{ producto.titulo }}" 
+                     onerror="this.src='https://via.placeholder.com/150x150/232f3e/ff9900?text=Amazon'">
+            </div>
+            
+            <div class="producto-info">
+                <h3>{{ producto.titulo[:80] }}{% if producto.titulo|length > 80 %}...{% endif %}</h3>
+                
+                <div class="producto-detalles">
+                    {% if producto.marca %}
+                    <span class="marca"><i class="fas fa-tag"></i> {{ producto.marca }}</span>
+                    {% endif %}
+                    
+                    <span class="precio"><i class="fas fa-euro-sign"></i> {{ producto.precio }}</span>
+                    
+                    {% if producto.rating > 0 %}
+                    <div class="rating">
+                        {% for i in range(5) %}
+                            {% if i < producto.rating|int %}
+                                <i class="fas fa-star"></i>
+                            {% elif producto.rating - i > 0.5 %}
+                                <i class="fas fa-star-half-alt"></i>
+                            {% else %}
+                                <i class="far fa-star"></i>
+                            {% endif %}
+                        {% endfor %}
+                        <span class="rating-count">({{ producto.total_ratings }} valoraciones)</span>
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div class="producto-acciones">
+                    <label class="checkbox-container">
+                        <input type="checkbox" class="seleccionar-producto" 
+                               data-producto='{{ producto|tojson|safe }}'>
+                        <span class="checkmark"></span>
+                        Seleccionar
+                    </label>
+                    
+                    <a href="{{ producto.url_afiliado }}" target="_blank" class="btn-ver">
+                        <i class="fas fa-external-link-alt"></i> Ver en Amazon
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="acciones-globales">
+        <button id="guardarSeleccionados" class="btn-guardar btn-lg">
+            <i class="fas fa-save"></i> Guardar productos seleccionados
+        </button>
+        <span id="contador-seleccionados">0 productos seleccionados</span>
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <i class="fas fa-search"></i>
+        <h3>No se encontraron productos</h3>
+        <p>Prueba con otras palabras clave</p>
+        <a href="{{ url_for('amazon_buscar') }}" class="btn-guardar">
+            <i class="fas fa-arrow-left"></i> Volver a buscar
+        </a>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+let productosSeleccionados = [];
+
+document.querySelectorAll('.seleccionar-producto').forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+        try {
+            const producto = JSON.parse(this.dataset.producto);
+            
+            if (this.checked) {
+                productosSeleccionados.push(producto);
+            } else {
+                productosSeleccionados = productosSeleccionados.filter(p => p.asin !== producto.asin);
+            }
+            
+            document.getElementById('contador-seleccionados').textContent = 
+                `${productosSeleccionados.length} productos seleccionados`;
+        } catch (e) {
+            console.error('Error parsing producto:', e);
+        }
+    });
+});
+
+document.getElementById('guardarSeleccionados').addEventListener('click', function() {
+    if (productosSeleccionados.length === 0) {
+        alert('Selecciona al menos un producto');
+        return;
+    }
+    
+    fetch('{{ url_for("amazon_guardar") }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token() }}'
+        },
+        body: JSON.stringify({ productos: productosSeleccionados })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            alert('✅ ' + data.mensaje);
+            window.location.href = '{{ url_for("panel_productos_api") }}';
+        } else {
+            alert('❌ Error: ' + data.mensaje);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('❌ Error de conexión');
+    });
+});
+</script>
+
+
+{% endblock %}

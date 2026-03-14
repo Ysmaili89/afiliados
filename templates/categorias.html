@@ -1,0 +1,509 @@
+{% extends "base.html" %}
+
+{% block title %}Categorías - {{ config.nombre }} | Explora productos por categoría{% endblock %}
+
+{% block meta_description %}Explora todas nuestras categorías de productos. Encuentra lo mejor de Amazon filtrado y seleccionado especialmente para ti. Electrónica, hogar, libros, moda y más.{% endblock %}
+
+{% block meta_keywords %}categorías, productos, electrónica, hogar, libros, moda, deportes, juguetes, belleza, filtro amazon, mejores productos{% endblock %}
+
+{% block content %}
+<!-- Hero Section con efecto parallax -->
+<section class="categorias-hero">
+    <div class="hero-background">
+        <div class="hero-particles"></div>
+    </div>
+    <div class="hero-content">
+        <div class="hero-badge">
+            <span class="badge-pulse">📋 CATEGORÍAS</span>
+        </div>
+        <h1 class="hero-title">
+            Explora nuestras <span class="gradient-text">categorías</span>
+        </h1>
+        <p class="hero-subtitle">Más de 10,000 productos filtrados y organizados para ti</p>
+        
+        <!-- Stats flotantes -->
+        <div class="hero-stats">
+            <div class="stat-item">
+                <span class="stat-number" data-target="15">0</span>
+                <span class="stat-label">Categorías</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" data-target="500">0</span>
+                <span class="stat-label">Productos</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" data-target="10000">0</span>
+                <span class="stat-label">Filtrados</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Ola decorativa -->
+    <div class="hero-wave">
+        <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="currentColor"/>
+        </svg>
+    </div>
+</section>
+
+<!-- Breadcrumbs mejorados -->
+<nav class="categorias-breadcrumb">
+    <div class="breadcrumb-container">
+        <a href="/"><i class="fas fa-home"></i> Inicio</a>
+        <i class="fas fa-chevron-right"></i>
+        <span class="current">Categorías</span>
+    </div>
+</nav>
+
+<!-- Filtro rápido -->
+<div class="quick-filters">
+    <div class="filters-wrapper">
+        <span class="filter-label"><i class="fas fa-bolt"></i> Filtro rápido:</span>
+        <div class="filter-chips">
+            <a href="#populares" class="chip active">Más populares</a>
+            <a href="#nuevos" class="chip">Nuevos</a>
+            <a href="#ofertas" class="chip">En oferta</a>
+            <a href="#mejor-valorados" class="chip">Mejor valorados</a>
+            <a href="#amazon-choice" class="chip">Amazon's Choice</a>
+        </div>
+    </div>
+</div>
+
+<!-- Categorías destacadas con efecto hover 3D -->
+<section class="featured-categories">
+    <div class="section-header">
+        <span class="section-tag">✨ DESTACADOS</span>
+        <h2>Categorías <span class="highlight">principales</span></h2>
+        <p>Las categorías más populares entre nuestros usuarios</p>
+    </div>
+
+    <div class="categories-grid">
+        {% for cat in categorias[:6] %}
+        <a href="/categoria/{{ cat }}" class="category-card" data-category="{{ cat }}">
+            <div class="card-inner">
+                <div class="card-front">
+                    <div class="category-icon-wrapper">
+                        <div class="icon-bg"></div>
+                        {% if cat == 'electronica' %}
+                            <i class="fas fa-microchip"></i>
+                        {% elif cat == 'hogar' %}
+                            <i class="fas fa-home"></i>
+                        {% elif cat == 'libros' %}
+                            <i class="fas fa-book"></i>
+                        {% elif cat == 'moda' %}
+                            <i class="fas fa-tshirt"></i>
+                        {% elif cat == 'deportes' %}
+                            <i class="fas fa-futbol"></i>
+                        {% elif cat == 'juguetes' %}
+                            <i class="fas fa-gamepad"></i>
+                        {% elif cat == 'belleza' %}
+                            <i class="fas fa-spa"></i>
+                        {% elif cat == 'alimentacion' %}
+                            <i class="fas fa-utensils"></i>
+                        {% elif cat == 'mascotas' %}
+                            <i class="fas fa-paw"></i>
+                        {% elif cat == 'bebe' %}
+                            <i class="fas fa-baby"></i>
+                        {% else %}
+                            <i class="fas fa-tag"></i>
+                        {% endif %}
+                    </div>
+                    <h3>{{ cat|capitalize }}</h3>
+                    <div class="category-stats">
+                        <span class="product-count">245 productos</span>
+                        <span class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="card-back">
+                    <div class="back-content">
+                        <i class="fas fa-arrow-right"></i>
+                        <span>Explorar categoría</span>
+                        <small>{{ cat|capitalize }}</small>
+                    </div>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Grid completo de categorías -->
+<section class="all-categories">
+    <div class="section-header">
+        <span class="section-tag">📌 TODAS</span>
+        <h2>Todas las <span class="highlight">categorías</span></h2>
+        <p>Encuentra exactamente lo que buscas</p>
+    </div>
+
+    <div class="categories-grid-full">
+        {% for cat in categorias %}
+        <a href="/categoria/{{ cat }}" class="category-full-card">
+            <div class="card-left">
+                <div class="icon-circle">
+                    {% if cat == 'electronica' %}
+                        <i class="fas fa-laptop"></i>
+                    {% elif cat == 'hogar' %}
+                        <i class="fas fa-home"></i>
+                    {% elif cat == 'libros' %}
+                        <i class="fas fa-book"></i>
+                    {% elif cat == 'moda' %}
+                        <i class="fas fa-tshirt"></i>
+                    {% elif cat == 'deportes' %}
+                        <i class="fas fa-futbol"></i>
+                    {% elif cat == 'juguetes' %}
+                        <i class="fas fa-gamepad"></i>
+                    {% elif cat == 'belleza' %}
+                        <i class="fas fa-spa"></i>
+                    {% elif cat == 'alimentacion' %}
+                        <i class="fas fa-utensils"></i>
+                    {% elif cat == 'mascotas' %}
+                        <i class="fas fa-paw"></i>
+                    {% elif cat == 'bebe' %}
+                        <i class="fas fa-baby"></i>
+                    {% elif cat == 'herramientas' %}
+                        <i class="fas fa-tools"></i>
+                    {% elif cat == 'jardin' %}
+                        <i class="fas fa-seedling"></i>
+                    {% elif cat == 'automocion' %}
+                        <i class="fas fa-car"></i>
+                    {% elif cat == 'salud' %}
+                        <i class="fas fa-heartbeat"></i>
+                    {% else %}
+                        <i class="fas fa-tag"></i>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="card-content">
+                <h3>{{ cat|capitalize }}</h3>
+                <p>Descubre los mejores productos de {{ cat }}</p>
+                <div class="card-meta">
+                    <span class="product-badge">+245 productos</span>
+                    <span class="card-link">Ver todo <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Sección de categorías con productos destacados -->
+<section class="categories-with-products">
+    <div class="section-header">
+        <span class="section-tag">🔥 POPULARES</span>
+        <h2>Lo más visto por <span class="highlight">categoría</span></h2>
+        <p>Los productos más populares de cada categoría</p>
+    </div>
+
+    <div class="categories-carousel">
+        {% for cat in categorias[:4] %}
+        <div class="category-product-card">
+            <div class="category-product-header">
+                <div class="header-icon">
+                    {% if cat == 'electronica' %}
+                        <i class="fas fa-laptop"></i>
+                    {% elif cat == 'hogar' %}
+                        <i class="fas fa-home"></i>
+                    {% elif cat == 'libros' %}
+                        <i class="fas fa-book"></i>
+                    {% elif cat == 'moda' %}
+                        <i class="fas fa-tshirt"></i>
+                    {% else %}
+                        <i class="fas fa-tag"></i>
+                    {% endif %}
+                </div>
+                <h3>{{ cat|capitalize }}</h3>
+                <a href="/categoria/{{ cat }}" class="header-link">
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="category-products-list">
+                <div class="mini-product">
+                    <img src="https://via.placeholder.com/50x50/232f3e/ff9900?text=P1" alt="Producto">
+                    <div class="mini-product-info">
+                        <span class="product-name">Producto destacado</span>
+                        <span class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="mini-product">
+                    <img src="https://via.placeholder.com/50x50/232f3e/ff9900?text=P2" alt="Producto">
+                    <div class="mini-product-info">
+                        <span class="product-name">Producto popular</span>
+                        <span class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="mini-product">
+                    <img src="https://via.placeholder.com/50x50/232f3e/ff9900?text=P3" alt="Producto">
+                    <div class="mini-product-info">
+                        <span class="product-name">Más vendido</span>
+                        <span class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <a href="/categoria/{{ cat }}" class="view-all-link">
+                Ver todos los productos <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Mapa de categorías interactivo -->
+<section class="categories-map">
+    <div class="section-header">
+        <span class="section-tag">🗺️ MAPA</span>
+        <h2>Explora por <span class="highlight">subcategorías</span></h2>
+        <p>Navegación detallada para encontrar productos específicos</p>
+    </div>
+
+    <div class="map-container">
+        <div class="map-grid">
+            <div class="map-node main-node">
+                <i class="fas fa-sitemap"></i>
+                <span>Categorías</span>
+            </div>
+            
+            {% for cat in categorias[:6] %}
+            <div class="map-node category-node">
+                <i class="fas fa-folder"></i>
+                <span>{{ cat|capitalize }}</span>
+                <div class="node-children">
+                    <a href="#" class="child-link">Subcategoría 1</a>
+                    <a href="#" class="child-link">Subcategoría 2</a>
+                    <a href="#" class="child-link">Subcategoría 3</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Banner promocional -->
+<section class="promo-banner">
+    <div class="promo-content">
+        <div class="promo-icon">
+            <i class="fas fa-gift"></i>
+        </div>
+        <div class="promo-text">
+            <h3>¿No encuentras lo que buscas?</h3>
+            <p>Explora nuestra selección especial con los productos mejor valorados</p>
+        </div>
+        <a href="/recomendados" class="promo-button">
+            Ver recomendados <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
+</section>
+
+<!-- Proceso de filtrado mejorado -->
+<section class="filter-process">
+    <div class="process-wrapper">
+        <div class="section-header light">
+            <span class="section-tag">⚙️ PROCESO</span>
+            <h2>Cómo <span class="highlight">filtramos</span> por categorías</h2>
+            <p>Nuestro riguroso proceso de selección</p>
+        </div>
+
+        <div class="process-timeline">
+            <div class="timeline-item">
+                <div class="timeline-marker">
+                    <span class="marker-number">1</span>
+                    <div class="marker-line"></div>
+                </div>
+                <div class="timeline-content">
+                    <div class="content-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h4>Investigación</h4>
+                    <p>Analizamos miles de productos en Amazon para cada categoría</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-marker">
+                    <span class="marker-number">2</span>
+                    <div class="marker-line"></div>
+                </div>
+                <div class="timeline-content">
+                    <div class="content-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h4>Análisis</h4>
+                    <p>Evaluamos valoraciones, reseñas y relación calidad-precio</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-marker">
+                    <span class="marker-number">3</span>
+                    <div class="marker-line"></div>
+                </div>
+                <div class="timeline-content">
+                    <div class="content-icon">
+                        <i class="fas fa-filter"></i>
+                    </div>
+                    <h4>Filtrado</h4>
+                    <p>Seleccionamos solo el top 10% de productos por categoría</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-marker">
+                    <span class="marker-number">4</span>
+                </div>
+                <div class="timeline-content">
+                    <div class="content-icon">
+                        <i class="fas fa-thumbs-up"></i>
+                    </div>
+                    <h4>Recomendación</h4>
+                    <p>Te presentamos los mejores productos de cada categoría</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ mejorado -->
+<section class="categories-faq">
+    <div class="faq-wrapper">
+        <div class="faq-header">
+            <i class="fas fa-question-circle"></i>
+            <h2>Preguntas frecuentes sobre categorías</h2>
+        </div>
+
+        <div class="faq-grid">
+            <div class="faq-card">
+                <details>
+                    <summary>
+                        <span>¿Cómo se organizan las categorías?</span>
+                        <i class="fas fa-plus"></i>
+                    </summary>
+                    <div class="faq-answer">
+                        <p>Organizamos los productos siguiendo la estructura de categorías de Amazon, pero con un filtrado adicional. Cada categoría contiene solo productos que han pasado nuestro control de calidad: valoraciones superiores a 4 estrellas, más de 100 reseñas y buena relación calidad-precio.</p>
+                    </div>
+                </details>
+            </div>
+
+            <div class="faq-card">
+                <details>
+                    <summary>
+                        <span>¿Puedo sugerir una categoría nueva?</span>
+                        <i class="fas fa-plus"></i>
+                    </summary>
+                    <div class="faq-answer">
+                        <p>¡Por supuesto! Nos encantan las sugerencias. Puedes contactarnos a través del formulario de contacto y proponer nuevas categorías. Si hay suficiente interés, las añadiremos a nuestro filtrado.</p>
+                    </div>
+                </details>
+            </div>
+
+            <div class="faq-card">
+                <details>
+                    <summary>
+                        <span>¿Todas las categorías tienen productos?</span>
+                        <i class="fas fa-plus"></i>
+                    </summary>
+                    <div class="faq-answer">
+                        <p>Sí, todas nuestras categorías tienen productos seleccionados. Estamos constantemente ampliando nuestro catálogo, añadiendo nuevos productos cada semana para mantener las categorías actualizadas con lo mejor de Amazon.</p>
+                    </div>
+                </details>
+            </div>
+
+            <div class="faq-card">
+                <details>
+                    <summary>
+                        <span>¿Cómo sé qué categoría elegir?</span>
+                        <i class="fas fa-plus"></i>
+                    </summary>
+                    <div class="faq-answer">
+                        <p>Si no estás seguro de qué categoría explorar, puedes usar nuestro buscador o probar la categoría aleatoria. También tenemos una sección de "Recomendados" con productos destacados de todas las categorías.</p>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Recordatorio final -->
+<div class="final-reminder">
+    <div class="reminder-content">
+        <i class="fas fa-filter"></i>
+        <div>
+            <p><strong>{{ config.nombre }}</strong> es un <span class="reminder-highlight">FILTRO</span> independiente. No vendemos productos, solo recomendamos lo mejor de cada categoría.</p>
+            <p class="small">Al hacer clic en cualquier categoría, serás redirigido a Amazon para realizar la compra de forma segura.</p>
+        </div>
+    </div>
+</div>
+
+<script>
+// Animación para los números de las estadísticas
+function animateStats() {
+    const stats = document.querySelectorAll('.stat-number');
+    stats.forEach(stat => {
+        const target = parseInt(stat.getAttribute('data-target'));
+        let current = 0;
+        const increment = target / 50;
+        const updateStat = () => {
+            if (current < target) {
+                current += increment;
+                stat.textContent = Math.round(current);
+                requestAnimationFrame(updateStat);
+            } else {
+                stat.textContent = target;
+            }
+        };
+        updateStat();
+    });
+}
+
+// Ejecutar cuando el elemento sea visible
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            animateStats();
+            observer.unobserve(entry.target);
+        }
+    });
+});
+
+document.querySelector('.hero-stats') && observer.observe(document.querySelector('.hero-stats'));
+
+// Efecto de partículas en el hero
+function createParticles() {
+    const particles = document.querySelector('.hero-particles');
+    if (!particles) return;
+    
+    for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 5 + 's';
+        particle.style.animationDuration = (Math.random() * 3 + 2) + 's';
+        particles.appendChild(particle);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', createParticles);
+</script>
+{% endblock %}

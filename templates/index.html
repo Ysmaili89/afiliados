@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio - {{ config.nombre }} | Encuentra los Mejores Productos de Amazon{% endblock %}
+
+{% block meta_description %}Descubre los mejores productos de Amazon seleccionados especialmente para ti. Ofertas, recomendaciones y guías de compra. ¡Tu filtro de confianza!{% endblock %}
+
+{% block meta_keywords %}amazon, productos amazon, ofertas amazon, compras online, mejores productos, recomendaciones amazon, filtro amazon{% endblock %}
+
+{% block content %}
+<!-- HERO SECTION MEJORADO -->
+<section class="hero-section">
+    <div class="hero-content">
+        <span class="hero-badge">
+            <i class="fas fa-filter"></i> FILTRO DE AFILIADOS
+        </span>
+        
+        <h1 class="hero-title">
+            Encuentra los <span class="highlight">mejores productos</span> de Amazon
+        </h1>
+        
+        <p class="hero-subtitle">
+            Seleccionamos y filtramos solo lo mejor para ti. 
+            <strong>Sin precios desactualizados</strong>, todo directo en Amazon.
+        </p>
+        
+        <!-- Buscador simple -->
+        <form class="hero-search" action="/buscar" method="get">
+            <input type="text" 
+                   name="q" 
+                   placeholder="¿Qué producto buscas? (ej: auriculares, kindle...)" 
+                   value="{{ busqueda if busqueda else '' }}">
+            <button type="submit">
+                <i class="fas fa-search"></i> Buscar
+            </button>
+        </form>
+    </div>
+</section>
+
+<!-- AVISO RÁPIDO - MUY CLARO -->
+<div class="aviso-rapido">
+    <i class="fas fa-filter"></i>
+    <p><strong>{{ config.nombre }} es un FILTRO</strong> — No vendemos productos. Todo el proceso de compra se realiza en Amazon.</p>
+</div>
+
+<!-- CATEGORÍAS RÁPIDAS -->
+<section class="categorias-rapidas">
+    <div class="categorias-header">
+        <h2><i class="fas fa-tags"></i> Categorías</h2>
+        <a href="/categorias" class="ver-todas">Ver todas</a>
+    </div>
+    
+    <div class="categorias-lista">
+        <a href="/" class="categoria-item {% if not categoria_actual %}activo{% endif %}">
+            Todos
+        </a>
+        {% for cat in categorias[:8] %}
+        <a href="/categoria/{{ cat }}" class="categoria-item {% if categoria_actual == cat %}activo{% endif %}">
+            {{ cat|capitalize }}
+        </a>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- PRODUCTOS DESTACADOS - 3 POR LÍNEA -->
+<section class="productos-section">
+    <h2 class="seccion-titulo">Productos destacados</h2>
+    
+    {% if productos %}
+    <div class="productos-grid-3">
+        {% for producto in productos[:9] %}
+        <div class="producto-card">
+            <!-- Badge de producto -->
+            {% if loop.index <= 3 %}
+            <div class="producto-badge">🔥 Top {{ loop.index }}</div>
+            {% endif %}
+            
+            <!-- Imagen más grande -->
+            <div class="producto-imagen">
+                <img src="{{ producto.imagen }}" 
+                     alt="{{ producto.titulo }}"
+                     loading="lazy"
+                     onerror="this.src='https://via.placeholder.com/200x200/232f3e/ff9900?text=PRODUCTO'">
+            </div>
+            
+            <!-- Contenido -->
+            <div class="producto-contenido">
+                <div class="producto-categoria">
+                    <i class="fas fa-folder"></i> {{ producto.categoria|capitalize }}
+                </div>
+                
+                <h3 class="producto-titulo">
+                    <a href="{{ producto.url }}" target="_blank" rel="nofollow sponsored">
+                        {{ producto.titulo }}
+                    </a>
+                </h3>
+                
+                <p class="producto-descripcion">{{ producto.descripcion[:100] }}{% if producto.descripcion|length > 100 %}...{% endif %}</p>
+                
+                <!-- Rating (simulado - sin recopilar datos reales) -->
+                <div class="producto-rating">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <span class="rating-count">Valorado en Amazon</span>
+                </div>
+                
+                <!-- Botón comprar - SIN PRECIO -->
+                <a href="{{ producto.url }}" class="producto-btn" target="_blank" rel="nofollow sponsored">
+                    <i class="fab fa-amazon"></i> Ver en Amazon
+                </a>
+                
+                <!-- Disclaimer importante -->
+                <small class="producto-disclaimer">*Consulta precio y disponibilidad en Amazon</small>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <!-- Botón ver más (redirige a categorías, no a página propia) -->
+    <div class="ver-mas">
+        <a href="/categorias" class="btn-ver-mas">Explorar categorías <i class="fas fa-arrow-right"></i></a>
+    </div>
+    
+    {% else %}
+    <div class="no-productos">
+        <i class="fas fa-box-open"></i>
+        <p>No hay productos disponibles en este momento.</p>
+        <a href="/categorias" class="btn-ver-mas">Explorar categorías</a>
+    </div>
+    {% endif %}
+</section>
+
+<!-- BANNER EXPLICATIVO - DEJANDO CLARO QUE ERES FILTRO -->
+<section class="banner-explicativo">
+    <div class="banner-contenido">
+        <div class="banner-icono">
+            <i class="fas fa-filter"></i>
+        </div>
+        <div class="banner-texto">
+            <h3>¿Cómo funciona nuestro filtro?</h3>
+            <p><strong>{{ config.nombre }}</strong> es un <span class="resaltado">FILTRO DE PRODUCTOS</span>. No vendemos, no enviamos, no gestionamos devoluciones. Solo recomendamos productos de Amazon.</p>
+            <div class="banner-features">
+                <span><i class="fas fa-check-circle"></i> Seleccionamos lo mejor</span>
+                <span><i class="fas fa-check-circle"></i> Sin precios fijos</span>
+                <span><i class="fas fa-check-circle"></i> Te llevamos a Amazon</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CÓMO FUNCIONA (BREVE) - SIN COMPROMISOS -->
+<section class="como-funciona">
+    <h2 class="seccion-titulo">Cómo funciona</h2>
+    
+    <div class="pasos-simples">
+        <div class="paso">
+            <span class="paso-num">1</span>
+            <p>Filtramos los mejores productos</p>
+        </div>
+        <div class="paso">
+            <span class="paso-num">2</span>
+            <p>Te los mostramos</p>
+        </div>
+        <div class="paso">
+            <span class="paso-num">3</span>
+            <p>Te llevamos a Amazon</p>
+        </div>
+    </div>
+</section>
+
+<!-- RECORDATORIO FINAL - CLARÍSIMO -->
+<div class="recordatorio">
+    <i class="fas fa-filter"></i>
+    <p><strong>{{ config.nombre }}</strong> es un FILTRO — Las compras, envíos y devoluciones se gestionan directamente en Amazon.</p>
+</div>
+
+{% endblock %}

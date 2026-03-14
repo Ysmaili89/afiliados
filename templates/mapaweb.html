@@ -1,0 +1,211 @@
+{% extends "base.html" %}
+
+{% block title %}Mapa Web - {{ config.nombre }} | Todas las páginas del sitio{% endblock %}
+
+{% block meta_description %}Mapa del sitio web con todas las páginas disponibles. Encuentra rápidamente lo que buscas en nuestro filtro de productos Amazon.{% endblock %}
+
+{% block meta_keywords %}mapa web, sitemap, índice, páginas, categorías, filtro amazon, navegación{% endblock %}
+
+{% block content %}
+<!-- Encabezado -->
+<section class="page-header">
+    <div class="page-header-content">
+        <span class="header-badge">🧭 NAVEGACIÓN</span>
+        <h1>Mapa <span class="resaltado">Web</span></h1>
+        <p class="header-descripcion">Todas las páginas de nuestro filtro organizadas para ti</p>
+    </div>
+</section>
+
+<!-- AVISO DESTACADO -->
+<div class="aviso-destacado">
+    <i class="fas fa-filter"></i>
+    <div>
+        <strong>{{ config.nombre }} es un FILTRO de productos</strong>
+        <p>No vendemos directamente. Las compras se realizan en Amazon.</p>
+    </div>
+</div>
+
+<!-- CONTENEDOR PRINCIPAL - TARJETAS HORIZONTALES -->
+<div class="mapa-container">
+    
+    <!-- TARJETA 1: PÁGINAS PRINCIPALES -->
+    <div class="mapa-tarjeta">
+        <div class="tarjeta-header">
+            <i class="fas fa-home"></i>
+            <h2>Páginas principales</h2>
+            <span class="header-count">{{ 5 }}</span>
+        </div>
+        <div class="tarjeta-contenido">
+            <ul class="mapa-lista">
+                <li>
+                    <a href="/">
+                        <span class="link-nombre"><i class="fas fa-chevron-right"></i> Inicio</span>
+                        <span class="link-url">/</span>
+                    </a>
+                    <p class="link-desc">Página principal con productos destacados</p>
+                </li>
+                <li>
+                    <a href="/nosotros">
+                        <span class="link-nombre"><i class="fas fa-chevron-right"></i> Nosotros</span>
+                        <span class="link-url">/nosotros</span>
+                    </a>
+                    <p class="link-desc">Conoce quiénes somos y nuestro equipo</p>
+                </li>
+                <li>
+                    <a href="/contacto">
+                        <span class="link-nombre"><i class="fas fa-chevron-right"></i> Contacto</span>
+                        <span class="link-url">/contacto</span>
+                    </a>
+                    <p class="link-desc">Ponte en contacto con nosotros (solo temas de la web)</p>
+                </li>
+                <li>
+                    <a href="/faq">
+                        <span class="link-nombre"><i class="fas fa-chevron-right"></i> Preguntas Frecuentes</span>
+                        <span class="link-url">/faq</span>
+                    </a>
+                    <p class="link-desc">Respuestas a las dudas más comunes</p>
+                </li>
+                <li class="activo">
+                    <a href="/mapa-web">
+                        <span class="link-nombre"><i class="fas fa-chevron-right"></i> Mapa Web</span>
+                        <span class="link-url">/mapa-web</span>
+                    </a>
+                    <p class="link-desc">Estás aquí - Índice completo del sitio</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- TARJETA 2: CATEGORÍAS -->
+    <div class="mapa-tarjeta">
+        <div class="tarjeta-header">
+            <i class="fas fa-tags"></i>
+            <h2>Categorías de productos</h2>
+            <span class="header-count">{{ categorias|length }}</span>
+        </div>
+        <div class="tarjeta-contenido">
+            <ul class="mapa-lista">
+                {% for cat in categorias %}
+                <li>
+                    <a href="/categoria/{{ cat }}">
+                        <span class="link-nombre"><i class="fas fa-chevron-right"></i> {{ cat|capitalize }}</span>
+                        <span class="link-url">/categoria/{{ cat }}</span>
+                    </a>
+                    <p class="link-desc">Productos de {{ cat }} filtrados y seleccionados</p>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    
+    <!-- TARJETA 3: PÁGINAS LEGALES Y RECURSOS -->
+    <div class="mapa-tarjeta">
+        <div class="tarjeta-header">
+            <i class="fas fa-gavel"></i>
+            <h2>Información legal</h2>
+            <span class="header-count">4</span>
+        </div>
+        <div class="tarjeta-contenido">
+            <ul class="mapa-lista">
+                <li>
+                    <a href="/cookies">
+                        <span class="link-nombre"><i class="fas fa-chevron-right"></i> Política de Cookies</span>
+                        <span class="link-url">/cookies</span>
+                    </a>
+                    <p class="link-desc">Información sobre el uso de cookies</p>
+                </li>
+                <li>
+                    <a href="/terminos">
+                        <span class="link-nombre"><i class="fas fa-chevron-right"></i> Términos y Condiciones</span>
+                        <span class="link-url">/terminos</span>
+                    </a>
+                    <p class="link-desc">Condiciones de uso del sitio web</p>
+                </li>
+                <li>
+                    <a href="/privacidad">
+                        <span class="link-nombre"><i class="fas fa-chevron-right"></i> Política de Privacidad</span>
+                        <span class="link-url">/privacidad</span>
+                    </a>
+                    <p class="link-desc">Protección de tus datos personales</p>
+                </li>
+                <li>
+                    <a href="/legal">
+                        <span class="link-nombre"><i class="fas fa-chevron-right"></i> Aviso Legal</span>
+                        <span class="link-url">/legal</span>
+                    </a>
+                    <p class="link-desc">Información legal y propiedad del sitio</p>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Subsección de Recursos -->
+        <div class="tarjeta-subseccion">
+            <div class="subseccion-header">
+                <i class="fas fa-link"></i>
+                <h3>Recursos</h3>
+            </div>
+            <ul class="mapa-lista">
+                <li>
+                    <a href="/robot.txt" target="_blank">
+                        <span class="link-nombre"><i class="fas fa-external-link-alt"></i> robots.txt</span>
+                        <span class="link-url">/robot.txt</span>
+                    </a>
+                    <p class="link-desc">Archivo para motores de búsqueda</p>
+                </li>
+                <li>
+                    <a href="/sitemap.xml" target="_blank">
+                        <span class="link-nombre"><i class="fas fa-external-link-alt"></i> sitemap.xml</span>
+                        <span class="link-url">/sitemap.xml</span>
+                    </a>
+                    <p class="link-desc">Sitemap para buscadores (XML)</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- BUSCADOR RÁPIDO -->
+<div class="buscador-container">
+    <div class="buscador-card">
+        <i class="fas fa-search"></i>
+        <div class="buscador-texto">
+            <h3>¿Buscas un producto específico?</h3>
+            <p>Usa nuestro buscador para encontrar productos filtrados</p>
+        </div>
+        <form action="/buscar" method="get" class="buscador-form">
+            <input type="text" name="q" placeholder="Ej: auriculares, kindle, smart tv..." required>
+            <button type="submit">Buscar</button>
+        </form>
+    </div>
+</div>
+
+<!-- ESTADÍSTICAS DEL SITIO (valores estáticos, no recopilamos datos reales) -->
+<div class="estadisticas-container">
+    <div class="estadistica-card">
+        <span class="estadistica-numero">{{ categorias|length + 8 }}</span>
+        <span class="estadistica-label">Páginas totales</span>
+    </div>
+    <div class="estadistica-card">
+        <span class="estadistica-numero">{{ categorias|length }}</span>
+        <span class="estadistica-label">Categorías de productos</span>
+    </div>
+    <div class="estadistica-card">
+        <span class="estadistica-numero">4</span>
+        <span class="estadistica-label">Páginas legales</span>
+    </div>
+    <div class="estadistica-card">
+        <span class="estadistica-numero">2</span>
+        <span class="estadistica-label">Recursos técnicos</span>
+    </div>
+</div>
+
+<!-- RECORDATORIO FINAL -->
+<div class="recordatorio-final">
+    <i class="fas fa-filter fa-2x"></i>
+    <div>
+        <h3>Recuerda: {{ config.nombre }} es un FILTRO</h3>
+        <p>No vendemos productos, no gestionamos pagos, no enviamos nada. Todas las compras se realizan directamente en Amazon.</p>
+    </div>
+</div>
+
+{% endblock %}

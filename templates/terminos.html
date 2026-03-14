@@ -1,0 +1,475 @@
+{% extends "base.html" %}
+
+{% block title %}Términos y Condiciones - {{ config.nombre }} | Uso del sitio{% endblock %}
+
+{% block meta_description %}Lee los términos y condiciones de uso de nuestro sitio web. Información importante sobre cómo utilizar nuestro filtro de productos Amazon.{% endblock %}
+
+{% block meta_keywords %}términos, condiciones, uso del sitio, normas, legal, afiliado amazon{% endblock %}
+
+{% block content %}
+<!-- HERO SECTION -->
+<section class="terminos-hero">
+    <div class="hero-content">
+        <div class="hero-badge">
+            <i class="fas fa-file-contract"></i> TÉRMINOS LEGALES
+        </div>
+        <h1 class="hero-title">
+            Términos y <span class="highlight">Condiciones</span>
+        </h1>
+        <p class="hero-subtitle">
+            Las reglas que rigen el uso de nuestro filtro de productos
+        </p>
+    </div>
+    <div class="hero-wave">
+        <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+            <path d="M0,120 C240,100 480,20 720,20 C960,20 1200,100 1440,120 L1440,120 L0,120 Z" fill="white"></path>
+        </svg>
+    </div>
+</section>
+
+<!-- AVISO PRINCIPAL DE FILTRO -->
+<div class="aviso-filtro">
+    <div class="aviso-contenido">
+        <i class="fas fa-filter"></i>
+        <div>
+            <strong>⚠️ IMPORTANTE: {{ config.nombre }} ES UN FILTRO</strong>
+            <p>Lee estos términos entendiendo que no vendemos productos directamente. Todo el proceso de compra se realiza en Amazon.</p>
+        </div>
+    </div>
+</div>
+
+<!-- INTRODUCCIÓN MEJORADA -->
+<section class="terminos-intro">
+    <div class="container">
+        <div class="intro-card">
+            <div class="intro-icono">
+                <i class="fas fa-handshake"></i>
+            </div>
+            <div class="intro-texto">
+                <h2>Bienvenido a {{ config.nombre }}</h2>
+                <p>Al acceder y utilizar este sitio web, aceptas cumplir con estos términos y condiciones. Por favor, léelos atentamente antes de usar nuestro filtro de productos.</p>
+                <div class="intro-stats">
+                    <div class="stat">
+                        <span class="stat-num">11</span>
+                        <span class="stat-label">Secciones</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-num">📜</span>
+                        <span class="stat-label">Actualizado 2024</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-num">⚖️</span>
+                        <span class="stat-label">Ley española</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CONTENEDOR PRINCIPAL -->
+<div class="terminos-container">
+    
+    <!-- ACEPTACIÓN DE TÉRMINOS -->
+    <div class="terminos-card">
+        <div class="card-header">
+            <div class="header-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2>1. Aceptación de los términos</h2>
+        </div>
+        <div class="card-body">
+            <p>Al utilizar <strong>{{ config.nombre }}</strong>, aceptas estos términos en su totalidad. Si no estás de acuerdo con alguna parte, no debes usar nuestro sitio.</p>
+            <p>Estos términos pueden ser actualizados periódicamente. El uso continuado del sitio implica la aceptación de los cambios. Te recomendamos revisar esta página de vez en cuando.</p>
+        </div>
+    </div>
+    
+    <!-- DESCRIPCIÓN DEL SERVICIO - DESTACADO -->
+    <div class="terminos-card destacado">
+        <div class="card-header">
+            <div class="header-icon">
+                <i class="fas fa-filter"></i>
+            </div>
+            <h2>2. Nuestro servicio: un <span class="resaltado">FILTRO</span></h2>
+        </div>
+        <div class="card-body">
+            <p><strong>{{ config.nombre }}</strong> es un sitio web de <strong>afiliados</strong> que actúa como <strong>filtro y recomendador</strong> de productos de Amazon. Es fundamental que entiendas:</p>
+            
+            <div class="que-somos-grid">
+                <div class="que-somos-item positivo">
+                    <div class="item-icono"><i class="fas fa-check-circle"></i></div>
+                    <div class="item-contenido">
+                        <strong>SÍ somos:</strong> Un filtro que selecciona y recomienda productos
+                    </div>
+                </div>
+                <div class="que-somos-item negativo">
+                    <div class="item-icono"><i class="fas fa-times-circle"></i></div>
+                    <div class="item-contenido">
+                        <strong>NO somos:</strong> Vendedores, fabricantes, distribuidores o tienda
+                    </div>
+                </div>
+                <div class="que-somos-item negativo">
+                    <div class="item-icono"><i class="fas fa-times-circle"></i></div>
+                    <div class="item-contenido">
+                        <strong>NO gestionamos:</strong> Pagos, envíos, devoluciones ni garantías
+                    </div>
+                </div>
+            </div>
+            
+            <div class="nota-importante">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p>Todo el proceso de compra, pago, envío y atención al cliente se realiza <strong>exclusivamente en Amazon</strong>. Nosotros solo mostramos el camino hacia los productos.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ENLACES DE AFILIADO -->
+    <div class="terminos-card">
+        <div class="card-header">
+            <div class="header-icon">
+                <i class="fas fa-link"></i>
+            </div>
+            <h2>3. Enlaces de afiliado a Amazon</h2>
+        </div>
+        <div class="card-body">
+            <p>{{ config.nombre }} participa en el <strong>Programa de Afiliados de Amazon</strong>. Esto significa que:</p>
+            
+            <ul class="lista-afiliado">
+                <li><i class="fas fa-check-circle"></i> Los enlaces a productos son enlaces de afiliado</li>
+                <li><i class="fas fa-check-circle"></i> Si haces clic y compras, Amazon nos paga una comisión</li>
+                <li><i class="fas fa-check-circle"></i> <strong>Tú pagas el mismo precio</strong> que si fueras directamente a Amazon</li>
+                <li><i class="fas fa-check-circle"></i> La comisión la paga Amazon, no tú</li>
+                <li><i class="fas fa-check-circle"></i> Esto no afecta a nuestras recomendaciones (solo recomendamos lo que creemos bueno)</li>
+            </ul>
+            
+            <p class="nota">Todos nuestros enlaces de afiliado están claramente identificados con el botón <strong>"VER EN AMAZON"</strong> o <strong>"IR A COMPRAR"</strong>.</p>
+        </div>
+    </div>
+    
+    <!-- LIMITACIÓN DE RESPONSABILIDAD -->
+    <div class="terminos-card">
+        <div class="card-header">
+            <div class="header-icon">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <h2>4. Limitación de responsabilidad</h2>
+        </div>
+        <div class="card-body">
+            <p class="texto-intro">Como sitio de afiliados, <strong>no nos hacemos responsables</strong> de:</p>
+            
+            <div class="responsabilidad-grid">
+                <div class="responsabilidad-item">
+                    <i class="fas fa-box"></i>
+                    <h4>Productos</h4>
+                    <p>Calidad, estado, funcionamiento o veracidad</p>
+                </div>
+                <div class="responsabilidad-item">
+                    <i class="fas fa-credit-card"></i>
+                    <h4>Pagos</h4>
+                    <p>Problemas con cargos o fraudes</p>
+                </div>
+                <div class="responsabilidad-item">
+                    <i class="fas fa-truck"></i>
+                    <h4>Envíos</h4>
+                    <p>Retrasos, pérdidas o daños</p>
+                </div>
+                <div class="responsabilidad-item">
+                    <i class="fas fa-undo-alt"></i>
+                    <h4>Devoluciones</h4>
+                    <p>Reembolsos, cambios o garantías</p>
+                </div>
+                <div class="responsabilidad-item">
+                    <i class="fas fa-headset"></i>
+                    <h4>Atención</h4>
+                    <p>Atención al cliente post-venta</p>
+                </div>
+                <div class="responsabilidad-item">
+                    <i class="fas fa-info-circle"></i>
+                    <h4>Información</h4>
+                    <p>Errores u omisiones en descripciones</p>
+                </div>
+            </div>
+            
+            <div class="nota-aclaratoria">
+                <i class="fas fa-info-circle"></i>
+                <p>Todo lo anterior es <strong>responsabilidad exclusiva de Amazon</strong>. Nosotros solo recomendamos productos, no intervenimos en la transacción.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- PROPIEDAD INTELECTUAL Y ENLACES EXTERNOS (JUNTOS) -->
+    <div class="terminos-card doble">
+        <div class="card-body grid-2">
+            <div class="columna">
+                <div class="header-icon small">
+                    <i class="fas fa-copyright"></i>
+                </div>
+                <h3>5. Propiedad intelectual</h3>
+                <p>Todo el contenido de este sitio (textos, diseños, logos, estructura) es propiedad de {{ config.nombre }} o se utiliza con permiso.</p>
+                <ul class="lista-prohibiciones">
+                    <li><i class="fas fa-ban"></i> Copiar, reproducir o distribuir sin autorización</li>
+                    <li><i class="fas fa-ban"></i> Usar imágenes o textos para fines comerciales</li>
+                    <li><i class="fas fa-ban"></i> Crear bases de datos con nuestro contenido</li>
+                </ul>
+                <p class="nota-pequena">Las marcas Amazon® son propiedad de Amazon Technologies, Inc.</p>
+            </div>
+            
+            <div class="columna">
+                <div class="header-icon small">
+                    <i class="fas fa-external-link-alt"></i>
+                </div>
+                <h3>6. Enlaces externos</h3>
+                <p>Nuestro sitio contiene enlaces a Amazon y otros sitios externos. No tenemos control sobre estos sitios y no somos responsables de su contenido o prácticas.</p>
+                <p>El uso de sitios externos está sujeto a sus propios términos y condiciones. Te recomendamos leerlos.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- PRECIOS Y DISPONIBILIDAD -->
+    <div class="terminos-card">
+        <div class="card-header">
+            <div class="header-icon">
+                <i class="fas fa-tag"></i>
+            </div>
+            <h2>7. Precios y disponibilidad</h2>
+        </div>
+        <div class="card-body">
+            <p>Los precios y la disponibilidad de los productos son <strong>proporcionados por Amazon y cambian constantemente</strong>. Por eso:</p>
+            
+            <div class="precios-lista">
+                <div class="precio-item">
+                    <i class="fas fa-arrow-right"></i>
+                    <span>No mostramos precios fijos en las tarjetas de productos</span>
+                </div>
+                <div class="precio-item">
+                    <i class="fas fa-arrow-right"></i>
+                    <span>El precio exacto lo verás al hacer clic en "VER EN AMAZON"</span>
+                </div>
+                <div class="precio-item">
+                    <i class="fas fa-arrow-right"></i>
+                    <span>No garantizamos que la información esté siempre actualizada al 100%</span>
+                </div>
+                <div class="precio-item">
+                    <i class="fas fa-arrow-right"></i>
+                    <span>Amazon puede cambiar precios, ofertas y disponibilidad sin previo aviso</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- USO ACEPTABLE Y MODIFICACIONES (JUNTOS) -->
+    <div class="terminos-card doble">
+        <div class="card-body grid-2">
+            <div class="columna">
+                <div class="header-icon small">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>8. Uso aceptable</h3>
+                <p>Al usar nuestro sitio, aceptas:</p>
+                <ul class="lista-aceptable">
+                    <li><i class="fas fa-check"></i> Usarlo solo para fines legales</li>
+                    <li><i class="fas fa-check"></i> No dañar, sobrecargar o comprometer la seguridad</li>
+                    <li><i class="fas fa-check"></i> No realizar scraping automatizado</li>
+                    <li><i class="fas fa-check"></i> No usar el sitio para actividades fraudulentas</li>
+                </ul>
+            </div>
+            
+            <div class="columna">
+                <div class="header-icon small">
+                    <i class="fas fa-sync-alt"></i>
+                </div>
+                <h3>9. Modificaciones</h3>
+                <p>Nos reservamos el derecho de:</p>
+                <ul class="lista-modificaciones">
+                    <li><i class="fas fa-arrow-right"></i> Modificar estos términos en cualquier momento</li>
+                    <li><i class="fas fa-arrow-right"></i> Cambiar o discontinuar partes del sitio</li>
+                    <li><i class="fas fa-arrow-right"></i> Actualizar productos y recomendaciones</li>
+                </ul>
+                <p class="nota-pequena">Los cambios serán efectivos inmediatamente después de su publicación.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- LEY APLICABLE -->
+    <div class="terminos-card">
+        <div class="card-header">
+            <div class="header-icon">
+                <i class="fas fa-gavel"></i>
+            </div>
+            <h2>10. Ley aplicable</h2>
+        </div>
+        <div class="card-body">
+            <p>Estos términos se rigen por las leyes de <strong>España</strong>. Cualquier disputa relacionada con este sitio será resuelta en los tribunales de <strong>Madrid</strong>.</p>
+            <p>Si el usuario tiene su domicilio fuera de España, nos sometemos igualmente a la jurisdicción española.</p>
+        </div>
+    </div>
+    
+    <!-- CONTACTO - CORREGIDO SIN DATOS PERSONALES -->
+    <div class="terminos-card contacto-card">
+        <div class="card-header">
+            <div class="header-icon">
+                <i class="fas fa-envelope"></i>
+            </div>
+            <h2>11. Contacto</h2>
+        </div>
+        <div class="card-body">
+            <p>Si tienes preguntas sobre estos términos, puedes contactarnos a través de:</p>
+            
+            <div class="contacto-grid">
+                <div class="contacto-item">
+                    <i class="fas fa-envelope"></i>
+                    <span><a href="/contacto">Formulario de contacto</a></span>
+                </div>
+                <div class="contacto-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>{{ config.direccion or 'Madrid, España' }}</span>
+                </div>
+            </div>
+            
+            <div class="aviso-contacto">
+                <i class="fas fa-info-circle"></i>
+                <p><strong>Importante:</strong> Este contacto es exclusivamente para dudas sobre los términos y condiciones de la web. Para consultas sobre compras, devoluciones o productos, contacta directamente con <a href="https://amazon.es/contacto" target="_blank" rel="nofollow">Amazon</a>.</p>
+            </div>
+            
+            <a href="/contacto" class="btn-contacto">
+                <i class="fas fa-paper-plane"></i> Formulario de contacto
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- FECHA DE ACTUALIZACIÓN -->
+<div class="actualizacion">
+    <i class="fas fa-calendar-alt"></i>
+    <span>Última actualización: <strong>1 de enero de 2024</strong></span>
+</div>
+
+<!-- RECORDATORIO FINAL -->
+<section class="recordatorio-final">
+    <div class="recordatorio-contenido">
+        <i class="fas fa-filter"></i>
+        <div>
+            <h3>{{ config.nombre }} es un FILTRO</h3>
+            <p>No vendemos productos, no gestionamos pagos, no enviamos nada. Solo recomendamos productos de Amazon. Al usar nuestros enlaces, apoyas nuestro trabajo sin coste adicional.</p>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Estilos adicionales para la sección de contacto */
+.contacto-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.contacto-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background: var(--amazon-light);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    text-decoration: none;
+}
+
+.contacto-item i {
+    color: var(--amazon-orange);
+    width: 20px;
+}
+
+.contacto-item a {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.contacto-item a:hover {
+    color: var(--amazon-orange);
+    text-decoration: underline;
+}
+
+.aviso-contacto {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 20px 0;
+    padding: 15px;
+    background: #fff3cd;
+    border-left: 4px solid var(--amazon-orange);
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
+}
+
+.aviso-contacto i {
+    color: var(--amazon-orange);
+    font-size: 1.2rem;
+    margin-top: 2px;
+}
+
+.aviso-contacto p {
+    color: #856404;
+    margin: 0;
+}
+
+.aviso-contacto a {
+    color: var(--amazon-dark);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.aviso-contacto a:hover {
+    text-decoration: underline;
+}
+
+.dark-mode .aviso-contacto {
+    background: #3a3a2d;
+    border-left-color: var(--amazon-orange);
+}
+
+.dark-mode .aviso-contacto p {
+    color: #ffe69c;
+}
+
+.dark-mode .aviso-contacto a {
+    color: #ff9900;
+}
+
+.btn-contacto {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 25px;
+    background: var(--amazon-orange);
+    color: var(--amazon-black);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all var(--transition-fast);
+    margin-top: 10px;
+}
+
+.btn-contacto:hover {
+    background: var(--amazon-orange-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 153, 0, 0.3);
+}
+
+.contacto-card {
+    background: var(--amazon-white);
+    border: 2px solid var(--amazon-orange);
+}
+
+.dark-mode .contacto-item {
+    background: var(--amazon-dark);
+    color: var(--text-primary);
+}
+
+.dark-mode .contacto-item a {
+    color: var(--text-primary);
+}
+</style>
+
+{% endblock %}

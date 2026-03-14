@@ -1,0 +1,406 @@
+{% extends "base.html" %}
+
+{% block title %}Política de Privacidad - {{ config.nombre }} | Protección de datos{% endblock %}
+
+{% block meta_description %}Conoce cómo protegemos tus datos personales en nuestro sitio. Transparencia total sobre la información que recopilamos y cómo la utilizamos.{% endblock %}
+
+{% block meta_keywords %}privacidad, datos personales, protección datos, RGPD, información personal{% endblock %}
+
+{% block content %}
+<!-- HERO SECTION -->
+<section class="privacidad-hero">
+    <div class="hero-content">
+        <div class="hero-badge">
+            <i class="fas fa-shield-alt"></i> PROTECCIÓN DE DATOS
+        </div>
+        <h1 class="hero-title">
+            Política de <span class="highlight">Privacidad</span>
+        </h1>
+        <p class="hero-subtitle">
+            Cómo protegemos tu información en nuestro filtro de productos
+        </p>
+    </div>
+    <div class="hero-wave">
+        <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+            <path d="M0,120 C240,100 480,20 720,20 C960,20 1200,100 1440,120 L1440,120 L0,120 Z" fill="white"></path>
+        </svg>
+    </div>
+</section>
+
+<!-- AVISO PRINCIPAL DE FILTRO -->
+<div class="aviso-filtro">
+    <div class="aviso-contenido">
+        <i class="fas fa-filter"></i>
+        <div>
+            <strong>⚠️ IMPORTANTE: {{ config.nombre }} ES UN FILTRO</strong>
+            <p>No recopilamos datos de pago ni información bancaria. Las compras se realizan directamente en Amazon.</p>
+        </div>
+    </div>
+</div>
+
+<!-- INTRODUCCIÓN MEJORADA -->
+<section class="privacidad-intro">
+    <div class="container">
+        <div class="intro-card">
+            <div class="intro-icono">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <div class="intro-texto">
+                <h2>Tu privacidad es importante para nosotros</h2>
+                <p>En {{ config.nombre }} nos tomamos muy en serio la protección de tus datos personales. Esta política explica de forma clara y transparente qué información recopilamos, por qué lo hacemos y cómo la protegemos.</p>
+                <div class="intro-stats">
+                    <div class="stat">
+                        <span class="stat-num">RGPD</span>
+                        <span class="stat-label">Cumplimos</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-num">0€</span>
+                        <span class="stat-label">Datos no vendidos</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-num">24/7</span>
+                        <span class="stat-label">Protección</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CONTENEDOR PRINCIPAL -->
+<div class="privacidad-container">
+    
+    <!-- RESPONSABLE -->
+    <div class="privacidad-card">
+        <div class="card-header">
+            <div class="header-icon">
+                <i class="fas fa-user-shield"></i>
+            </div>
+            <h2>1. Responsable del tratamiento</h2>
+        </div>
+        <div class="card-body">
+            <div class="datos-grid">
+                <div class="dato-item">
+                    <span class="dato-label">Identidad:</span>
+                    <span class="dato-valor">{{ config.nombre }}</span>
+                </div>
+                <div class="dato-item">
+                    <span class="dato-label">Email:</span>
+                    <span class="dato-valor"><a href="/contacto">A través del formulario de contacto</a></span>
+                </div>
+                <div class="dato-item">
+                    <span class="dato-label">Teléfono:</span>
+                    <span class="dato-valor">No disponible para consultas de privacidad</span>
+                </div>
+                <div class="dato-item">
+                    <span class="dato-label">Dirección:</span>
+                    <span class="dato-valor">{{ config.direccion or 'Pendiente de especificar' }}</span>
+                </div>
+            </div>
+            <p class="nota-pequena">Al ser un filtro de productos, no realizamos actividades comerciales que requieran identificación fiscal completa. Para cualquier consulta de privacidad, utiliza nuestro formulario de contacto.</p>
+        </div>
+    </div>
+    
+    <!-- QUÉ DATOS RECOPILAMOS -->
+    <div class="privacidad-card">
+        <div class="card-header">
+            <div class="header-icon">
+                <i class="fas fa-database"></i>
+            </div>
+            <h2>2. ¿Qué datos recopilamos?</h2>
+        </div>
+        <div class="card-body">
+            
+            <div class="subseccion">
+                <h3><i class="fas fa-user-edit"></i> Datos que nos proporcionas voluntariamente:</h3>
+                <ul class="lista-datos">
+                    <li><i class="fas fa-check-circle"></i> <strong>Formulario de contacto:</strong> nombre, email y mensaje (solo para responder consultas sobre la web)</li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Registro en panel:</strong> nombre, email, contraseña (cifrada) - solo para administradores</li>
+                </ul>
+            </div>
+            
+            <div class="subseccion">
+                <h3><i class="fas fa-robot"></i> Datos recopilados automáticamente:</h3>
+                <ul class="lista-datos">
+                    <li><i class="fas fa-check-circle"></i> Dirección IP (anónima y no asociada a usuarios)</li>
+                    <li><i class="fas fa-check-circle"></i> Tipo de navegador y dispositivo</li>
+                    <li><i class="fas fa-check-circle"></i> Páginas visitadas (estadísticas agregadas)</li>
+                    <li><i class="fas fa-check-circle"></i> Cookies (ver nuestra <a href="/cookies">Política de Cookies</a>)</li>
+                </ul>
+            </div>
+            
+            <div class="nota-destacada">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p><strong>Importante:</strong> No recopilamos datos de pago ni información bancaria. Las compras se realizan directamente en Amazon y nosotros no tenemos acceso a esa información.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- FINALIDAD -->
+    <div class="privacidad-card">
+        <div class="card-header">
+            <div class="header-icon">
+                <i class="fas fa-bullseye"></i>
+            </div>
+            <h2>3. ¿Para qué usamos tus datos?</h2>
+        </div>
+        <div class="card-body">
+            <div class="finalidades-grid">
+                <div class="finalidad-card">
+                    <i class="fas fa-envelope"></i>
+                    <h4>Contacto</h4>
+                    <p>Responder a tus consultas sobre el funcionamiento de la web</p>
+                </div>
+                
+                <div class="finalidad-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h4>Mejora del sitio</h4>
+                    <p>Analizar cómo usas la web para mejorarla (datos anónimos)</p>
+                </div>
+                
+                <div class="finalidad-card">
+                    <i class="fas fa-filter"></i>
+                    <h4>Funcionamiento</h4>
+                    <p>Mantener tu sesión y preferencias (cookies necesarias)</p>
+                </div>
+                
+                <div class="finalidad-card">
+                    <i class="fab fa-amazon"></i>
+                    <h4>Afiliación</h4>
+                    <p>Cookies de Amazon para comisiones (sin afectar tu precio)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- LEGITIMACIÓN Y COMPARTIR DATOS EN UNA SOLA TARJETA -->
+    <div class="privacidad-card doble">
+        <div class="card-body grid-2">
+            <div class="columna">
+                <div class="header-icon small">
+                    <i class="fas fa-check-double"></i>
+                </div>
+                <h3>4. Base legal</h3>
+                <ul class="lista-simple">
+                    <li><i class="fas fa-check"></i> <strong>Consentimiento:</strong> Cuando aceptas nuestra política</li>
+                    <li><i class="fas fa-check"></i> <strong>Interés legítimo:</strong> Para mejorar el sitio con datos anónimos</li>
+                    <li><i class="fas fa-check"></i> <strong>Cumplimiento legal:</strong> Obligaciones legales si las hubiera</li>
+                </ul>
+            </div>
+            
+            <div class="columna">
+                <div class="header-icon small">
+                    <i class="fas fa-share"></i>
+                </div>
+                <h3>5. ¿Compartimos tus datos?</h3>
+                <p class="texto-pequeno">No vendemos tus datos a terceros. Solo compartimos información anonimizada con:</p>
+                <ul class="lista-simple">
+                    <li><i class="fas fa-check"></i> Google Analytics (estadísticas agregadas)</li>
+                    <li><i class="fas fa-check"></i> Amazon (cookies de afiliado, sin datos personales)</li>
+                    <li><i class="fas fa-check"></i> Autoridades (solo por requerimiento legal)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- CONSERVACIÓN -->
+    <div class="privacidad-card">
+        <div class="card-header">
+            <div class="header-icon">
+                <i class="fas fa-clock"></i>
+            </div>
+            <h2>6. ¿Por cuánto tiempo conservamos tus datos?</h2>
+        </div>
+        <div class="card-body">
+            <div class="tiempos-grid">
+                <div class="tiempo-item">
+                    <span class="tiempo-tipo">Consultas de contacto</span>
+                    <span class="tiempo-duracion">1 año</span>
+                </div>
+                <div class="tiempo-item">
+                    <span class="tiempo-tipo">Datos de registro (panel)</span>
+                    <span class="tiempo-duracion">Mientras la cuenta esté activa</span>
+                </div>
+                <div class="tiempo-item">
+                    <span class="tiempo-tipo">Logs y estadísticas</span>
+                    <span class="tiempo-duracion">Anonimizados después de 1 año</span>
+                </div>
+                <div class="tiempo-item">
+                    <span class="tiempo-tipo">Cookies</span>
+                    <span class="tiempo-duracion">Según política de cookies</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- TUS DERECHOS - DESTACADO -->
+    <div class="privacidad-card destacado">
+        <div class="card-header">
+            <div class="header-icon">
+                <i class="fas fa-user-check"></i>
+            </div>
+            <h2>7. Tus derechos (ARCO-POL)</h2>
+        </div>
+        <div class="card-body">
+            <p class="texto-intro">Tienes derecho a controlar tus datos personales en todo momento:</p>
+            
+            <div class="derechos-grid">
+                <div class="derecho-card">
+                    <i class="fas fa-eye"></i>
+                    <strong>Acceso</strong>
+                    <span>Saber qué datos tenemos</span>
+                </div>
+                <div class="derecho-card">
+                    <i class="fas fa-pencil-alt"></i>
+                    <strong>Rectificación</strong>
+                    <span>Corregir datos incorrectos</span>
+                </div>
+                <div class="derecho-card">
+                    <i class="fas fa-trash-alt"></i>
+                    <strong>Cancelación</strong>
+                    <span>Que eliminemos tus datos</span>
+                </div>
+                <div class="derecho-card">
+                    <i class="fas fa-ban"></i>
+                    <strong>Oposición</strong>
+                    <span>Que no usemos tus datos</span>
+                </div>
+                <div class="derecho-card">
+                    <i class="fas fa-download"></i>
+                    <strong>Portabilidad</strong>
+                    <span>Recibir tus datos</span>
+                </div>
+                <div class="derecho-card">
+                    <i class="fas fa-pause-circle"></i>
+                    <strong>Limitación</strong>
+                    <span>Limitar el uso</span>
+                </div>
+            </div>
+            
+            <div class="accion-derechos">
+                <p>Para ejercer tus derechos, contáctanos a través de:</p>
+                <a href="/contacto" class="btn-email">Formulario de contacto</a>
+            </div>
+            
+            <div class="reclamacion-card">
+                <i class="fas fa-gavel"></i>
+                <p>También puedes presentar una reclamación ante la <strong>Agencia Española de Protección de Datos (AEPD)</strong>.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- SEGURIDAD Y MENORES EN UNA SOLA TARJETA -->
+    <div class="privacidad-card doble">
+        <div class="card-body grid-2">
+            <div class="columna">
+                <div class="header-icon small">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h3>8. Medidas de seguridad</h3>
+                <ul class="lista-iconos">
+                    <li><i class="fas fa-shield-alt"></i> Cifrado SSL (HTTPS) en todo el sitio</li>
+                    <li><i class="fas fa-shield-alt"></i> Contraseñas cifradas (hash)</li>
+                    <li><i class="fas fa-shield-alt"></i> Acceso restringido al panel</li>
+                    <li><i class="fas fa-shield-alt"></i> Actualizaciones periódicas de seguridad</li>
+                </ul>
+            </div>
+            
+            <div class="columna">
+                <div class="header-icon small">
+                    <i class="fas fa-child"></i>
+                </div>
+                <h3>9. Menores de edad</h3>
+                <p>Nuestro sitio no está dirigido a menores de 14 años. No recopilamos conscientemente datos de menores. Si eres padre/madre y crees que tu hijo nos ha proporcionado datos, contáctanos inmediatamente a través del formulario.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- CAMBIOS Y CONTACTO EN UNA SOLA TARJETA -->
+    <div class="privacidad-card">
+        <div class="card-body grid-2">
+            <div class="columna">
+                <div class="header-icon small">
+                    <i class="fas fa-sync-alt"></i>
+                </div>
+                <h3>10. Cambios en la política</h3>
+                <p>Podemos actualizar esta política periódicamente. Te recomendamos revisarla cada cierto tiempo. La última actualización fue el <strong>1 de enero de 2024</strong>.</p>
+            </div>
+            
+            <div class="columna">
+                <div class="header-icon small">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <h3>11. Contacto</h3>
+                <p>Para cualquier cuestión relacionada con tus datos:</p>
+                <div class="contacto-simple">
+                    <a href="/contacto" class="btn-contacto-simple">
+                        <i class="fas fa-paper-plane"></i> Formulario de contacto
+                    </a>
+                </div>
+                <p class="nota-pequena">* Respondemos exclusivamente a consultas sobre el funcionamiento de la web y privacidad. No gestionamos compras ni devoluciones.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- RECORDATORIO FINAL -->
+<section class="recordatorio-final">
+    <div class="recordatorio-contenido">
+        <i class="fas fa-filter"></i>
+        <div>
+            <h3>{{ config.nombre }} es un FILTRO</h3>
+            <p>No almacenamos datos de pago ni información bancaria. Las compras se realizan directamente en Amazon. Tu privacidad está segura con nosotros.</p>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Estilos adicionales para la página de privacidad */
+.btn-email {
+    display: inline-block;
+    padding: 12px 25px;
+    background: var(--amazon-orange);
+    color: var(--amazon-black);
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    margin-top: 10px;
+    transition: all var(--transition-fast);
+}
+
+.btn-email:hover {
+    background: var(--amazon-orange-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 153, 0, 0.3);
+}
+
+.btn-contacto-simple {
+    display: inline-block;
+    padding: 10px 20px;
+    background: var(--amazon-orange);
+    color: var(--amazon-black);
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    transition: all var(--transition-fast);
+}
+
+.btn-contacto-simple:hover {
+    background: var(--amazon-orange-dark);
+    transform: translateY(-2px);
+}
+
+.nota-pequena {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-top: 10px;
+    font-style: italic;
+}
+
+.dark-mode .nota-pequena {
+    color: var(--text-secondary);
+}
+</style>
+
+{% endblock %}

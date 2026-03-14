@@ -1,0 +1,150 @@
+{% extends "panel/base_admin.html" %}
+
+{% block title %}Dashboard - Panel de Control{% endblock %}
+
+{% block breadcrumb %}<span>Dashboard</span>{% endblock %}
+
+{% block content %}
+<div class="admin-dashboard-wrapper">
+    <div class="dashboard-welcome">
+        <div class="welcome-text">
+            <h1>Hola, {{ usuario }}</h1>
+            <p>Este es el estado actual de tu filtro de Amazon hoy.</p>
+        </div>
+        <div class="welcome-actions">
+            <a href="{{ url_for('panel_producto_nuevo') }}" class="amazon-btn-primary">
+                <i class="fas fa-plus"></i> Añadir nuevo producto
+            </a>
+        </div>
+    </div>
+
+    <div class="dashboard-stats-grid">
+        <div class="stat-card-amazon">
+            <div class="stat-header">
+                <span class="stat-title">Productos</span>
+                <i class="fas fa-box icon-blue"></i>
+            </div>
+            <div class="stat-value">{{ total_productos|default(0) }}</div>
+            <a href="{{ url_for('panel_productos') }}" class="stat-footer-link">Ver inventario</a>
+        </div>
+
+        <div class="stat-card-amazon">
+            <div class="stat-header">
+                <span class="stat-title">Clics Totales</span>
+                <i class="fas fa-mouse-pointer icon-orange"></i>
+            </div>
+            <div class="stat-value">{{ total_clics|default(0) }}</div>
+            <span class="stat-footer-text">Tráfico acumulado</span>
+        </div>
+
+        <div class="stat-card-amazon">
+            <div class="stat-header">
+                <span class="stat-title">Categorías</span>
+                <i class="fas fa-tags icon-gray"></i>
+            </div>
+            <div class="stat-value">{{ categorias|length|default(0) }}</div>
+            <a href="{{ url_for('panel_categorias') }}" class="stat-footer-link">Gestionar secciones</a>
+        </div>
+
+        <div class="stat-card-amazon">
+            <div class="stat-header">
+                <span class="stat-title">Usuarios</span>
+                <i class="fas fa-users icon-gray"></i>
+            </div>
+            <div class="stat-value">{{ total_usuarios|default(1) }}</div>
+            <a href="{{ url_for('panel_perfil') }}" class="stat-footer-link">Gestionar usuarios</a>
+        </div>
+    </div>
+
+    <div class="dashboard-main-content">
+        <!-- Productos Manuales Populares -->
+        <div class="amazon-card popular-products">
+            <div class="card-header-amazon">
+                <h2><i class="fas fa-box"></i> Productos Más Populares</h2>
+                <span class="badge-amazon">Top 5</span>
+            </div>
+            <div class="table-responsive">
+                <table class="amazon-table-clean">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Categoría</th>
+                            <th>Clics</th>
+                            <th class="text-right">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if top_productos %}
+                            {% for producto in top_productos %}
+                            <tr>
+                                <td>
+                                    <div class="product-cell">
+                                        <div class="product-img-mini">
+                                            {% if producto.imagen and producto.imagen != 'default.jpg' %}
+                                            <img src="{{ producto.imagen }}" alt="{{ producto.titulo }}">
+                                            {% else %}
+                                            <i class="fas fa-image"></i>
+                                            {% endif %}
+                                        </div>
+                                        <span class="product-name-text">{{ producto.titulo[:40] }}{% if producto.titulo|length > 40 %}...{% endif %}</span>
+                                    </div>
+                                </td>
+                                <td><span class="category-tag">{{ producto.categoria_nombre|default(producto.categoria|capitalize) }}</span></td>
+                                <td><strong class="clics-count">{{ producto.clics|default(0) }}</strong></td>
+                                <td class="text-right">
+                                    <div class="action-group">
+                                        <a href="{{ url_for('panel_producto_editar', producto_id=producto.id) }}" class="btn-action-amazon" title="Editar">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </a>
+                                        <a href="{{ producto.url }}" target="_blank" class="btn-action-amazon" title="Ver en Amazon">
+                                            <i class="fas fa-external-link-alt"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="4" class="empty-table-message">
+                                    <i class="fas fa-box-open"></i>
+                                    <p>No hay productos aún. <a href="{{ url_for('panel_producto_nuevo') }}">Crea tu primer producto</a></p>
+                                </td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Acciones rápidas - CORREGIDO: 2 filas de 2 columnas -->
+        <div class="amazon-card quick-access" style="margin-top: 20px;">
+            <div class="card-header-amazon">
+                <h2><i class="fas fa-bolt"></i> Acciones rápidas</h2>
+            </div>
+            <div class="quick-nav-list">
+                <a href="{{ url_for('panel_producto_nuevo') }}" class="quick-nav-item">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>Crear Producto</span>
+                    <small>Añadir nuevo producto</small>
+                </a>
+                <a href="{{ url_for('panel_categorias') }}" class="quick-nav-item">
+                    <i class="fas fa-folder-plus"></i>
+                    <span>Nueva Categoría</span>
+                    <small>Organizar productos</small>
+                </a>
+                <a href="{{ url_for('panel_configuracion') }}" class="quick-nav-item">
+                    <i class="fas fa-sliders-h"></i>
+                    <span>Ajustes del Sitio</span>
+                    <small>Configuración general</small>
+                </a>
+                <a href="{{ url_for('index') }}" target="_blank" class="quick-nav-item store-link">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Ir a la tienda</span>
+                    <small>Ver sitio público</small>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

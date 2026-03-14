@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- META TAGS SEO PRINCIPALES -->
+    <title>{% block title %}{{ config.nombre }} - Tu Filtro de Confianza para Amazon{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Encuentra los mejores productos de Amazon. Filtramos y seleccionamos lo mejor para ti. Guía de compras, ofertas y recomendaciones.{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}amazon, productos amazon, ofertas, compras online, afiliado amazon, filtro amazon{% endblock %}">
+    <meta name="author" content="{{ config.nombre }}">
+    <meta name="robots" content="index, follow">
+    <meta name="revisit-after" content="7 days">
+    <meta name="language" content="Spanish">
+    
+    <!-- META TAGS REDES SOCIALES -->
+    <meta property="og:title" content="{% block og_title %}{{ config.nombre }}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Tu filtro personal para encontrar los mejores productos en Amazon{% endblock %}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://{{ config.dominio }}">
+    <meta property="og:image" content="https://{{ config.dominio }}/static/logo-social.jpg">
+    
+    <!-- META TAGS TWITTER -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ config.nombre }}">
+    <meta name="twitter:description" content="Tu filtro personal para Amazon">
+    
+    <!-- CANONICAL URL -->
+    <link rel="canonical" href="https://{{ config.dominio }}{{ request.path }}">
+    
+    <!-- FAVICON -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+    
+    <!-- GOOGLE FONTS - Amazon Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Amazon+Ember:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- FONT AWESOME (iconos) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    
+    <!-- GOOGLE TRANSLATE -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'es',
+                includedLanguages: 'en,fr,de,it,pt,ca,gl,eu',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false,
+                multilanguagePage: true
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    
+    <!-- ESTILOS ADICIONALES PARA HEADER MÁS ESTRECHO -->
+    <style>
+        /* Header más compacto */
+        .header-afiliado {
+            background-color: var(--amazon-dark);
+        }
+        
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 8px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+        
+        /* Logo solo texto - elegante */
+        .logo-link {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-text {
+            font-family: 'Amazon Ember', Arial, sans-serif;
+            font-weight: 500;
+            font-size: 1.3rem;
+            color: #ffffff;
+            letter-spacing: -0.3px;
+            transition: color 0.2s ease;
+            line-height: 1;
+        }
+        
+        .logo-link:hover .logo-text {
+            color: #ff9900;
+        }
+        
+        /* Buscador más compacto */
+        .buscador-pequeno {
+            max-width: 220px;
+            margin: 0;
+        }
+        
+        .buscador-pequeno .search-form input[type="text"] {
+            padding: 5px 10px;
+            font-size: 0.85rem;
+            height: 32px;
+        }
+        
+        .buscador-pequeno .search-form button {
+            padding: 5px 12px;
+            height: 32px;
+            font-size: 0.85rem;
+        }
+        
+        /* Iconos más compactos */
+        .header-actions {
+            gap: 5px;
+        }
+        
+        .header-icon-btn {
+            width: 34px;
+            height: 34px;
+            font-size: 1rem;
+        }
+        
+        /* Navegación más compacta */
+        .nav-principal {
+            background-color: var(--amazon-gray);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .nav-menu {
+            gap: 15px;
+        }
+        
+        .nav-menu li a {
+            padding: 10px 0;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-wrap: wrap;
+                padding: 8px 15px;
+            }
+            
+            .logo-text {
+                font-size: 1.2rem;
+            }
+            
+            .buscador-pequeno {
+                max-width: 100%;
+                order: 3;
+                margin-top: 5px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo-text {
+                font-size: 1.1rem;
+            }
+            
+            .header-actions {
+                gap: 2px;
+            }
+            
+            .header-icon-btn {
+                width: 30px;
+                height: 30px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+    
+</head>
+<body>
+    <!-- HEADER MÁS ESTRECHO - SOLO LOGO TEXTO -->
+    <header class="header-afiliado">
+        <div class="header-content">
+            <div class="logo">
+                <a href="/" class="logo-link" title="La Preferida - Inicio">
+                    <span class="logo-text">Filtro de afiliados</span>
+                </a>
+            </div>
+            
+            <!-- BUSCADOR PEQUEÑO -->
+            <div class="buscador-header buscador-pequeno">
+                <form action="/buscar" method="get" class="search-form">
+                    <input type="text" 
+                           name="q" 
+                           placeholder="Buscar productos..." 
+                           value="{{ busqueda if busqueda else '' }}"
+                           aria-label="Buscar productos"
+                           class="input-pequeno">
+                    <button type="submit" aria-label="Buscar">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+            </div>
+            
+            <!-- ICONOS DE ACCIÓN -->
+            <div class="header-actions">
+                <!-- TRADUCTOR -->
+                <div class="traductor-header">
+                    <div id="google_translate_element"></div>
+                    <i class="fas fa-language header-icon-btn"></i>
+                </div>
+                
+                <!-- MODO OSCURO -->
+                <button id="darkModeToggle" class="header-icon-btn" title="Modo oscuro">
+                    <i class="fas fa-moon"></i>
+                </button>
+                
+                <!-- INICIAR SESIÓN -->
+                <a href="/panel/login" class="header-icon-btn" title="Iniciar sesión">
+                    <i class="fas fa-sign-in-alt"></i>
+                </a>
+                
+                <!-- IR AL PANEL -->
+                <a href="/panel" class="header-icon-btn" title="Panel de control">
+                    <i class="fas fa-tachometer-alt"></i>
+                </a>
+            </div>
+        </div>
+        
+        <!-- NAVEGACIÓN PRINCIPAL -->
+        <nav class="nav-principal">
+            <div class="nav-container">
+                <ul class="nav-menu" id="navMenu">
+                    <li class="{% if request.path == '/' %}active{% endif %}">
+                        <a href="/"><i class="fas fa-home"></i> Inicio</a>
+                    </li>
+                    
+                    <li class="{% if request.path == '/categorias' %}active{% endif %}">
+                        <a href="/categorias"><i class="fas fa-th-list"></i> Categorías</a>
+                    </li>
+
+                    <li class="{% if request.path == '/nosotros' %}active{% endif %}">
+                        <a href="/nosotros"><i class="fas fa-info-circle"></i> Nosotros</a>
+                    </li>
+                    <li class="{% if request.path == '/contacto' %}active{% endif %}">
+                        <a href="/contacto"><i class="fas fa-envelope"></i> Contacto</a>
+                    </li>
+                    <li class="{% if request.path == '/faq' %}active{% endif %}">
+                        <a href="/faq"><i class="fas fa-question-circle"></i> FAQ</a>
+                    </li>
+                    <li class="dropdown-nav">
+                        <a href="#"><i class="fas fa-link"></i> Más <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-nav-content">
+                            <li><a href="/mapa-web"><i class="fas fa-sitemap"></i> Mapa Web</a></li>
+                            <li><a href="/cookies"><i class="fas fa-cookie-bite"></i> Cookies</a></li>
+                            <li><a href="/terminos"><i class="fas fa-file-contract"></i> Términos</a></li>
+                            <li><a href="/privacidad"><i class="fas fa-shield-alt"></i> Privacidad</a></li>
+                            <li><a href="/legal"><i class="fas fa-gavel"></i> Aviso Legal</a></li>
+                            <li><a href="/categorias"><i class="fas fa-tags"></i> Todas las Etiquetas</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- CONTENEDOR PRINCIPAL CON UN SOLO SIDEBAR (DERECHO) -->
+    <div class="main-container">
+        <!-- CONTENIDO PRINCIPAL - MÁS ANCHO -->
+        <main class="main-content">
+            <!-- MESSAGES FLASH -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible">
+                                {{ message }}
+                                <button type="button" class="close" onclick="this.parentElement.style.display='none'">×</button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            
+            <!-- CONTENIDO DE CADA PÁGINA -->
+            {% block content %}
+            <h1>Bienvenido a La Preferida</h1>
+            <p>Contenido principal de la página</p>
+            {% endblock %}
+        </main>
+        
+        <!-- SIDEBAR DERECHO - SOLO UNO -->
+        <aside class="sidebar-right">
+            <!-- INFO DEL FILTRO (SIEMPRE PRIMERO) -->
+            <div class="sidebar-widget filtro-info-widget">
+                <h3><i class="fas fa-filter"></i> Somos un FILTRO</h3>
+                <p><strong>No manejamos precios</strong> para evitar discrepancias. El precio exacto lo verás en Amazon.</p>
+                <p class="filtro-destacado">Solo recomendamos, no vendemos.</p>
+            </div>
+            
+            <!-- CATEGORÍAS (EN EL SIDEBAR) -->
+            <div class="sidebar-widget categorias-widget">
+                <h3><i class="fas fa-tags"></i> Categorías</h3>
+                <ul class="categorias-lista">
+                    {% for cat in categorias[:5] %}
+                    <li>
+                        <a href="/categoria/{{ cat }}">
+                            <i class="fas fa-folder"></i> {{ cat|capitalize }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                    <li>
+                        <a href="/categorias">
+                            <i class="fas fa-arrow-right"></i> Ver todas
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- BOTÓN IR A AMAZON -->
+            <div class="sidebar-widget amazon-direct">
+                <a href="https://amazon.es" target="_blank" rel="nofollow" class="btn-amazon-direct">
+                    <i class="fab fa-amazon"></i> IR A AMAZON
+                </a>
+                <small class="disclaimer">* Al comprar apoyas nuestro filtro</small>
+            </div>
+            
+            <!-- PREGUNTAS FRECUENTES RÁPIDAS -->
+            <div class="sidebar-widget faq-widget">
+                <h3><i class="fas fa-question"></i> Preguntas Frecuentes</h3>
+                <div class="faq-item">
+                    <a href="/faq#filtro">¿Qué es un filtro?</a>
+                </div>
+                <div class="faq-item">
+                    <a href="/faq#precios">¿Por qué no hay precios?</a>
+                </div>
+                <div class="faq-item">
+                    <a href="/faq#afiliado">¿Cómo ganan dinero?</a>
+                </div>
+            </div>
+            
+            <!-- CONTACTO RÁPIDO (SIMPLIFICADO) -->
+            <div class="sidebar-widget contacto-widget">
+                <h3><i class="fas fa-phone-alt"></i> Contacto</h3>
+                <p><i class="fas fa-envelope"></i> {{ config.email_contacto }}</p>
+            </div>
+        </aside>
+    </div>
+
+    <!-- FOOTER COMPLETO -->
+    <footer class="footer-afiliado">
+        <div class="footer-grid">
+            <!-- Columna 1: Descripción -->
+            <div class="footer-section">
+                <h4><i class="fas fa-info-circle"></i> La Preferida</h4>
+                <p>Somos un filtro independiente que te ayuda a encontrar los mejores productos en Amazon. No vendemos productos, solo recomendamos.</p>
+                <p class="afiliado-disclaimer-footer">
+                    <i class="fas fa-handshake"></i>
+                    Como afiliados de Amazon, ganamos por compras calificadas. <strong>Sin precios mostrados</strong> para evitar discrepancias.
+                </p>
+            </div>
+            
+            <!-- Columna 2: Enlaces Legales -->
+            <div class="footer-section">
+                <h4><i class="fas fa-gavel"></i> Información Legal</h4>
+                <ul>
+                    <li><a href="/privacidad"><i class="fas fa-shield-alt"></i> Política de Privacidad</a></li>
+                    <li><a href="/cookies"><i class="fas fa-cookie-bite"></i> Política de Cookies</a></li>
+                    <li><a href="/terminos"><i class="fas fa-file-signature"></i> Términos y Condiciones</a></li>
+                    <li><a href="/legal"><i class="fas fa-scale-balanced"></i> Aviso Legal</a></li>
+                </ul>
+            </div>
+            
+            <!-- Columna 3: Contacto Amazon -->
+            <div class="footer-section">
+                <h4><i class="fab fa-amazon"></i> Contacto Amazon</h4>
+                <p><i class="fas fa-globe"></i> <a href="https://amazon.es" target="_blank" rel="nofollow">Amazon España</a></p>
+                <p><i class="fas fa-headset"></i> <a href="https://amazon.es/contacto" target="_blank" rel="nofollow">Atención al Cliente</a></p>
+                <p><i class="fas fa-store"></i> <a href="https://affiliate-program.amazon.es/" target="_blank" rel="nofollow">Programa de Afiliados</a></p>
+            </div>
+            
+            <!-- Columna 4: Sobre el Filtro -->
+            <div class="footer-section">
+                <h4><i class="fas fa-user-tie"></i> Sobre el Filtro</h4>
+                <p><strong>¿Qué somos?</strong> Un filtro de productos independiente</p>
+                <p><strong>¿Cómo funciona?</strong> Recomendamos productos, tú compras en Amazon</p>
+                <p><strong>¿Precios?</strong> No mostramos precios, van actualizados en Amazon</p>
+            </div>
+        </div>
+        
+        <!-- Barra inferior del footer -->
+        <div class="footer-bottom">
+            <div class="footer-bottom-content">
+                <p>&copy; 2024 La Preferida - Todos los derechos reservados</p>
+                <div class="footer-links">
+                    <a href="/mapa-web">Mapa Web</a>
+                    <a href="/faq">FAQ</a>
+                    <a href="/robot.txt" target="_blank">robots.txt</a>
+                    <a href="/sitemap.xml" target="_blank">sitemap.xml</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- BOTÓN IR ARRIBA -->
+    <button id="btnSubir" class="btn-subir" title="Ir arriba">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- SCRIPTS PRINCIPALES -->
+    <script>
+        // Botón ir arriba
+        window.onscroll = function() {
+            const btnSubir = document.getElementById('btnSubir');
+            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                btnSubir.style.display = "block";
+            } else {
+                btnSubir.style.display = "none";
+            }
+        };
+
+        document.getElementById('btnSubir')?.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Modo oscuro
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        if (darkModeToggle) {
+            darkModeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                const icon = this.querySelector('i');
+                if (document.body.classList.contains('dark-mode')) {
+                    icon.className = 'fas fa-sun';
+                    localStorage.setItem('darkMode', 'enabled');
+                } else {
+                    icon.className = 'fas fa-moon';
+                    localStorage.setItem('darkMode', 'disabled');
+                }
+            });
+            
+            // Cargar preferencia guardada
+            if (localStorage.getItem('darkMode') === 'enabled') {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.querySelector('i').className = 'fas fa-sun';
+            }
+        }
+
+        // Cerrar alerts automáticamente
+        setTimeout(function() {
+            document.querySelectorAll('.alert').forEach(function(alert) {
+                alert.style.display = 'none';
+            });
+        }, 5000);
+    </script>
+    
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

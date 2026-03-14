@@ -1,0 +1,245 @@
+{% extends "panel/base_admin.html" %}
+
+{% block title %}Productos - Panel de Control | Filtro Amazon{% endblock %}
+
+{% block breadcrumb %}Gestión de Productos{% endblock %}
+
+{% block content %}
+<div class="productos-wrapper">
+    <!-- Encabezado con acciones -->
+    <div class="page-header-amazon">
+        <div class="header-title">
+            <h1><i class="fas fa-box"></i> Productos</h1>
+            <p class="header-subtitle">Gestiona el catálogo de tu filtro de Amazon</p>
+        </div>
+        <div class="header-actions">
+            <a href="{{ url_for('panel_producto_nuevo') }}" class="amazon-btn-primary">
+                <i class="fas fa-plus"></i> Nuevo Producto
+            </a>
+        </div>
+    </div>
+
+    <!-- Estadísticas rápidas de productos -->
+    <div class="product-stats-mini">
+        <div class="stat-mini-item">
+            <span class="stat-mini-label">Total productos</span>
+            <span class="stat-mini-value">{{ productos|length }}</span>
+        </div>
+        <div class="stat-mini-item">
+            <span class="stat-mini-label">Destacados</span>
+            <span class="stat-mini-value">{{ productos|selectattr('destacado', 'equalto', true)|list|length }}</span>
+        </div>
+        <div class="stat-mini-item">
+            <span class="stat-mini-label">Total clics</span>
+            <span class="stat-mini-value">{{ total_clics|default(0) }}</span>
+        </div>
+    </div>
+    
+    <!-- Tabla de productos mejorada -->
+    <div class="amazon-card">
+        <div class="card-header">
+            <h2><i class="fas fa-list"></i> Catálogo de productos</h2>
+            <div class="card-filters">
+                <span class="product-count">{{ productos|length }} productos</span>
+            </div>
+        </div>
+        
+        <div class="table-responsive">
+            <table class="amazon-table">
+                <thead>
+                    <tr>
+                        <th width="60">ID</th>
+                        <th>Producto</th>
+                        <th width="120">Categoría</th>
+                        <th width="80">Clics</th>
+                        <th width="100">Destacado</th>
+                        <th width="150">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for producto in productos %}
+                    <tr>
+                        <td class="product-id">#{{ producto.id }}</td>
+                        <td>
+                            <div class="product-info-cell">
+                                <div class="product-thumb">
+                                    {% if producto.imagen %}
+                                    <img src="{{ producto.imagen }}" alt="{{ producto.titulo }}" 
+                                         onerror="this.src='https://via.placeholder.com/50x50/232f3e/ff9900?text=IMG'">
+                                    {% else %}
+                                    <div class="thumb-placeholder">
+                                        <i class="fas fa-image"></i>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <div class="product-details">
+                                    <strong class="product-title">{{ producto.titulo[:60] }}{% if producto.titulo|length > 60 %}...{% endif %}</strong>
+                                    <small class="product-description">{{ producto.descripcion[:80] }}{% if producto.descripcion|length > 80 %}...{% endif %}</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="category-badge">
+                                <i class="fas fa-tag"></i> {{ producto.categoria|capitalize }}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="clicks-counter">{{ producto.clics|default(0) }}</span>
+                        </td>
+                        <td>
+                            {% if producto.destacado %}
+                            <span class="status-badge status-success">
+                                <i class="fas fa-star"></i> Destacado
+                            </span>
+                            {% else %}
+                            <span class="status-badge status-secondary">
+                                <i class="fas fa-eye-slash"></i> Normal
+                            </span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <a href="{{ url_for('panel_producto_editar', producto_id=producto.id) }}" class="action-btn edit-btn" title="Editar producto">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </a>
+                                <!-- 👇 CORREGIDO: Usamos data-atributos -->
+                                <button onclick="duplicarProducto(this)" data-producto-id="{{ producto.id }}" class="action-btn duplicate-btn" title="Duplicar producto">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                                <button onclick="eliminarProducto(this)" data-producto-id="{{ producto.id }}" class="action-btn delete-btn" title="Eliminar producto">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" class="empty-state">
+                            <div class="empty-state-content">
+                                <i class="fas fa-box-open"></i>
+                                <h3>No hay productos</h3>
+                                <p>Comienza agregando tu primer producto al filtro</p>
+                                <a href="{{ url_for('panel_producto_nuevo') }}" class="amazon-btn-primary">
+                                    <i class="fas fa-plus"></i> Crear primer producto
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Pie de tabla con información -->
+        <div class="table-footer">
+            <div class="table-info">
+                <i class="fas fa-info-circle"></i>
+                <span>Mostrando {{ productos|length }} productos en total</span>
+            </div>
+            <div class="table-tip">
+                <i class="fas fa-lightbulb"></i>
+                <span>Los productos destacados aparecen en la página principal</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Obtener token CSRF (debe estar disponible en la página)
+function getCSRFToken() {
+    // Buscar en meta tags o en inputs ocultos
+    const tokenInput = document.querySelector('input[name="csrf_token"]');
+    if (tokenInput) return tokenInput.value;
+    
+    // Si no hay input, buscar en meta tag (si lo configuraste)
+    const metaToken = document.querySelector('meta[name="csrf-token"]');
+    if (metaToken) return metaToken.getAttribute('content');
+    
+    // Si no se encuentra, mostrar error (esto no debería pasar)
+    console.error('CSRF token no encontrado');
+    return '';
+}
+
+// Función para duplicar producto
+function duplicarProducto(boton) {
+    var id = boton.getAttribute('data-producto-id');
+    if (confirm('¿Duplicar este producto? Se creará una copia exacta.')) {
+        fetch('/panel/productos/duplicar/' + id, { 
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCSRFToken()  // 🔐 TOKEN CSRF AGREGADO
+            }
+        })
+        .then(function(response) {
+            if (response.ok) {
+                mostrarNotificacion('Producto duplicado correctamente', 'success');
+                setTimeout(function() { location.reload(); }, 1000);
+            } else {
+                mostrarNotificacion('Error al duplicar el producto', 'error');
+            }
+        })
+        .catch(function(error) {
+            console.error('Error:', error);
+            mostrarNotificacion('Error de conexión', 'error');
+        });
+    }
+}
+
+// Función para eliminar producto
+function eliminarProducto(boton) {
+    var id = boton.getAttribute('data-producto-id');
+    if (confirm('¿Eliminar este producto? Esta acción no se puede deshacer.')) {
+        fetch('/panel/productos/eliminar/' + id, { 
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCSRFToken()  // 🔐 TOKEN CSRF AGREGADO
+            }
+        })
+        .then(function(response) {
+            if (response.ok) {
+                mostrarNotificacion('Producto eliminado correctamente', 'success');
+                setTimeout(function() { location.reload(); }, 1000);
+            } else {
+                mostrarNotificacion('Error al eliminar el producto', 'error');
+            }
+        })
+        .catch(function(error) {
+            console.error('Error:', error);
+            mostrarNotificacion('Error de conexión', 'error');
+        });
+    }
+}
+
+// Función para mostrar notificaciones temporales
+function mostrarNotificacion(mensaje, tipo) {
+    var notificacion = document.createElement('div');
+    notificacion.className = 'notificacion-flotante notificacion-' + tipo;
+    
+    var icono = document.createElement('i');
+    icono.className = 'fas fa-' + (tipo === 'success' ? 'check-circle' : 'exclamation-circle');
+    
+    var texto = document.createElement('span');
+    texto.textContent = mensaje;
+    
+    notificacion.appendChild(icono);
+    notificacion.appendChild(texto);
+    
+    document.body.appendChild(notificacion);
+    
+    setTimeout(function() { notificacion.classList.add('show'); }, 10);
+    
+    setTimeout(function() {
+        notificacion.classList.remove('show');
+        setTimeout(function() { notificacion.remove(); }, 300);
+    }, 3000);
+}
+</script>
+
+<!-- 🔐 Meta tag opcional para CSRF (si no hay input en la página) -->
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
+<!-- NOTA: Las advertencias de VS Code en JavaScript se deben a la mezcla de Jinja2.
+     El código funciona perfectamente en el navegador. -->
+{% endblock %}

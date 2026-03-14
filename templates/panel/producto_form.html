@@ -1,0 +1,218 @@
+{% extends "panel/base_admin.html" %}
+
+{% block title %}{% if producto %}Editar{% else %}Nuevo{% endif %} Producto - Panel de Control{% endblock %}
+
+{% block breadcrumb %}{% if producto %}Editar Producto #{{ producto.id }}{% else %}Nuevo Producto{% endif %}{% endblock %}
+
+{% block content %}
+<div class="producto-form-container">
+    <!-- Encabezado con acciones -->
+    <div class="form-header">
+        <h1 class="form-title">
+            {% if producto %}
+                <i class="fas fa-edit"></i> Editar Producto <span class="product-id-badge">#{{ producto.id }}</span>
+            {% else %}
+                <i class="fas fa-plus-circle"></i> Nuevo Producto
+            {% endif %}
+        </h1>
+        <a href="{{ url_for('panel_productos') }}" class="btn-volver">
+            <i class="fas fa-arrow-left"></i> Volver a productos
+        </a>
+    </div>
+    
+    <!-- Tarjeta del formulario -->
+    <div class="form-card">
+        <div class="form-card-header">
+            <h2><i class="fas fa-info-circle"></i> Información del producto</h2>
+            <p class="form-subtitle">Completa los datos para {% if producto %}actualizar{% else %}crear{% endif %} el producto en tu filtro</p>
+        </div>
+        
+        <form method="POST" class="producto-form">
+            <!-- 🔐 TOKEN CSRF AGREGADO -->
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            
+            <!-- Fila 1: Título y Categoría -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="titulo" class="required-field">
+                        <i class="fas fa-heading"></i> Título del producto
+                    </label>
+                    <input type="text" 
+                           id="titulo" 
+                           name="titulo" 
+                           value="{{ producto.titulo if producto else '' }}" 
+                           placeholder="Ej: Apple AirPods Pro (2ª generación)"
+                           required
+                           class="form-control"
+                           maxlength="200">
+                    <small class="form-hint">Máximo 200 caracteres. Sé descriptivo pero conciso.</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="categoria" class="required-field">
+                        <i class="fas fa-tag"></i> Categoría
+                    </label>
+                    <select id="categoria" name="categoria" required class="form-control">
+                        <option value="" disabled {% if not producto %}selected{% endif %}>-- Selecciona una categoría --</option>
+                        {% for cat in categorias %}
+                        <option value="{{ cat.id if cat.id is defined else cat }}" 
+                                {% if producto and (producto.categoria == cat.id or producto.categoria == cat) %}selected{% endif %}>
+                            {{ cat.nombre if cat.nombre is defined else cat|capitalize }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                    <small class="form-hint">Selecciona la categoría donde aparecerá el producto</small>
+                </div>
+            </div>
+            
+            <!-- Fila 2: Descripción (completa) -->
+            <div class="form-group full-width">
+                <label for="descripcion" class="required-field">
+                    <i class="fas fa-align-left"></i> Descripción
+                </label>
+                <textarea id="descripcion" 
+                          name="descripcion" 
+                          rows="5" 
+                          required 
+                          class="form-control"
+                          placeholder="Describe las características principales del producto...">{{ producto.descripcion if producto else '' }}</textarea>
+                <small class="form-hint">Breve descripción que aparecerá en la tarjeta del producto</small>
+            </div>
+            
+            <!-- Fila 3: URL Imagen y URL Amazon -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="imagen" class="required-field">
+                        <i class="fas fa-image"></i> URL de la imagen
+                    </label>
+                    <input type="url" 
+                           id="imagen" 
+                           name="imagen" 
+                           value="{{ producto.imagen if producto else '' }}" 
+                           placeholder="https://images-na.ssl-images-amazon.com/images/I/...jpg"
+                           required
+                           class="form-control">
+                    <small class="form-hint">URL directa de la imagen del producto (debe ser accesible públicamente)</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="url" class="required-field">
+                        <i class="fab fa-amazon"></i> URL de Amazon
+                    </label>
+                    <input type="url" 
+                           id="url" 
+                           name="url" 
+                           value="{{ producto.url if producto else '' }}" 
+                           placeholder="https://www.amazon.es/dp/B0BDK62PDX/"
+                           required
+                           class="form-control">
+                    <small class="form-hint">Enlace directo al producto en Amazon (con o sin tag de afiliado)</small>
+                </div>
+            </div>
+            
+            <!-- Fila 4: Destacado y Clics -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="destacado">
+                        <i class="fas fa-star"></i> Producto destacado
+                    </label>
+                    <select id="destacado" name="destacado" class="form-control">
+                        <option value="true" {% if producto and producto.destacado %}selected{% endif %}>
+                            Sí, mostrar en destacados
+                        </option>
+                        <option value="false" {% if not producto or not producto.destacado %}selected{% endif %}>
+                            No, producto normal
+                        </option>
+                    </select>
+                    <small class="form-hint">Los productos destacados aparecen en la página principal</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="clics">
+                        <i class="fas fa-mouse-pointer"></i> Clics iniciales
+                    </label>
+                    <input type="number" 
+                           id="clics" 
+                           name="clics" 
+                           value="{{ producto.clics if producto else '0' }}" 
+                           min="0"
+                           class="form-control">
+                    <small class="form-hint">Número de clics actuales (generalmente 0 para productos nuevos)</small>
+                </div>
+            </div>
+            
+            <!-- Vista previa de la imagen (solo si hay URL) -->
+            {% if producto and producto.imagen %}
+            <div class="image-preview-section">
+                <label><i class="fas fa-eye"></i> Vista previa de la imagen:</label>
+                <div class="image-preview">
+                    <img src="{{ producto.imagen }}" alt="Vista previa" onerror="this.src='https://via.placeholder.com/200x200/232f3e/ff9900?text=Error+de+imagen'">
+                </div>
+                <small class="form-hint">Si la imagen no se ve correctamente, verifica la URL</small>
+            </div>
+            {% endif %}
+            
+            <!-- Botones de acción -->
+            <div class="form-actions">
+                <button type="submit" class="btn-guardar">
+                    <i class="fas fa-save"></i> 
+                    {% if producto %}Actualizar producto{% else %}Guardar producto{% endif %}
+                </button>
+                
+                <a href="{{ url_for('panel_productos') }}" class="btn-cancelar">
+                    <i class="fas fa-times"></i> Cancelar
+                </a>
+                
+                {% if producto %}
+                <!-- 👇 CORREGIDO: Usamos data-atributo para pasar el ID -->
+                <button type="button" class="btn-duplicar" data-producto-id="{{ producto.id }}" onclick="duplicarProducto(this)">
+                    <i class="fas fa-copy"></i> Duplicar
+                </button>
+                {% endif %}
+            </div>
+            
+            <!-- Nota informativa -->
+            <div class="form-notice">
+                <i class="fas fa-info-circle"></i>
+                <p>Recuerda que eres un <strong>FILTRO</strong>. Los productos se mostrarán en tu web y redirigirán a Amazon para la compra.</p>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+// Función para duplicar producto (solo en modo edición)
+function duplicarProducto(boton) {
+    // 👇 CORREGIDO: Obtenemos el ID del atributo data-producto-id
+    var id = boton.getAttribute('data-producto-id');
+    if (confirm('¿Duplicar este producto? Se creará una copia exacta con los mismos datos.')) {
+        window.location.href = '/panel/productos/duplicar/' + id;
+    }
+}
+
+// Validación simple del formulario
+document.querySelector('.producto-form')?.addEventListener('submit', function(e) {
+    const titulo = document.getElementById('titulo').value.trim();
+    const descripcion = document.getElementById('descripcion').value.trim();
+    const imagen = document.getElementById('imagen').value.trim();
+    const url = document.getElementById('url').value.trim();
+    
+    if (!titulo || !descripcion || !imagen || !url) {
+        e.preventDefault();
+        alert('Por favor, completa todos los campos requeridos.');
+    }
+});
+
+// Vista previa dinámica de la imagen (opcional)
+document.getElementById('imagen')?.addEventListener('change', function(e) {
+    const url = e.target.value;
+    if (url) {
+        // Aquí podrías mostrar una vista previa dinámica
+        console.log('URL de imagen cambiada:', url);
+    }
+});
+</script>
+
+<!-- NOTA: Las advertencias de VS Code en JavaScript se deben a la mezcla de Jinja2.
+     El código funciona perfectamente en el navegador. -->
+{% endblock %}

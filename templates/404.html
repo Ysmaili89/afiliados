@@ -1,0 +1,789 @@
+{% extends "base.html" %}
+
+{% block title %}Error 404 - Página No Encontrada | {{ config.nombre }}{% endblock %}
+
+{% block meta_description %}Lo sentimos, la página que buscas no existe o ha sido movida. Utiliza nuestro buscador para encontrar productos.{% endblock %}
+
+{% block meta_robots %}noindex, nofollow{% endblock %}
+
+{% block content %}
+<div class="error-container error-404">
+    <div class="error-content">
+        <!-- Decoración superior -->
+        <div class="error-decoration">
+            <div class="decoration-bar"></div>
+            <div class="decoration-dots">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+
+        <!-- Icono 404 animado -->
+        <div class="error-icon-wrapper">
+            <div class="error-icon">
+                <i class="fas fa-map-signs"></i>
+            </div>
+            <div class="error-icon-ring"></div>
+            <div class="error-icon-ring delay-1"></div>
+        </div>
+
+        <!-- Título y código -->
+        <div class="error-header">
+            <h1>Error <span class="error-code">404</span></h1>
+            <h2>Página No Encontrada</h2>
+        </div>
+
+        <!-- Divisor -->
+        <div class="error-divider">
+            <span class="divider-line"></span>
+            <i class="fas fa-filter divider-icon"></i>
+            <span class="divider-line"></span>
+        </div>
+
+        <!-- Mensaje principal -->
+        <div class="error-message-card">
+            <div class="message-icon">
+                <i class="fas fa-exclamation-circle"></i>
+            </div>
+            <div class="message-content">
+                <p class="message-main">¡Ups! La página que buscas no existe.</p>
+                <p class="message-secondary">Puede que el enlace esté roto, la página haya sido movida o nunca haya existido. Mientras tanto, puedes explorar nuestros productos filtrados.</p>
+            </div>
+        </div>
+
+        <!-- Sugerencias rápidas -->
+        <div class="sugerencias-card">
+            <div class="sugerencias-header">
+                <i class="fas fa-lightbulb"></i>
+                <span>¿Qué puedes hacer ahora?</span>
+            </div>
+            <div class="sugerencias-grid">
+                <div class="sugerencia-item">
+                    <div class="sugerencia-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <div class="sugerencia-texto">
+                        <h4>Ir al inicio</h4>
+                        <p>Vuelve a la página principal del filtro</p>
+                    </div>
+                </div>
+
+                <div class="sugerencia-item">
+                    <div class="sugerencia-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="sugerencia-texto">
+                        <h4>Buscar productos</h4>
+                        <p>Encuentra lo que necesitas con nuestro buscador</p>
+                    </div>
+                </div>
+
+                <div class="sugerencia-item">
+                    <div class="sugerencia-icon">
+                        <i class="fas fa-tags"></i>
+                    </div>
+                    <div class="sugerencia-texto">
+                        <h4>Explorar categorías</h4>
+                        <p>Navega por nuestras categorías de productos</p>
+                    </div>
+                </div>
+
+                <div class="sugerencia-item">
+                    <div class="sugerencia-icon">
+                        <i class="fab fa-amazon"></i>
+                    </div>
+                    <div class="sugerencia-texto">
+                        <h4>Ir a Amazon</h4>
+                        <p>Accede directamente a Amazon</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Buscador rápido -->
+        <div class="buscador-404">
+            <h3>¿Buscabas algún producto?</h3>
+            <form action="/buscar" method="get" class="search-form-404">
+                <input type="text" name="q" placeholder="Ej: auriculares, kindle, smart tv..." required>
+                <button type="submit">
+                    <i class="fas fa-search"></i> Buscar
+                </button>
+            </form>
+        </div>
+
+        <!-- Acciones principales -->
+        <div class="acciones-card">
+            <div class="acciones-grid">
+                <a href="/" class="accion-btn home-btn">
+                    <i class="fas fa-home"></i>
+                    <span>Inicio</span>
+                </a>
+                <a href="/categorias" class="accion-btn categories-btn">
+                    <i class="fas fa-tags"></i>
+                    <span>Categorías</span>
+                </a>
+                <a href="/contacto" class="accion-btn contact-btn">
+                    <i class="fas fa-envelope"></i>
+                    <span>Contacto</span>
+                </a>
+                <a href="/mapa-web" class="accion-btn sitemap-btn">
+                    <i class="fas fa-sitemap"></i>
+                    <span>Mapa Web</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Filtro info -->
+        <div class="filtro-card">
+            <div class="filtro-badge">
+                <i class="fas fa-filter"></i>
+                <span>Somos un FILTRO</span>
+            </div>
+            <p>Recuerda que <strong>{{ config.nombre }}</strong> es un <span class="resaltado">FILTRO de productos</span>. No vendemos directamente, solo recomendamos productos de Amazon.</p>
+            <a href="https://amazon.es" target="_blank" rel="nofollow" class="amazon-link">
+                <i class="fab fa-amazon"></i> Ir a Amazon
+            </a>
+        </div>
+
+        <!-- Información adicional -->
+        <div class="error-footer">
+            <p><i class="fas fa-hashtag"></i> Código de error: <code>NOT_FOUND_404</code></p>
+            <p><i class="fas fa-clock"></i> {{ now.strftime('%d/%m/%Y %H:%M') if now else '' }}</p>
+        </div>
+    </div>
+</div>
+
+<style>
+/* ===== ESTILOS PARA ERROR 404 ===== */
+.error-container {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.error-container::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,153,0,0.03) 0%, transparent 50%);
+    animation: rotate 60s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.error-content {
+    max-width: 800px;
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: 30px;
+    padding: 50px;
+    box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 1;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.error-decoration {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 8px;
+    border-radius: 30px 30px 0 0;
+    overflow: hidden;
+    background: linear-gradient(90deg, #ff9900, #6c757d, #ff9900);
+    background-size: 200% 100%;
+    animation: gradientMove 3s infinite;
+}
+
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.decoration-dots {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    display: flex;
+    gap: 5px;
+}
+
+.decoration-dots span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    animation: pulse 2s infinite;
+}
+
+.decoration-dots span:nth-child(2) { animation-delay: 0.2s; }
+.decoration-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+.error-icon-wrapper {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 30px;
+}
+
+.error-icon {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #6c757d, #495057);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 15px 30px rgba(108, 117, 125, 0.3);
+    animation: float 3s ease-in-out infinite;
+}
+
+.error-icon i {
+    font-size: 3.5em;
+    color: white;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.error-icon-ring {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border: 2px solid #6c757d;
+    border-radius: 50%;
+    animation: ringPulse 2s infinite;
+    opacity: 0;
+}
+
+.error-icon-ring.delay-1 {
+    animation-delay: 0.5s;
+}
+
+@keyframes ringPulse {
+    0% { transform: scale(0.8); opacity: 1; }
+    100% { transform: scale(1.5); opacity: 0; }
+}
+
+.error-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.error-header h1 {
+    font-size: 4em;
+    margin: 0;
+    color: #232f3e;
+    line-height: 1;
+}
+
+.error-code {
+    background: linear-gradient(135deg, #6c757d, #495057);
+    color: white;
+    padding: 5px 20px;
+    border-radius: 50px;
+    font-size: 0.4em;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+    box-shadow: 0 5px 15px rgba(108, 117, 125, 0.3);
+}
+
+.error-header h2 {
+    font-size: 2em;
+    color: #666;
+    margin: 10px 0 0;
+    font-weight: 400;
+}
+
+.error-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.divider-line {
+    height: 2px;
+    width: 80px;
+    background: linear-gradient(90deg, transparent, #ff9900, transparent);
+}
+
+.divider-icon {
+    color: #ff9900;
+    font-size: 1.2em;
+    animation: spin 4s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.error-message-card {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: 20px;
+    padding: 25px;
+    margin: 25px 0;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    border-left: 5px solid #6c757d;
+}
+
+.message-icon i {
+    font-size: 2em;
+    color: #6c757d;
+}
+
+.message-main {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #232f3e;
+    margin: 0 0 10px;
+}
+
+.message-secondary {
+    color: #666;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.sugerencias-card {
+    background: linear-gradient(135deg, #fff3cd, #ffe69c);
+    border-radius: 20px;
+    padding: 25px;
+    margin: 25px 0;
+}
+
+.sugerencias-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    color: #856404;
+}
+
+.sugerencias-header i {
+    font-size: 1.5em;
+    color: #ff9900;
+}
+
+.sugerencias-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.sugerencia-item {
+    display: flex;
+    gap: 12px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 15px;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s;
+}
+
+.sugerencia-item:hover {
+    transform: translateY(-3px);
+    background: white;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.sugerencia-icon i {
+    font-size: 1.5em;
+    color: #ff9900;
+}
+
+.sugerencia-texto h4 {
+    margin: 0 0 5px;
+    color: #232f3e;
+    font-size: 0.95em;
+}
+
+.sugerencia-texto p {
+    margin: 0;
+    color: #666;
+    font-size: 0.85em;
+    line-height: 1.4;
+}
+
+.buscador-404 {
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    margin: 25px 0;
+    text-align: center;
+}
+
+.buscador-404 h3 {
+    color: #232f3e;
+    margin: 0 0 15px;
+    font-size: 1.2em;
+}
+
+.search-form-404 {
+    display: flex;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.search-form-404 input {
+    flex: 1;
+    padding: 12px 20px;
+    border: 2px solid #ff9900;
+    border-right: none;
+    border-radius: 30px 0 0 30px;
+    font-size: 1em;
+    outline: none;
+}
+
+.search-form-404 button {
+    background: #ff9900;
+    color: #232f3e;
+    border: 2px solid #ff9900;
+    padding: 12px 25px;
+    border-radius: 0 30px 30px 0;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.search-form-404 button:hover {
+    background: #e47911;
+}
+
+.acciones-card {
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    margin: 25px 0;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.acciones-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.accion-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 20px 10px;
+    border-radius: 15px;
+    text-decoration: none;
+    transition: all 0.3s;
+    text-align: center;
+}
+
+.accion-btn i {
+    font-size: 1.8em;
+}
+
+.accion-btn span {
+    font-weight: 600;
+    font-size: 0.9em;
+}
+
+.home-btn {
+    background: #232f3e;
+    color: white;
+}
+
+.home-btn:hover {
+    background: #131921;
+    transform: translateY(-3px);
+}
+
+.categories-btn {
+    background: #ff9900;
+    color: #232f3e;
+}
+
+.categories-btn:hover {
+    background: #e47911;
+    transform: translateY(-3px);
+}
+
+.contact-btn {
+    background: #17a2b8;
+    color: white;
+}
+
+.contact-btn:hover {
+    background: #138496;
+    transform: translateY(-3px);
+}
+
+.sitemap-btn {
+    background: #6c757d;
+    color: white;
+}
+
+.sitemap-btn:hover {
+    background: #5a6268;
+    transform: translateY(-3px);
+}
+
+.filtro-card {
+    background: linear-gradient(135deg, #e7f3ff, #d4e8ff);
+    border-radius: 20px;
+    padding: 25px;
+    margin-top: 25px;
+    border-left: 5px solid #ff9900;
+    text-align: center;
+}
+
+.filtro-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #ff9900;
+    color: #232f3e;
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.resaltado {
+    background: #ff9900;
+    color: #232f3e;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.amazon-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 15px;
+    padding: 10px 25px;
+    background: #232f3e;
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    transition: all 0.3s;
+}
+
+.amazon-link:hover {
+    background: #131921;
+    gap: 12px;
+}
+
+.error-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 20px;
+    margin-top: 20px;
+    border-top: 2px dashed #dee2e6;
+    font-size: 0.85em;
+    color: #6c757d;
+}
+
+.error-footer code {
+    background: #f8f9fa;
+    padding: 3px 8px;
+    border-radius: 5px;
+    font-family: monospace;
+}
+
+/* Dark mode */
+.dark-mode .error-container {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+}
+
+.dark-mode .error-content {
+    background: rgba(45, 45, 45, 0.98);
+}
+
+.dark-mode .error-header h1 {
+    color: white;
+}
+
+.dark-mode .error-header h2 {
+    color: #ccc;
+}
+
+.dark-mode .error-message-card {
+    background: linear-gradient(135deg, #2d2d2d, #3a3a3a);
+}
+
+.dark-mode .message-main {
+    color: white;
+}
+
+.dark-mode .message-secondary {
+    color: #ccc;
+}
+
+.dark-mode .sugerencias-card {
+    background: linear-gradient(135deg, #3a3a2d, #4a4a3a);
+}
+
+.dark-mode .sugerencias-header {
+    color: #ffe69c;
+}
+
+.dark-mode .sugerencia-item {
+    background: rgba(58, 58, 58, 0.7);
+}
+
+.dark-mode .sugerencia-item:hover {
+    background: #3a3a3a;
+}
+
+.dark-mode .sugerencia-texto h4 {
+    color: white;
+}
+
+.dark-mode .sugerencia-texto p {
+    color: #ccc;
+}
+
+.dark-mode .buscador-404 {
+    background: #3a3a3a;
+}
+
+.dark-mode .buscador-404 h3 {
+    color: white;
+}
+
+.dark-mode .acciones-card {
+    background: #3a3a3a;
+}
+
+.dark-mode .filtro-card {
+    background: linear-gradient(135deg, #1a2a3a, #1a2f3f);
+}
+
+.dark-mode .filtro-card p {
+    color: white;
+}
+
+.dark-mode .error-footer {
+    border-top-color: #404040;
+    color: #ccc;
+}
+
+.dark-mode .error-footer code {
+    background: #3a3a3a;
+    color: #ff9900;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .error-content {
+        padding: 30px 20px;
+    }
+    
+    .error-header h1 {
+        font-size: 3em;
+    }
+    
+    .error-header h2 {
+        font-size: 1.5em;
+    }
+    
+    .error-message-card {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .sugerencias-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .acciones-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .search-form-404 {
+        flex-direction: column;
+    }
+    
+    .search-form-404 input,
+    .search-form-404 button {
+        width: 100%;
+        border-radius: 30px;
+    }
+    
+    .search-form-404 button {
+        margin-top: 10px;
+    }
+    
+    .error-footer {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .acciones-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .error-icon-wrapper {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .error-icon i {
+        font-size: 2.5em;
+    }
+}
+
+/* Animaciones */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.error-content > * {
+    animation: fadeInUp 0.5s ease forwards;
+    opacity: 0;
+}
+
+.error-content > *:nth-child(1) { animation-delay: 0.1s; }
+.error-content > *:nth-child(2) { animation-delay: 0.2s; }
+.error-content > *:nth-child(3) { animation-delay: 0.3s; }
+.error-content > *:nth-child(4) { animation-delay: 0.4s; }
+.error-content > *:nth-child(5) { animation-delay: 0.5s; }
+.error-content > *:nth-child(6) { animation-delay: 0.6s; }
+.error-content > *:nth-child(7) { animation-delay: 0.7s; }
+.error-content > *:nth-child(8) { animation-delay: 0.8s; }
+</style>
+
+{% endblock %}

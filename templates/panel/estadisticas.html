@@ -1,0 +1,300 @@
+{% extends "panel/base_admin.html" %}
+
+{% block title %}Estadísticas - Panel de Control | Filtro Amazon{% endblock %}
+
+{% block breadcrumb %}Estadísticas de Visitas{% endblock %}
+
+{% block content %}
+<div class="estadisticas-wrapper">
+    <!-- Encabezado de página -->
+    <div class="page-header-amazon">
+        <div class="header-title">
+            <h1><i class="fas fa-chart-line"></i> Estadísticas de Visitas</h1>
+            <p class="header-subtitle">Analiza el tráfico real de tu filtro de Amazon</p>
+        </div>
+        <div class="header-date">
+            <i class="fas fa-calendar-alt"></i>
+            <span>{{ now.strftime('%d de %B de %Y') }}</span>
+        </div>
+    </div>
+    
+    <!-- Tarjetas de estadísticas principales -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon stat-icon-total">
+                <i class="fas fa-eye"></i>
+            </div>
+            <div class="stat-content">
+                <span class="stat-value">{{ visitas.total }}</span>
+                <span class="stat-label">Visitas totales</span>
+            </div>
+            <div class="stat-footer">
+                <i class="fas fa-chart-line"></i> Desde el inicio
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon stat-icon-today">
+                <i class="fas fa-calendar-day"></i>
+            </div>
+            <div class="stat-content">
+                <span class="stat-value">{{ visitas.hoy }}</span>
+                <span class="stat-label">Visitas hoy</span>
+            </div>
+            <div class="stat-footer">
+                <i class="fas fa-clock"></i> {{ now.strftime('%d/%m/%Y') }}
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon stat-icon-week">
+                <i class="fas fa-calendar-week"></i>
+            </div>
+            <div class="stat-content">
+                <span class="stat-value">{{ visitas.semana }}</span>
+                <span class="stat-label">Esta semana</span>
+            </div>
+            <div class="stat-footer">
+                <i class="fas fa-chart-bar"></i> Últimos 7 días
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon stat-icon-month">
+                <i class="fas fa-calendar-alt"></i>
+            </div>
+            <div class="stat-content">
+                <span class="stat-value">{{ visitas.mes }}</span>
+                <span class="stat-label">Este mes</span>
+            </div>
+            <div class="stat-footer">
+                <i class="fas fa-chart-pie"></i> Últimos 30 días
+            </div>
+        </div>
+    </div>
+    
+    <!-- GRÁFICO DE TENDENCIA REAL (últimos 7 días) -->
+    <div class="trend-section">
+        <div class="trend-header">
+            <h2><i class="fas fa-chart-line"></i> Tendencia de visitas (últimos 7 días)</h2>
+            {% if visitas_ayer and visitas_ayer > 0 %}
+                {% set diferencia = visitas.hoy - visitas_ayer %}
+                {% set porcentaje_vs_ayer = ((visitas.hoy / visitas_ayer * 100) - 100)|round|int %}
+            {% else %}
+                {% set diferencia = 0 %}
+                {% set porcentaje_vs_ayer = 0 %}
+            {% endif %}
+            <span class="trend-badge {% if diferencia > 0 %}trend-up{% elif diferencia < 0 %}trend-down{% else %}trend-neutral{% endif %}">
+                <i class="fas fa-{% if diferencia > 0 %}arrow-up{% elif diferencia < 0 %}arrow-down{% else %}minus{% endif %}"></i> 
+                {{ '%+d'|format(diferencia) }} vs ayer ({{ porcentaje_vs_ayer|abs }}%)
+            </span>
+        </div>
+        
+        <!-- Calcular valores para el gráfico -->
+        {% set dias_semana = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'] %}
+        {% set max_visitas = visitas.semana if visitas.semana > 0 else 1 %}
+        
+        <div class="trend-bars" id="trendBars">
+            {% for i in range(7) %}
+                {# Usamos la variable 'timedelta' que viene del context processor #}
+                {% set fecha_obj = now - timedelta(days=6-i) %}
+                {% set fecha = fecha_obj.strftime('%Y-%m-%d') %}
+                {% set dia_semana = dias_semana[fecha_obj.weekday()] %}
+                {% set visitas_dia = visitas_por_dia_real.get(fecha, 0) %}
+                {% set altura = (visitas_dia / max_visitas * 100) if max_visitas > 0 else 0 %}
+                
+                <div class="bar-item" data-altura="{{ altura }}" data-visitas="{{ visitas_dia }}">
+                    <div class="bar-label">{{ dia_semana[:3] }}</div>
+                    <div class="bar-container">
+                        <div class="bar-fill" title="{{ visitas_dia }} visitas ({{ dia_semana }})"></div>
+                    </div>
+                    <div class="bar-valor">{{ visitas_dia }}</div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <!-- Tabla de visitas por página -->
+    <div class="amazon-card">
+        <div class="card-header">
+            <h2><i class="fas fa-chart-bar"></i> Visitas por página</h2>
+            <div class="card-filters">
+                <span class="page-count">{{ visitas.paginas|length }} páginas</span>
+            </div>
+        </div>
+        
+        <div class="table-responsive">
+            <table class="amazon-table">
+                <thead>
+                    <tr>
+                        <th>Página</th>
+                        <th width="120">Visitas</th>
+                        <th width="120">Porcentaje</th>
+                        <th width="200">Gráfico</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if visitas.paginas and visitas.paginas|length > 0 %}
+                        {% for pagina, visits in visitas.paginas.items()|sort(reverse=true, attribute='1') %}
+                        <tr>
+                            <td>
+                                <div class="page-cell">
+                                    <i class="fas fa-file-alt page-icon"></i>
+                                    <span class="page-name">{{ pagina }}</span>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="visits-count">{{ visits }}</span>
+                            </td>
+                            <td>
+                                {% if visitas.total > 0 %}
+                                    {% set porcentaje = (visits / visitas.total * 100) %}
+                                {% else %}
+                                    {% set porcentaje = 0 %}
+                                {% endif %}
+                                <span class="percentage">{{ "%.1f"|format(porcentaje) }}%</span>
+                            </td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" data-width="{{ porcentaje }}" title="{{ visits }} visitas ({{ "%.1f"|format(porcentaje) }}%)"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="4" class="empty-state">
+                                <div class="empty-state-content">
+                                    <i class="fas fa-chart-pie"></i>
+                                    <h3>No hay datos de visitas</h3>
+                                    <p>Las estadísticas se generarán cuando haya tráfico en tu filtro</p>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="table-footer">
+            <div class="table-info">
+                <i class="fas fa-info-circle"></i>
+                <span>Total de páginas visitadas: {{ visitas.paginas|length }}</span>
+            </div>
+            <div class="table-tip">
+                <i class="fas fa-lightbulb"></i>
+                <span>Las páginas más visitadas aparecen arriba</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="filtro-reminder">
+        <i class="fas fa-filter"></i>
+        <p><strong>Estadísticas de tu filtro</strong> - Estas visitas representan el tráfico real hacia tu sitio, no incluyen las compras en Amazon</p>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Aplicar alturas a las barras de tendencia
+    const barItems = document.querySelectorAll('.bar-item');
+    barItems.forEach(function(item) {
+        const altura = item.getAttribute('data-altura');
+        const barFill = item.querySelector('.bar-fill');
+        if (barFill && altura) {
+            barFill.style.height = '0%';
+            setTimeout(function() {
+                barFill.style.height = altura + '%';
+            }, 100);
+        }
+        
+        const visitas = item.getAttribute('data-visitas');
+        const valorDiv = item.querySelector('.bar-valor');
+        if (valorDiv && visitas) {
+            valorDiv.textContent = visitas;
+        }
+    });
+    
+    // Aplicar anchos a las barras de progreso
+    const progressFills = document.querySelectorAll('.progress-fill');
+    progressFills.forEach(function(fill) {
+        const width = fill.getAttribute('data-width');
+        if (width) {
+            setTimeout(function() {
+                fill.style.width = width + '%';
+            }, 100);
+        }
+    });
+});
+</script>
+
+<style>
+/* Estilos para las barras */
+.bar-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.bar-valor {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #ff9900;
+    margin-top: 5px;
+}
+
+.trend-badge.trend-neutral {
+    background: #e2e8f0;
+    color: #475569;
+}
+
+.trend-badge.trend-neutral i {
+    color: #64748b;
+}
+
+.bar-fill {
+    transition: height 1s ease-out;
+    height: 0%;
+    background: linear-gradient(180deg, #ff9900, #e68900);
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-radius: 4px 4px 0 0;
+}
+
+.bar-container {
+    width: 100%;
+    height: 150px;
+    background: #f1f5f9;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+}
+
+.progress-fill {
+    transition: width 1s ease-out;
+    height: 100%;
+    background: linear-gradient(90deg, #ff9900, #e68900);
+    border-radius: 4px;
+    width: 0%;
+}
+
+@media (max-width: 768px) {
+    .trend-bars {
+        gap: 5px;
+    }
+    
+    .bar-label {
+        font-size: 0.7rem;
+    }
+    
+    .bar-valor {
+        font-size: 0.65rem;
+    }
+}
+</style>
+{% endblock %}
