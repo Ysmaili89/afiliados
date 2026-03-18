@@ -13,11 +13,6 @@ import os
 import re
 
 # ===== API DE AMAZON (COMENTADA - PARA USO FUTURO) =====
-# Para activar la API de Amazon:
-# 1. Descomenta las líneas siguientes
-# 2. Ejecuta: pip install python-amazon-paapi requests
-# 3. Configura las variables de entorno
-
 # try:
 #     from amazon_paapi import AmazonApi
 #     AMAZON_API_DISPONIBLE = True
@@ -25,15 +20,28 @@ import re
 #     AMAZON_API_DISPONIBLE = False
 #     print("ℹ️ API de Amazon no disponible - modo manual activado")
 
-# Configuración de logging
+# ===== CONFIGURACIÓN DE LOGGING MEJORADA =====
+# Configuración básica
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('app.log'),
-        logging.StreamHandler()
+        logging.StreamHandler()  # Solo consola inicialmente
     ]
 )
+
+# Configurar manejador de archivo para WARNING y superior
+file_handler = logging.FileHandler('app.log')
+file_handler.setLevel(logging.WARNING)  # Solo warnings y errors en archivo
+file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+
+# Obtener logger raíz y configurarlo
+logger = logging.getLogger()
+logger.handlers = []  # Limpiar handlers existentes
+logger.addHandler(file_handler)
+logger.addHandler(logging.StreamHandler())
+logger.setLevel(logging.INFO)
+
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
@@ -113,27 +121,6 @@ class Producto(db.Model):
     clics = db.Column(db.Integer, default=0)
     fecha_creacion = db.Column(db.String(20), default=lambda: datetime.now().strftime('%Y-%m-%d'))
 
-# ===== MODELO PARA API FUTURA (COMENTADO) =====
-# class ProductoAPI(db.Model):
-#     """Productos obtenidos de la API de Amazon"""
-#     __tablename__ = 'productos_api'
-#     id = db.Column(db.Integer, primary_key=True)
-#     asin = db.Column(db.String(20), unique=True, nullable=False)
-#     titulo = db.Column(db.String(500), nullable=False)
-#     descripcion = db.Column(db.Text)
-#     imagen = db.Column(db.String(500))
-#     precio = db.Column(db.String(50))
-#     precio_actual = db.Column(db.String(50))
-#     moneda = db.Column(db.String(10))
-#     rating = db.Column(db.Float, default=0)
-#     total_ratings = db.Column(db.Integer, default=0)
-#     marca = db.Column(db.String(200))
-#     categoria = db.Column(db.String(100))
-#     url_afiliado = db.Column(db.String(500))
-#     fecha_actualizacion = db.Column(db.String(20), default=lambda: datetime.now().strftime('%Y-%m-%d'))
-#     destacado = db.Column(db.Boolean, default=False)
-#     clics = db.Column(db.Integer, default=0)
-
 class Categoria(db.Model):
     __tablename__ = 'categorias'
     id = db.Column(db.Integer, primary_key=True)
@@ -154,36 +141,6 @@ class Visita(db.Model):
     fecha = db.Column(db.String(20), default=lambda: datetime.now().strftime('%Y-%m-%d'))
     ip = db.Column(db.String(50))
     user_agent = db.Column(db.String(200))
-
-# ===== FUNCIONES API AMAZON PARA USO FUTURO (COMENTADAS) =====
-# def get_amazon_api():
-#     """Inicializa la conexión con Amazon API"""
-#     if not AMAZON_API_DISPONIBLE:
-#         return None
-#     
-#     if not all([AMAZON_ACCESS_KEY, AMAZON_SECRET_KEY, AMAZON_ASSOCIATE_TAG]):
-#         logger.warning("Credenciales de Amazon API no configuradas")
-#         return None
-#     
-#     try:
-#         amazon = AmazonApi(
-#             access_key=AMAZON_ACCESS_KEY,
-#             secret_key=AMAZON_SECRET_KEY,
-#             associate_tag=AMAZON_ASSOCIATE_TAG,
-#             country=AMAZON_COUNTRY
-#         )
-#         return amazon
-#     except Exception as e:
-#         logger.error(f"Error conectando a Amazon API: {e}")
-#         return None
-
-# def buscar_productos_amazon(keywords, categoria=None, max_resultados=10):
-#     """Busca productos en Amazon usando la API"""
-#     return []  # Versión sin API
-
-# def guardar_productos_api(productos):
-#     """Guarda productos de la API en la base de datos local"""
-#     return 0, 0  # Versión sin API
 
 # ========== CONFIGURACIÓN INICIAL ==========
 def init_db():
@@ -413,10 +370,10 @@ def admin_required(f):
 @app.context_processor
 def inject_now():
     """Inyecta datetime.now() y timedelta en todas las plantillas"""
-    from datetime import timedelta  # Importación local para el contexto
+    from datetime import timedelta
     return {
         'now': datetime.now(),
-        'timedelta': timedelta  # <-- IMPORTANTE: necesario para estadisticas.html
+        'timedelta': timedelta
     }
 
 @app.context_processor
@@ -574,7 +531,6 @@ def panel_producto_editar(producto_id):
         producto.categoria = escape(request.form.get('categoria', ''))
         producto.destacado = True if request.form.get('destacado') == 'true' else False
         
-        # CORREGIDO: Manejo seguro del campo clics
         try:
             producto.clics = int(request.form.get('clics', 0))
         except ValueError:
@@ -646,30 +602,6 @@ def panel_producto_duplicar(producto_id):
         flash('Error al duplicar el producto', 'error')
     
     return redirect(url_for('panel_productos'))
-
-# ===== RUTAS DE API (COMENTADAS - PARA USO FUTURO) =====
-# @app.route('/panel/amazon/buscar', methods=['GET', 'POST'])
-# @login_required
-# def amazon_buscar():
-#     flash('Función de API desactivada temporalmente', 'info')
-#     return redirect(url_for('panel_dashboard'))
-
-# @app.route('/panel/amazon/guardar', methods=['POST'])
-# @login_required
-# def amazon_guardar():
-#     return jsonify({'status': 'error', 'mensaje': 'API desactivada'}), 404
-
-# @app.route('/panel/productos-api')
-# @login_required
-# def panel_productos_api():
-#     flash('Sección de API desactivada temporalmente', 'info')
-#     return redirect(url_for('panel_dashboard'))
-
-# @app.route('/panel/productos-api/eliminar/<int:producto_id>', methods=['POST'])
-# @login_required
-# def panel_producto_api_eliminar(producto_id):
-#     flash('API desactivada', 'info')
-#     return redirect(url_for('panel_dashboard'))
 
 @app.route('/panel/categorias')
 @login_required
@@ -752,6 +684,8 @@ def panel_categoria_eliminar(categoria_id):
     
     return redirect(url_for('panel_categorias'))
 
+# ===== RUTAS DE PERFIL Y USUARIOS (CORREGIDAS Y COMPLETAS) =====
+
 @app.route('/panel/perfil', methods=['GET', 'POST'])
 @login_required
 def panel_perfil():
@@ -761,20 +695,56 @@ def panel_perfil():
     usuario = Usuario.query.filter_by(username=username).first_or_404()
     
     if request.method == 'POST':
+        # Actualizar datos básicos del perfil
         usuario.nombre = escape(request.form.get('nombre', usuario.nombre))
         usuario.email = escape(request.form.get('email', usuario.email))
         
-        if request.form.get('password_nueva'):
-            if request.form.get('password_nueva') == request.form.get('password_confirmar'):
-                usuario.set_password(request.form.get('password_nueva'))
-                flash('Contraseña actualizada correctamente', 'success')
-            else:
+        # Validar que el email no esté en uso por otro usuario
+        email_existente = Usuario.query.filter(
+            Usuario.email == usuario.email,
+            Usuario.username != username
+        ).first()
+        
+        if email_existente:
+            flash('El email ya está registrado por otro usuario', 'error')
+            return redirect(url_for('panel_perfil'))
+        
+        # 🔐 CAMBIO DE CONTRASEÑA DESDE EL MISMO FORMULARIO
+        password_actual = request.form.get('password_actual', '')
+        password_nueva = request.form.get('password_nueva', '')
+        password_confirmar = request.form.get('password_confirmar', '')
+        
+        # Si se proporcionó alguna contraseña, validar el cambio
+        if password_actual or password_nueva or password_confirmar:
+            # Verificar que todos los campos estén completos
+            if not password_actual or not password_nueva or not password_confirmar:
+                flash('Debes completar todos los campos de contraseña', 'error')
+                return redirect(url_for('panel_perfil'))
+            
+            # Verificar contraseña actual
+            if not usuario.check_password(password_actual):
+                flash('La contraseña actual es incorrecta', 'error')
+                return redirect(url_for('panel_perfil'))
+            
+            # Validar nueva contraseña
+            if len(password_nueva) < 6:
+                flash('La nueva contraseña debe tener al menos 6 caracteres', 'error')
+                return redirect(url_for('panel_perfil'))
+            
+            if password_nueva != password_confirmar:
                 flash('Las contraseñas no coinciden', 'error')
+                return redirect(url_for('panel_perfil'))
+            
+            # Actualizar contraseña
+            usuario.set_password(password_nueva)
+            flash('Contraseña actualizada correctamente', 'success')
         
         try:
             db.session.commit()
+            session['nombre'] = usuario.nombre
             logger.info(f"Perfil actualizado: {username}")
-            flash('Perfil actualizado correctamente', 'success')
+            if not (password_actual or password_nueva or password_confirmar):
+                flash('Perfil actualizado correctamente', 'success')
         except Exception as e:
             db.session.rollback()
             logger.error(f"Error actualizando perfil: {e}")
@@ -801,33 +771,106 @@ def panel_usuario_nuevo():
     nuevo_email = escape(request.form.get('nuevo_email', ''))
     nuevo_rol = escape(request.form.get('nuevo_rol', 'viewer'))
     nuevo_password = request.form.get('nuevo_password', '')
+    nuevo_confirm = request.form.get('nuevo_confirm', '')
     
+    # Validaciones
     if Usuario.query.filter_by(username=nuevo_username).first():
         flash('El nombre de usuario ya existe', 'error')
-    elif Usuario.query.filter_by(email=nuevo_email).first():
-        flash('El email ya está registrado', 'error')
-    elif len(nuevo_password) < 6:
-        flash('La contraseña debe tener al menos 6 caracteres', 'error')
-    else:
-        usuario = Usuario(
-            username=nuevo_username,
-            nombre=nuevo_nombre,
-            email=nuevo_email,
-            rol=nuevo_rol
-        )
-        usuario.set_password(nuevo_password)
-        
-        try:
-            db.session.add(usuario)
-            db.session.commit()
-            logger.info(f"Usuario creado: {nuevo_username}")
-            flash(f'Usuario {nuevo_username} creado correctamente', 'success')
-        except Exception as e:
-            db.session.rollback()
-            logger.error(f"Error creando usuario: {e}")
-            flash('Error al crear el usuario', 'error')
+        return redirect(url_for('panel_perfil') + '#usuarios')
     
-    return redirect(url_for('panel_perfil'))
+    if Usuario.query.filter_by(email=nuevo_email).first():
+        flash('El email ya está registrado', 'error')
+        return redirect(url_for('panel_perfil') + '#usuarios')
+    
+    if len(nuevo_password) < 6:
+        flash('La contraseña debe tener al menos 6 caracteres', 'error')
+        return redirect(url_for('panel_perfil') + '#usuarios')
+    
+    if nuevo_password != nuevo_confirm:
+        flash('Las contraseñas no coinciden', 'error')
+        return redirect(url_for('panel_perfil') + '#usuarios')
+    
+    # Crear usuario
+    usuario = Usuario(
+        username=nuevo_username,
+        nombre=nuevo_nombre,
+        email=nuevo_email,
+        rol=nuevo_rol
+    )
+    usuario.set_password(nuevo_password)
+    
+    try:
+        db.session.add(usuario)
+        db.session.commit()
+        logger.info(f"Usuario creado: {nuevo_username}")
+        flash(f'Usuario {nuevo_username} creado correctamente', 'success')
+    except Exception as e:
+        db.session.rollback()
+        logger.error(f"Error creando usuario: {e}")
+        flash('Error al crear el usuario', 'error')
+    
+    return redirect(url_for('panel_perfil') + '#usuarios')
+
+
+@app.route('/panel/usuarios/editar', methods=['POST'])
+@login_required
+@admin_required
+def panel_usuario_editar():
+    """Editar un usuario existente (solo admin)"""
+    actualizar_estadisticas('panel_usuario_editar')
+    
+    username = escape(request.form.get('edit_username', ''))
+    nombre = escape(request.form.get('edit_nombre', ''))
+    email = escape(request.form.get('edit_email', ''))
+    rol = escape(request.form.get('edit_rol', 'viewer'))
+    nueva_password = request.form.get('edit_password', '')
+    confirm_password = request.form.get('edit_confirm', '')
+    
+    usuario = Usuario.query.filter_by(username=username).first()
+    
+    if not usuario:
+        flash('Usuario no encontrado', 'error')
+        return redirect(url_for('panel_perfil') + '#usuarios')
+    
+    # Validar email único (excepto para este usuario)
+    email_existente = Usuario.query.filter(
+        Usuario.email == email,
+        Usuario.username != username
+    ).first()
+    
+    if email_existente:
+        flash('El email ya está registrado por otro usuario', 'error')
+        return redirect(url_for('panel_perfil') + '#usuarios')
+    
+    # Actualizar datos básicos
+    usuario.nombre = nombre
+    usuario.email = email
+    usuario.rol = rol
+    
+    # Cambiar contraseña si se proporcionó
+    if nueva_password:
+        if len(nueva_password) < 6:
+            flash('La contraseña debe tener al menos 6 caracteres', 'error')
+            return redirect(url_for('panel_perfil') + '#usuarios')
+        
+        if nueva_password != confirm_password:
+            flash('Las contraseñas no coinciden', 'error')
+            return redirect(url_for('panel_perfil') + '#usuarios')
+        
+        usuario.set_password(nueva_password)
+        flash('Contraseña actualizada correctamente', 'success')
+    
+    try:
+        db.session.commit()
+        logger.info(f"Usuario actualizado por admin: {username}")
+        flash(f'Usuario {username} actualizado correctamente', 'success')
+    except Exception as e:
+        db.session.rollback()
+        logger.error(f"Error actualizando usuario: {e}")
+        flash('Error al actualizar el usuario', 'error')
+    
+    return redirect(url_for('panel_perfil') + '#usuarios')
+
 
 @app.route('/panel/usuarios/eliminar/<username>', methods=['POST'])
 @login_required
@@ -839,7 +882,7 @@ def panel_usuario_eliminar(username):
     
     if username_limpio == session.get('usuario'):
         flash('No puedes eliminar tu propio usuario', 'error')
-        return redirect(url_for('panel_perfil'))
+        return redirect(url_for('panel_perfil') + '#usuarios')
     
     usuario = Usuario.query.filter_by(username=username_limpio).first()
     
@@ -856,7 +899,28 @@ def panel_usuario_eliminar(username):
     else:
         flash('Usuario no encontrado', 'error')
     
-    return redirect(url_for('panel_perfil'))
+    return redirect(url_for('panel_perfil') + '#usuarios')
+
+
+@app.route('/panel/usuarios/datos/<username>', methods=['GET'])
+@login_required
+@admin_required
+def panel_usuario_datos(username):
+    """API para obtener datos de un usuario (para el modal de edición)"""
+    username_limpio = escape(username)
+    usuario = Usuario.query.filter_by(username=username_limpio).first()
+    
+    if usuario:
+        return jsonify({
+            'username': usuario.username,
+            'nombre': usuario.nombre,
+            'email': usuario.email,
+            'rol': usuario.rol
+        })
+    
+    return jsonify({'error': 'Usuario no encontrado'}), 404
+
+# ===== RUTAS DE CONFIGURACIÓN =====
 
 @app.route('/panel/configuracion', methods=['GET', 'POST'])
 @login_required
@@ -1267,6 +1331,44 @@ def internal_error(error):
                          categorias=get_categorias_lista(),
                          request=request,
                          error_id=error_id), 500
+
+
+
+@app.route('/panel/categorias/editar/<categoria_id>', methods=['GET', 'POST'])
+@login_required
+@admin_required
+def panel_categoria_editar(categoria_id):
+    """Editar una categoría existente"""
+    actualizar_estadisticas('panel_categoria_editar')
+    
+    categoria_id_limpio = escape(categoria_id)
+    categoria = Categoria.query.filter_by(categoria_id=categoria_id_limpio).first_or_404()
+    
+    if request.method == 'POST':
+        nuevo_nombre = escape(request.form.get('nombre', ''))
+        
+        if not nuevo_nombre:
+            flash('El nombre no puede estar vacío', 'error')
+            return redirect(url_for('panel_categoria_editar', categoria_id=categoria_id))
+        
+        try:
+            categoria.nombre = nuevo_nombre
+            db.session.commit()
+            logger.info(f"Categoría actualizada: {categoria_id}")
+            flash('Categoría actualizada correctamente', 'success')
+            return redirect(url_for('panel_categorias'))
+        except Exception as e:
+            db.session.rollback()
+            logger.error(f"Error actualizando categoría: {e}")
+            flash('Error al actualizar la categoría', 'error')
+    
+    return render_template('panel/categoria_editar.html',
+                         categoria=categoria,
+                         categorias=get_categorias(),
+                         categorias_lista=get_categorias_lista(),
+                         usuario=session.get('nombre'))
+
+
 
 # ========== TRADUCTOR ==========
 @app.route('/set-language/<lang>')

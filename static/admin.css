@@ -5764,3 +5764,816 @@ input[type="url"].form-control {
         margin-top: 5px;
     }
 }
+
+
+/* ===== PESTAÑAS DE PERFIL ===== */
+.perfil-tabs {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 5px;
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    border-radius: 30px 30px 0 0;
+    transition: all 0.2s;
+    position: relative;
+}
+
+.tab-btn:hover {
+    color: var(--amazon-orange);
+    background: rgba(255, 153, 0, 0.05);
+}
+
+.tab-btn.active {
+    color: var(--amazon-orange);
+    font-weight: 600;
+}
+
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -7px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--amazon-orange);
+    border-radius: 3px 3px 0 0;
+}
+
+.tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Modo oscuro */
+.dark-mode .tab-btn {
+    color: #ccc;
+}
+
+.dark-mode .tab-btn:hover {
+    color: var(--amazon-orange);
+    background: rgba(255, 153, 0, 0.1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .perfil-tabs {
+        flex-direction: column;
+        gap: 2px;
+    }
+    
+    .tab-btn {
+        width: 100%;
+        text-align: left;
+        border-radius: 5px;
+    }
+    
+    .tab-btn.active::after {
+        display: none;
+    }
+    
+    .tab-btn.active {
+        background: var(--amazon-orange);
+        color: var(--amazon-dark);
+    }
+}
+
+
+
+/* Estilos para las barras de estadísticas (ya están en tu admin.css) */
+.bar-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.bar-valor {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #ff9900;
+    margin-top: 5px;
+}
+
+.trend-badge.trend-neutral {
+    background: #e2e8f0;
+    color: #475569;
+}
+
+.trend-badge.trend-neutral i {
+    color: #64748b;
+}
+
+.bar-fill {
+    transition: height 1s ease-out;
+    height: 0%;
+    background: linear-gradient(180deg, #ff9900, #e68900);
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-radius: 4px 4px 0 0;
+}
+
+.bar-container {
+    width: 100%;
+    height: 150px;
+    background: #f1f5f9;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+}
+
+.progress-fill {
+    transition: width 1s ease-out;
+    height: 100%;
+    background: linear-gradient(90deg, #ff9900, #e68900);
+    border-radius: 4px;
+    width: 0%;
+}
+
+
+
+/* ===== CORRECCIÓN DE VISIBILIDAD EN INPUTS ===== */
+
+/* Para inputs en tarjetas oscuras (como la de crear usuario) */
+.amazon-card.create-user-card .form-control,
+.amazon-card.create-user-card input,
+.amazon-card.create-user-card select,
+.amazon-card.create-user-card textarea {
+    background-color: #ffffff !important;
+    color: #111827 !important;
+    border: 2px solid #d1d5db !important;
+}
+
+.amazon-card.create-user-card .form-control:focus,
+.amazon-card.create-user-card input:focus,
+.amazon-card.create-user-card select:focus {
+    border-color: #ff9900 !important;
+    box-shadow: 0 0 0 3px rgba(255, 153, 0, 0.2) !important;
+    outline: none !important;
+}
+
+.amazon-card.create-user-card .form-control::placeholder,
+.amazon-card.create-user-card input::placeholder,
+.amazon-card.create-user-card select::placeholder {
+    color: #9ca3af !important;
+    opacity: 1 !important;
+}
+
+.amazon-card.create-user-card label {
+    color: #ffffff !important;
+    font-weight: 500 !important;
+}
+
+.amazon-card.create-user-card .required-field::after {
+    color: #ff6b6b !important;
+}
+
+/* Para el modal de editar usuario */
+.modal-amazon .form-control,
+.modal-amazon input,
+.modal-amazon select {
+    background-color: #ffffff !important;
+    color: #111827 !important;
+    border: 2px solid #d1d5db !important;
+}
+
+.modal-amazon .form-control:focus,
+.modal-amazon input:focus,
+.modal-amazon select:focus {
+    border-color: #ff9900 !important;
+    box-shadow: 0 0 0 3px rgba(255, 153, 0, 0.2) !important;
+}
+
+.modal-amazon .form-control::placeholder,
+.modal-amazon input::placeholder {
+    color: #9ca3af !important;
+}
+
+/* Para inputs en modo oscuro general */
+.dark-mode .amazon-card.create-user-card .form-control,
+.dark-mode .amazon-card.create-user-card input,
+.dark-mode .amazon-card.create-user-card select {
+    background-color: #2d2d2d !important;
+    color: #ffffff !important;
+    border-color: #4a4a4a !important;
+}
+
+.dark-mode .amazon-card.create-user-card .form-control:focus {
+    border-color: #ff9900 !important;
+}
+
+.dark-mode .modal-amazon .form-control,
+.dark-mode .modal-amazon input,
+.dark-mode .modal-amazon select {
+    background-color: #2d2d2d !important;
+    color: #ffffff !important;
+    border-color: #4a4a4a !important;
+}
+
+
+
+
+
+
+
+/* Tarjeta de avatar compacta */
+.perfil-avatar-card {
+    background: white;
+    border-radius: 16px;
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 20px;
+}
+
+.avatar-large i {
+    font-size: 4.5rem;
+    color: var(--amazon-orange);
+}
+
+.avatar-info h2 {
+    font-size: 1.5rem;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.badge-container {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.admin-badge {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Tarjeta de estadísticas compacta */
+.stats-compact-card {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 20px;
+}
+
+.stat-compact-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--border-light);
+}
+
+.stat-compact-item:last-child {
+    border-bottom: none;
+}
+
+.stat-compact-item i {
+    width: 35px;
+    height: 35px;
+    background: rgba(255, 153, 0, 0.1);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--amazon-orange);
+    font-size: 1.1rem;
+}
+
+.stat-compact-label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.stat-compact-value {
+    display: block;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* Tarjeta de recordatorio */
+.reminder-card {
+    background: linear-gradient(135deg, var(--amazon-dark), var(--amazon-gray));
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: white;
+    border: 1px solid var(--amazon-orange);
+}
+
+.reminder-card i {
+    font-size: 2rem;
+    color: var(--amazon-orange);
+}
+
+.reminder-card strong {
+    display: block;
+    color: white;
+    margin-bottom: 4px;
+}
+
+.reminder-card p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+/* Tarjeta de edición principal */
+.edit-profile-card {
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+    margin-bottom: 20px;
+}
+
+.card-header-with-icon {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--border-light);
+}
+
+.card-header-with-icon i {
+    font-size: 1.8rem;
+    color: var(--amazon-orange);
+}
+
+.card-header-with-icon h3 {
+    font-size: 1.3rem;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.edit-form .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.edit-form .form-group small {
+    display: block;
+    margin-top: 5px;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+}
+
+.password-section {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.password-section h4 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-primary);
+    margin-bottom: 5px;
+}
+
+.password-hint {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+}
+
+/* Tarjeta de consejo de seguridad */
+.security-tip-card {
+    background: #fff3cd;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border-left: 4px solid var(--amazon-orange);
+}
+
+.security-tip-card i {
+    font-size: 2rem;
+    color: var(--amazon-orange);
+}
+
+.security-tip-card strong {
+    display: block;
+    color: #856404;
+    margin-bottom: 4px;
+}
+
+.security-tip-card p {
+    color: #856404;
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* Gestión de usuarios mejorada */
+.users-management {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.create-user-highlight-card {
+    background: linear-gradient(135deg, var(--amazon-dark), var(--amazon-gray));
+    border-radius: 16px;
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: white;
+    border: 1px solid var(--amazon-orange);
+}
+
+.card-icon i {
+    font-size: 3rem;
+    color: var(--amazon-orange);
+}
+
+.card-content {
+    flex: 1;
+}
+
+.card-content h3 {
+    color: white;
+    margin-bottom: 5px;
+}
+
+.card-content p {
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+}
+
+.btn-create {
+    background: var(--amazon-orange);
+    color: var(--amazon-dark);
+    border: none;
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.btn-create:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 153, 0, 0.3);
+}
+
+.create-user-form-container {
+    display: none;
+}
+
+.create-user-form-container.visible {
+    display: block;
+    animation: slideDown 0.3s ease;
+}
+
+/* Estadísticas resumidas */
+.users-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.stat-summary-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+}
+
+.stat-summary-card i {
+    font-size: 2rem;
+    color: var(--amazon-orange);
+}
+
+.stat-summary-value {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.2;
+}
+
+.stat-summary-label {
+    display: block;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+}
+
+/* Tabla de usuarios mejorada */
+.users-list-enhanced-card {
+    background: white;
+    border-radius: 16px;
+    padding: 25px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+}
+
+.card-header-with-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--border-light);
+}
+
+.card-header-with-actions h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.card-header-with-actions .badge {
+    background: var(--amazon-orange);
+    color: var(--amazon-dark);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.users-table {
+    display: flex;
+    flex-direction: column;
+}
+
+.users-table-header {
+    display: grid;
+    grid-template-columns: 1.5fr 1.5fr 2fr 1fr 1fr;
+    padding: 12px 15px;
+    background: #f8fafc;
+    border-radius: 8px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    margin-bottom: 10px;
+}
+
+.users-table-row {
+    display: grid;
+    grid-template-columns: 1.5fr 1.5fr 2fr 1fr 1fr;
+    padding: 15px;
+    border-bottom: 1px solid var(--border-light);
+    align-items: center;
+    transition: background 0.2s ease;
+}
+
+.users-table-row:hover {
+    background: #f8fafc;
+}
+
+.users-table-row.current-user {
+    background: #fff7ed;
+    border-left: 4px solid var(--amazon-orange);
+    border-radius: 4px 0 0 4px;
+}
+
+.col-user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.col-user i {
+    color: var(--amazon-orange);
+    font-size: 1.2rem;
+}
+
+.col-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    background: transparent;
+    color: var(--text-secondary);
+}
+
+.btn-icon.edit:hover {
+    background: var(--amazon-orange);
+    color: white;
+}
+
+.btn-icon.delete:hover {
+    background: #dc2626;
+    color: white;
+}
+
+/* Roles compactos */
+.roles-compact-card {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+}
+
+.roles-compact-card h4 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-primary);
+    margin-bottom: 15px;
+}
+
+.roles-compact-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.role-compact {
+    padding: 15px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    text-align: center;
+}
+
+.role-compact.admin {
+    background: #f3e8ff;
+    color: #6b21a8;
+}
+
+.role-compact.editor {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.role-compact.viewer {
+    background: #e2e8f0;
+    color: #334155;
+}
+
+.role-compact i {
+    font-size: 1.5rem;
+}
+
+.role-compact small {
+    font-size: 0.7rem;
+    opacity: 0.8;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .users-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .users-table-header,
+    .users-table-row {
+        grid-template-columns: 1.2fr 1.2fr 1.8fr 0.8fr 1fr;
+    }
+}
+
+@media (max-width: 992px) {
+    .perfil-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .edit-form .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .users-table-header {
+        display: none;
+    }
+    
+    .users-table-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 20px;
+        border: 1px solid var(--border-light);
+        border-radius: 12px;
+        margin-bottom: 10px;
+    }
+    
+    .col-user,
+    .col-name,
+    .col-email,
+    .col-role,
+    .col-actions {
+        padding: 5px 0;
+    }
+    
+    .col-user::before {
+        content: "Usuario: ";
+        font-weight: 600;
+        color: var(--text-secondary);
+        margin-right: 10px;
+    }
+    
+    .col-name::before {
+        content: "Nombre: ";
+        font-weight: 600;
+        color: var(--text-secondary);
+        margin-right: 10px;
+    }
+    
+    .col-email::before {
+        content: "Email: ";
+        font-weight: 600;
+        color: var(--text-secondary);
+        margin-right: 10px;
+    }
+    
+    .col-role::before {
+        content: "Rol: ";
+        font-weight: 600;
+        color: var(--text-secondary);
+        margin-right: 10px;
+    }
+    
+    .col-actions {
+        justify-content: flex-end;
+    }
+}
+
+@media (max-width: 768px) {
+    .create-user-highlight-card {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .users-stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .roles-compact-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

@@ -9,120 +9,201 @@
     <!-- Encabezado de página -->
     <div class="page-header-amazon">
         <div class="header-title">
-            <h1><i class="fas fa-id-card"></i> Mi Perfil</h1>
-            <p class="header-subtitle">Gestiona tu información y administra usuarios del sistema</p>
+            <h1><i class="fas fa-id-card"></i> 
+                {% if request.args.get('tab') == 'usuarios' %}
+                    Gestión de Usuarios
+                {% else %}
+                    Mi Perfil
+                {% endif %}
+            </h1>
+            <p class="header-subtitle">
+                {% if request.args.get('tab') == 'usuarios' %}
+                    Administra los usuarios del sistema
+                {% else %}
+                    Gestiona tu información personal
+                {% endif %}
+            </p>
         </div>
     </div>
     
+    <!-- ===== PESTAÑAS PARA NAVEGACIÓN ===== -->
+    <div class="perfil-tabs">
+        <a href="{{ url_for('panel_perfil') }}" class="tab-btn {% if not request.args.get('tab') %}active{% endif %}">
+            <i class="fas fa-user"></i> Mi Perfil
+        </a>
+        {% if session.rol == 'admin' %}
+        <a href="{{ url_for('panel_perfil') }}?tab=usuarios" class="tab-btn {% if request.args.get('tab') == 'usuarios' %}active{% endif %}">
+            <i class="fas fa-users-cog"></i> Gestión de Usuarios
+        </a>
+        {% endif %}
+    </div>
+    
+    <!-- ===== CONTENIDO SEGÚN PESTAÑA ===== -->
+    
+    {# PESTAÑA 1: MI PERFIL #}
+    {% if not request.args.get('tab') or request.args.get('tab') == 'mi-perfil' %}
     <div class="perfil-grid">
-        <!-- ===== COLUMNA IZQUIERDA - MI PERFIL ===== -->
+        <!-- ===== COLUMNA IZQUIERDA - TARJETAS DE PERFIL ===== -->
         <div class="perfil-sidebar">
-            <!-- Avatar y datos básicos -->
-            <div class="perfil-avatar">
-                <div class="avatar-container">
+            <!-- Tarjeta 1: Avatar y datos básicos (más compacta) -->
+            <div class="perfil-avatar-card">
+                <div class="avatar-large">
                     <i class="fas fa-user-circle"></i>
                 </div>
-                <h2>{{ usuario }}</h2>
-                <span class="role-badge {% if session.rol == 'admin' %}role-admin{% elif session.rol == 'editor' %}role-editor{% else %}role-viewer{% endif %}">
-                    {{ session.rol|capitalize if session.rol else 'Administrador' }}
-                </span>
-                {% if session.rol == 'admin' %}
-                <span class="admin-tag">
-                    <i class="fas fa-crown"></i> Administrador
-                </span>
-                {% endif %}
+                <div class="avatar-info">
+                    <h2>{{ usuario }}</h2>
+                    <div class="badge-container">
+                        <span class="role-badge {% if session.rol == 'admin' %}role-admin{% elif session.rol == 'editor' %}role-editor{% else %}role-viewer{% endif %}">
+                            {{ session.rol|capitalize if session.rol else 'Administrador' }}
+                        </span>
+                        {% if session.rol == 'admin' %}
+                        <span class="admin-badge">
+                            <i class="fas fa-crown"></i> Admin
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
             
-            <!-- Estadísticas personales -->
-            <div class="perfil-info-stats">
-                <div class="info-stat-item">
-                    <span class="info-stat-label">
-                        <i class="fas fa-calendar-alt"></i> Miembro desde
-                    </span>
-                    <span class="info-stat-value">{{ usuario_data.fecha_registro|default('15/01/2024') }}</span>
+            <!-- Tarjeta 2: Estadísticas personales (compacta) -->
+            <div class="stats-compact-card">
+                <div class="stat-compact-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <div>
+                        <span class="stat-compact-label">Miembro desde</span>
+                        <span class="stat-compact-value">
+                            {% if usuario_data and usuario_data.fecha_registro %}
+                                {{ usuario_data.fecha_registro }}
+                            {% else %}
+                                No disponible
+                            {% endif %}
+                        </span>
+                    </div>
                 </div>
-                <div class="info-stat-item">
-                    <span class="info-stat-label">
-                        <i class="fas fa-clock"></i> Último acceso
-                    </span>
-                    <span class="info-stat-value">{{ now.strftime('%d/%m/%Y %H:%M') }}</span>
+                <div class="stat-compact-item">
+                    <i class="fas fa-clock"></i>
+                    <div>
+                        <span class="stat-compact-label">Último acceso</span>
+                        <span class="stat-compact-value">{{ now.strftime('%d/%m/%Y %H:%M') }}</span>
+                    </div>
                 </div>
-                <div class="info-stat-item">
-                    <span class="info-stat-label">
-                        <i class="fas fa-shield-alt"></i> Tipo de cuenta
-                    </span>
-                    <span class="info-stat-value">{{ session.rol|capitalize if session.rol else 'Administrador' }}</span>
+                <div class="stat-compact-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <div>
+                        <span class="stat-compact-label">Tipo de cuenta</span>
+                        <span class="stat-compact-value">{{ session.rol|capitalize if session.rol else 'Administrador' }}</span>
+                    </div>
                 </div>
             </div>
-
-            <!-- Formulario editar mi perfil -->
-            <div class="mi-perfil-form">
-                <h3><i class="fas fa-edit"></i> Editar mi información</h3>
+            
+            <!-- Tarjeta 3: Recordatorio de filtro (más visual) -->
+            <div class="reminder-card">
+                <i class="fas fa-filter"></i>
+                <div>
+                    <strong>Filtro Amazon</strong>
+                    <p>No compartimos tus datos con terceros</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ===== COLUMNA DERECHA - FORMULARIO DE EDICIÓN ===== -->
+        <div class="perfil-main">
+            <!-- Tarjeta principal: Editar información -->
+            <div class="edit-profile-card">
+                <div class="card-header-with-icon">
+                    <i class="fas fa-edit"></i>
+                    <h3>Editar información personal</h3>
+                </div>
                 
-                <form method="POST" action="{{ url_for('panel_perfil') }}" class="perfil-form-compacto">
-                    <!-- 🔐 TOKEN CSRF AGREGADO -->
+                <form method="POST" action="{{ url_for('panel_perfil') }}" class="edit-form">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     
-                    <div class="form-group">
-                        <label>Nombre de usuario</label>
-                        <input type="text" value="{{ usuario }}" class="form-control readonly" readonly disabled>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Nombre completo</label>
-                        <input type="text" name="nombre" value="{{ usuario_data.nombre if usuario_data.nombre else usuario }}" class="form-control" required>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Usuario</label>
+                            <input type="text" value="{{ usuario }}" class="form-control" readonly disabled>
+                            <small>No se puede cambiar</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Nombre completo</label>
+                            <input type="text" name="nombre" value="{% if usuario_data and usuario_data.nombre %}{{ usuario_data.nombre }}{% else %}{{ usuario }}{% endif %}" class="form-control" required>
+                        </div>
                     </div>
                     
                     <div class="form-group">
                         <label>Email</label>
-                        <input type="email" name="email" value="{{ usuario_data.email if usuario_data.email else 'admin@tudominio.com' }}" class="form-control" required>
+                        <input type="email" name="email" value="{% if usuario_data and usuario_data.email %}{{ usuario_data.email }}{% else %}sin-email@ejemplo.com{% endif %}" class="form-control" required>
                     </div>
                     
                     <hr class="form-divider">
                     
-                    <h4>Cambiar contraseña</h4>
-                    
-                    <div class="form-group">
-                        <label>Contraseña actual</label>
-                        <input type="password" name="password_actual" class="form-control" placeholder="••••••••">
+                    <div class="password-section">
+                        <h4><i class="fas fa-lock"></i> Cambiar contraseña</h4>
+                        <p class="password-hint">Deja en blanco si no quieres cambiarla</p>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Contraseña actual</label>
+                                <input type="password" name="password_actual" class="form-control" placeholder="••••••••">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Nueva contraseña</label>
+                                <input type="password" name="password_nueva" class="form-control" placeholder="••••••••">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Confirmar contraseña</label>
+                                <input type="password" name="password_confirmar" class="form-control" placeholder="••••••••">
+                            </div>
+                        </div>
                     </div>
                     
-                    <div class="form-group">
-                        <label>Nueva contraseña</label>
-                        <input type="password" name="password_nueva" class="form-control" placeholder="••••••••">
+                    <div class="form-actions">
+                        <button type="submit" class="btn-guardar">
+                            <i class="fas fa-save"></i> Guardar cambios
+                        </button>
                     </div>
-                    
-                    <div class="form-group">
-                        <label>Confirmar contraseña</label>
-                        <input type="password" name="password_confirmar" class="form-control" placeholder="••••••••">
-                    </div>
-                    
-                    <button type="submit" class="btn-guardar btn-block">
-                        <i class="fas fa-save"></i> Actualizar mi perfil
-                    </button>
                 </form>
             </div>
             
-            <!-- Recordatorio de filtro -->
-            <div class="filtro-reminder">
-                <i class="fas fa-filter"></i>
-                <p>Gestiona tu perfil de <strong>filtro</strong>. No compartimos tus datos con terceros.</p>
+            <!-- Tarjeta secundaria: Consejos de seguridad -->
+            <div class="security-tip-card">
+                <i class="fas fa-shield-alt"></i>
+                <div>
+                    <strong>Consejo de seguridad</strong>
+                    <p>Cambia tu contraseña periódicamente y usa una combinación segura de letras, números y símbolos.</p>
+                </div>
             </div>
         </div>
+    </div>
+    {% endif %}
+    
+    {# PESTAÑA 2: GESTIÓN DE USUARIOS (SOLO ADMIN) #}
+    {% if request.args.get('tab') == 'usuarios' and session.rol == 'admin' %}
+    <div class="users-management">
+        <!-- Tarjeta: Crear nuevo usuario (destacada) -->
+        <div class="create-user-highlight-card">
+            <div class="card-icon">
+                <i class="fas fa-user-plus"></i>
+            </div>
+            <div class="card-content">
+                <h3>Crear nuevo usuario</h3>
+                <p>Añade un nuevo usuario al sistema con el rol correspondiente</p>
+            </div>
+            <button class="btn-create" onclick="document.getElementById('createUserForm').classList.toggle('visible')">
+                <i class="fas fa-plus"></i> Nuevo usuario
+            </button>
+        </div>
         
-        <!-- ===== COLUMNA DERECHA - ADMINISTRACIÓN DE USUARIOS ===== -->
-        <div id="usuarios" class="perfil-admin-section">
-            <!-- SOLO VISIBLE PARA ADMINISTRADORES -->
-            {% if session.rol == 'admin' %}
-            
-            <!-- Tarjeta: Crear nuevo usuario -->
-            <div class="amazon-card create-user-card">
-                <div class="card-header">
-                    <h2><i class="fas fa-user-plus"></i> Crear nuevo usuario</h2>
-                </div>
-                
-                <form method="POST" action="{{ url_for('panel_usuario_nuevo') }}" class="create-user-form">
-                    <!-- 🔐 TOKEN CSRF AGREGADO -->
+        <!-- Formulario de creación (oculto por defecto) -->
+        <div id="createUserForm" class="create-user-form-container">
+            <div class="form-card">
+                <h4><i class="fas fa-user-plus"></i> Datos del nuevo usuario</h4>
+                <form method="POST" action="{{ url_for('panel_usuario_nuevo') }}">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     
                     <div class="form-row">
@@ -162,144 +243,120 @@
                         </div>
                     </div>
                     
-                    <button type="submit" class="btn-guardar btn-block">
-                        <i class="fas fa-user-plus"></i> Crear usuario
-                    </button>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-guardar">
+                            <i class="fas fa-save"></i> Crear usuario
+                        </button>
+                        <button type="button" class="btn-cancelar" onclick="document.getElementById('createUserForm').classList.remove('visible')">
+                            Cancelar
+                        </button>
+                    </div>
                 </form>
             </div>
+        </div>
+        
+        <!-- Grid de tarjetas para usuarios -->
+        <div class="users-stats-grid">
+            <div class="stat-summary-card">
+                <i class="fas fa-users"></i>
+                <div>
+                    <span class="stat-summary-value">{{ total_usuarios }}</span>
+                    <span class="stat-summary-label">Total usuarios</span>
+                </div>
+            </div>
+            <div class="stat-summary-card">
+                <i class="fas fa-user-tie"></i>
+                <div>
+                    <span class="stat-summary-value">{{ usuarios|selectattr('rol', 'equalto', 'admin')|list|length }}</span>
+                    <span class="stat-summary-label">Administradores</span>
+                </div>
+            </div>
+            <div class="stat-summary-card">
+                <i class="fas fa-user-edit"></i>
+                <div>
+                    <span class="stat-summary-value">{{ usuarios|selectattr('rol', 'equalto', 'editor')|list|length }}</span>
+                    <span class="stat-summary-label">Editores</span>
+                </div>
+            </div>
+            <div class="stat-summary-card">
+                <i class="fas fa-user"></i>
+                <div>
+                    <span class="stat-summary-value">{{ usuarios|selectattr('rol', 'equalto', 'viewer')|list|length }}</span>
+                    <span class="stat-summary-label">Visitantes</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tarjeta: Lista de usuarios (mejorada) -->
+        <div class="users-list-enhanced-card">
+            <div class="card-header-with-actions">
+                <h3><i class="fas fa-list"></i> Usuarios del sistema</h3>
+                <span class="badge">{{ total_usuarios }} usuarios</span>
+            </div>
             
-            <!-- Tarjeta: Lista de usuarios -->
-            <div class="amazon-card users-list-card">
-                <div class="card-header">
-                    <h2><i class="fas fa-users"></i> Usuarios del sistema</h2>
-                    <span class="user-count-badge">{{ total_usuarios }} usuarios</span>
+            <div class="users-table">
+                <div class="users-table-header">
+                    <div class="col-user">Usuario</div>
+                    <div class="col-name">Nombre</div>
+                    <div class="col-email">Email</div>
+                    <div class="col-role">Rol</div>
+                    <div class="col-actions">Acciones</div>
                 </div>
                 
-                <div class="users-list">
-                    {% for user in usuarios %}
-                    <div class="user-item {% if user.username == session.usuario %}current-user{% endif %}">
-                        <div class="user-avatar-mini">
-                            <i class="fas fa-user-circle"></i>
-                        </div>
-                        <div class="user-info">
-                            <strong>{{ user.nombre }}</strong>
-                            <span>{{ user.email }}</span>
-                            <small>@{{ user.username }}</small>
-                        </div>
-                        <div class="user-role">
-                            <span class="role-badge-mini {% if user.rol == 'admin' %}role-admin{% elif user.rol == 'editor' %}role-editor{% else %}role-viewer{% endif %}">
-                                {{ user.rol|capitalize }}
-                            </span>
-                        </div>
-                        <div class="user-actions">
-                            <!-- Botón editar (abre modal) -->
-                            <button onclick="editarUsuario('{{ user.username }}')" class="action-btn edit-btn" title="Editar usuario">
-                                <i class="fas fa-pencil-alt"></i>
-                            </button>
-                            
-                            <!-- Botón eliminar (solo si no es el usuario actual) -->
-                            {% if user.username != session.usuario %}
-                            <button onclick="eliminarUsuario('{{ user.username }}')" class="action-btn delete-btn" title="Eliminar usuario">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                            {% endif %}
-                        </div>
+                {% for user in usuarios %}
+                <div class="users-table-row {% if user.username == session.usuario %}current-user{% endif %}">
+                    <div class="col-user">
+                        <i class="fas fa-user-circle"></i>
+                        <span>@{{ user.username }}</span>
                     </div>
-                    {% endfor %}
+                    <div class="col-name">{{ user.nombre }}</div>
+                    <div class="col-email">{{ user.email }}</div>
+                    <div class="col-role">
+                        <span class="role-badge-mini {% if user.rol == 'admin' %}role-admin{% elif user.rol == 'editor' %}role-editor{% else %}role-viewer{% endif %}">
+                            {{ user.rol|capitalize }}
+                        </span>
+                    </div>
+                    <div class="col-actions">
+                        <button onclick="editarUsuario('{{ user.username }}')" class="btn-icon edit" title="Editar">
+                            <i class="fas fa-pencil-alt"></i>
+                        </button>
+                        {% if user.username != session.usuario %}
+                        <button onclick="eliminarUsuario('{{ user.username }}')" class="btn-icon delete" title="Eliminar">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <!-- Tarjeta: Roles y permisos (compacta) -->
+        <div class="roles-compact-card">
+            <h4><i class="fas fa-user-tag"></i> Roles y permisos</h4>
+            <div class="roles-compact-grid">
+                <div class="role-compact admin">
+                    <i class="fas fa-crown"></i>
+                    <strong>Administrador</strong>
+                    <small>Acceso completo</small>
+                </div>
+                <div class="role-compact editor">
+                    <i class="fas fa-edit"></i>
+                    <strong>Editor</strong>
+                    <small>Gestión de contenido</small>
+                </div>
+                <div class="role-compact viewer">
+                    <i class="fas fa-eye"></i>
+                    <strong>Visitante</strong>
+                    <small>Solo visualización</small>
                 </div>
             </div>
-            
-            <!-- Tarjeta: Roles y permisos -->
-            <div class="amazon-card roles-card">
-                <div class="card-header">
-                    <h2><i class="fas fa-user-tag"></i> Roles y permisos</h2>
-                </div>
-                
-                <div class="roles-grid-mini">
-                    <div class="role-mini-card admin">
-                        <i class="fas fa-crown"></i>
-                        <h4>Administrador</h4>
-                        <p>Acceso completo al panel</p>
-                        <ul>
-                            <li><i class="fas fa-check"></i> Gestionar usuarios</li>
-                            <li><i class="fas fa-check"></i> Gestionar productos</li>
-                            <li><i class="fas fa-check"></i> Configuración</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="role-mini-card editor">
-                        <i class="fas fa-edit"></i>
-                        <h4>Editor</h4>
-                        <p>Gestión de contenido</p>
-                        <ul>
-                            <li><i class="fas fa-check"></i> Gestionar productos</li>
-                            <li><i class="fas fa-check"></i> Gestionar categorías</li>
-                            <li><i class="fas fa-times"></i> No gestiona usuarios</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="role-mini-card viewer">
-                        <i class="fas fa-eye"></i>
-                        <h4>Visitante</h4>
-                        <p>Solo visualización</p>
-                        <ul>
-                            <li><i class="fas fa-check"></i> Ver dashboard</li>
-                            <li><i class="fas fa-check"></i> Ver estadísticas</li>
-                            <li><i class="fas fa-times"></i> No puede editar</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Tarjeta: Logs recientes -->
-            <div class="amazon-card logs-card">
-                <div class="card-header">
-                    <h2><i class="fas fa-history"></i> Actividad reciente</h2>
-                    <a href="#" class="view-all-link">Ver todos</a>
-                </div>
-                
-                <div class="logs-list-mini">
-                    <div class="log-mini-item">
-                        <i class="fas fa-box"></i>
-                        <div class="log-content">
-                            <strong>Producto añadido</strong>
-                            <p>AirPods Pro por admin</p>
-                            <small>Hace 5 min</small>
-                        </div>
-                    </div>
-                    <div class="log-mini-item">
-                        <i class="fas fa-user"></i>
-                        <div class="log-content">
-                            <strong>Usuario creado</strong>
-                            <p>editor1 por admin</p>
-                            <small>Hace 2 horas</small>
-                        </div>
-                    </div>
-                    <div class="log-mini-item">
-                        <i class="fas fa-cog"></i>
-                        <div class="log-content">
-                            <strong>Configuración actualizada</strong>
-                            <p>Tag de afiliado</p>
-                            <small>Ayer</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            {% else %}
-            <!-- Mensaje para usuarios no administradores -->
-            <div class="access-denied">
-                <i class="fas fa-lock"></i>
-                <h3>Acceso restringido</h3>
-                <p>Solo los administradores pueden gestionar usuarios.</p>
-                <p>Tu rol actual: <strong>{{ session.rol|capitalize }}</strong></p>
-            </div>
-            {% endif %}
         </div>
     </div>
+    {% endif %}
 </div>
 
-<!-- ===== MODAL PARA EDITAR USUARIO ===== -->
+<!-- ===== MODAL PARA EDITAR USUARIO (mejorado) ===== -->
 <div id="editarUsuarioModal" class="modal-amazon" style="display: none;">
     <div class="modal-content">
         <div class="modal-header">
@@ -308,7 +365,6 @@
         </div>
         <div class="modal-body">
             <form id="editarUsuarioForm" method="POST" action="/panel/usuarios/editar">
-                <!-- 🔐 TOKEN CSRF AGREGADO EN MODAL -->
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <input type="hidden" name="edit_username" id="edit_username">
                 
@@ -324,7 +380,7 @@
                 
                 <div class="form-group">
                     <label>Rol</label>
-                    <select name="edit_rol" id="edit_rol" class="form-control">
+                    <select name="edit_rol" id="edit_rol" class="form-control" required>
                         <option value="admin">Administrador</option>
                         <option value="editor">Editor</option>
                         <option value="viewer">Visitante</option>
@@ -333,16 +389,18 @@
                 
                 <hr class="form-divider">
                 
-                <h4>Cambiar contraseña (opcional)</h4>
+                <h4>Cambiar contraseña <small>(opcional)</small></h4>
                 
-                <div class="form-group">
-                    <label>Nueva contraseña</label>
-                    <input type="password" name="edit_password" class="form-control" placeholder="••••••••">
-                </div>
-                
-                <div class="form-group">
-                    <label>Confirmar contraseña</label>
-                    <input type="password" name="edit_confirm" class="form-control" placeholder="••••••••">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Nueva contraseña</label>
+                        <input type="password" name="edit_password" class="form-control" placeholder="••••••••">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Confirmar contraseña</label>
+                        <input type="password" name="edit_confirm" class="form-control" placeholder="••••••••">
+                    </div>
                 </div>
                 
                 <div class="modal-footer">
@@ -355,9 +413,6 @@
 </div>
 
 <script>
-// ===== FUNCIONES PARA GESTIÓN DE USUARIOS =====
-
-// Función para obtener token CSRF
 function getCSRFToken() {
     const tokenInput = document.querySelector('input[name="csrf_token"]');
     if (tokenInput) return tokenInput.value;
@@ -369,19 +424,42 @@ function getCSRFToken() {
     return '';
 }
 
-// Editar usuario (abre modal)
 function editarUsuario(username) {
-    // Aquí deberías cargar los datos del usuario via AJAX
-    // Por ahora simulamos
-    document.getElementById('edit_username').value = username;
-    document.getElementById('edit_nombre').value = 'Usuario ' + username;
-    document.getElementById('edit_email').value = username + '@email.com';
-    document.getElementById('edit_rol').value = 'editor';
+    const csrfToken = getCSRFToken();
     
-    document.getElementById('editarUsuarioModal').style.display = 'flex';
+    document.getElementById('edit_nombre').value = 'Cargando...';
+    document.getElementById('edit_email').value = 'Cargando...';
+    
+    fetch('/panel/usuarios/datos/' + username, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error al cargar datos del usuario');
+        }
+        return response.json();
+    })
+    .then(data => {
+        document.getElementById('edit_username').value = data.username;
+        document.getElementById('edit_nombre').value = data.nombre;
+        document.getElementById('edit_email').value = data.email;
+        document.getElementById('edit_rol').value = data.rol;
+        
+        document.querySelector('[name="edit_password"]').value = '';
+        document.querySelector('[name="edit_confirm"]').value = '';
+        
+        document.getElementById('editarUsuarioModal').style.display = 'flex';
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        mostrarNotificacion('Error al cargar datos del usuario', 'error');
+    });
 }
 
-// Eliminar usuario
 function eliminarUsuario(username) {
     if (confirm('¿Eliminar al usuario "' + username + '"? Esta acción no se puede deshacer.')) {
         const csrfToken = getCSRFToken();
@@ -405,12 +483,10 @@ function eliminarUsuario(username) {
     }
 }
 
-// Cerrar modal
 function cerrarModal() {
     document.getElementById('editarUsuarioModal').style.display = 'none';
 }
 
-// Validación del formulario de crear usuario
 document.querySelector('.create-user-form')?.addEventListener('submit', function(e) {
     var pass = document.querySelector('[name="nuevo_password"]').value;
     var confirm = document.querySelector('[name="nuevo_confirm"]').value;
@@ -424,8 +500,7 @@ document.querySelector('.create-user-form')?.addEventListener('submit', function
     }
 });
 
-// Validación del formulario de editar perfil
-document.querySelector('.perfil-form-compacto')?.addEventListener('submit', function(e) {
+document.querySelector('.edit-form')?.addEventListener('submit', function(e) {
     var nuevaPass = document.querySelector('[name="password_nueva"]').value;
     var confirmPass = document.querySelector('[name="password_confirmar"]').value;
     
@@ -443,7 +518,6 @@ document.querySelector('.perfil-form-compacto')?.addEventListener('submit', func
     }
 });
 
-// Función para mostrar notificaciones
 function mostrarNotificacion(mensaje, tipo) {
     var notificacion = document.createElement('div');
     notificacion.className = 'notificacion-flotante notificacion-' + tipo;
@@ -457,7 +531,6 @@ function mostrarNotificacion(mensaje, tipo) {
     }, 3000);
 }
 
-// Cerrar modal al hacer clic fuera
 window.onclick = function(event) {
     var modal = document.getElementById('editarUsuarioModal');
     if (event.target === modal) {

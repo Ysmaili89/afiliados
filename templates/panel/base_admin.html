@@ -31,14 +31,14 @@
             </div>
         </div>
         
-        <!-- BUSCADOR CORREGIDO - AHORA FUNCIONA -->
+        <!-- BUSCADOR -->
         <div class="header-search">
             <i class="fas fa-search"></i>
             <input type="text" id="searchProducts" placeholder="Buscar productos..." onkeyup="buscarProductos(event)">
         </div>
         
         <div class="header-right">
-            <!-- Campanita con contador - CORREGIDA -->
+            <!-- Campanita con contador -->
             <div class="header-notifications" id="notificationsBtn">
                 <i class="fas fa-bell"></i>
                 <span class="notification-badge" id="notificationBadge">3</span>
@@ -101,7 +101,7 @@
                     </a>
                     <!-- Los administradores ven acceso directo a gestión de usuarios -->
                     {% if session.rol == 'admin' %}
-                    <a href="{{ url_for('panel_perfil') }}#usuarios" class="dropdown-item">
+                    <a href="{{ url_for('panel_perfil') }}?tab=usuarios" class="dropdown-item">
                         <i class="fas fa-users-cog"></i> Gestionar Usuarios
                     </a>
                     {% endif %}
@@ -153,13 +153,6 @@
                     <span class="nav-badge">{{ categorias|length|default(0) }}</span>
                 </a>
                 
-                <!-- USUARIOS -->
-                <a href="{{ url_for('panel_perfil') }}#usuarios" class="nav-item {% if request.path == '/panel/perfil' %}active{% endif %}">
-                    <i class="fas fa-users"></i>
-                    <span>Usuarios</span>
-                    <span class="nav-badge">{{ total_usuarios|default(1) }}</span>
-                </a>
-                
                 <div class="nav-section">ANÁLISIS</div>
                 
                 <!-- ESTADÍSTICAS -->
@@ -168,19 +161,30 @@
                     <span>Estadísticas</span>
                 </a>
                 
-                <div class="nav-section">CONFIGURACIÓN</div>
+                <div class="nav-section">ADMINISTRACIÓN</div>
                 
-                <!-- PERFIL -->
-                <a href="{{ url_for('panel_perfil') }}" class="nav-item {% if '/panel/perfil' in request.path %}active{% endif %}">
+                <!-- 👇 USUARIOS (solo para admin) -->
+                {% if session.rol == 'admin' %}
+                <a href="{{ url_for('panel_perfil') }}?tab=usuarios" class="nav-item {% if request.args.get('tab') == 'usuarios' %}active{% endif %}">
+                    <i class="fas fa-users-cog"></i>
+                    <span>Usuarios</span>
+                    <span class="nav-badge">{{ total_usuarios|default(1) }}</span>
+                </a>
+                {% endif %}
+                
+                <!-- 👇 MI PERFIL (visible para todos) -->
+                <a href="{{ url_for('panel_perfil') }}" class="nav-item {% if request.path == '/panel/perfil' and not request.args.get('tab') %}active{% endif %}">
                     <i class="fas fa-user"></i>
                     <span>Mi Perfil</span>
                 </a>
                 
-                <!-- CONFIGURACIÓN -->
+                <!-- CONFIGURACIÓN (solo admin) -->
+                {% if session.rol == 'admin' %}
                 <a href="{{ url_for('panel_configuracion') }}" class="nav-item {% if '/panel/configuracion' in request.path %}active{% endif %}">
                     <i class="fas fa-cog"></i>
                     <span>Configuración</span>
                 </a>
+                {% endif %}
                 
                 <!-- ENLACE AL SITIO PRINCIPAL -->
                 <a href="{{ url_for('index') }}" class="nav-item" target="_blank">
@@ -242,8 +246,6 @@
         </main>
     </div>
     
-
-    
     <script>
         // Función para obtener token CSRF desde meta tag
         function getCSRFToken() {
@@ -273,7 +275,6 @@
         
         // ===== BUSCADOR FUNCIONAL =====
         function buscarProductos(event) {
-            // Si presiona Enter, redirigir a búsqueda
             if (event.key === 'Enter') {
                 const query = event.target.value.trim();
                 if (query) {

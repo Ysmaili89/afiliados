@@ -54,137 +54,13 @@
     </script>
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     
-    <!-- ESTILOS ADICIONALES PARA HEADER MÁS ESTRECHO -->
-    <style>
-        /* Header más compacto */
-        .header-afiliado {
-            background-color: var(--amazon-dark);
-        }
-        
-        .header-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 8px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px;
-        }
-        
-        /* Logo solo texto - elegante */
-        .logo-link {
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-        }
-        
-        .logo-text {
-            font-family: 'Amazon Ember', Arial, sans-serif;
-            font-weight: 500;
-            font-size: 1.3rem;
-            color: #ffffff;
-            letter-spacing: -0.3px;
-            transition: color 0.2s ease;
-            line-height: 1;
-        }
-        
-        .logo-link:hover .logo-text {
-            color: #ff9900;
-        }
-        
-        /* Buscador más compacto */
-        .buscador-pequeno {
-            max-width: 220px;
-            margin: 0;
-        }
-        
-        .buscador-pequeno .search-form input[type="text"] {
-            padding: 5px 10px;
-            font-size: 0.85rem;
-            height: 32px;
-        }
-        
-        .buscador-pequeno .search-form button {
-            padding: 5px 12px;
-            height: 32px;
-            font-size: 0.85rem;
-        }
-        
-        /* Iconos más compactos */
-        .header-actions {
-            gap: 5px;
-        }
-        
-        .header-icon-btn {
-            width: 34px;
-            height: 34px;
-            font-size: 1rem;
-        }
-        
-        /* Navegación más compacta */
-        .nav-principal {
-            background-color: var(--amazon-gray);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.9rem;
-        }
-        
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        .nav-menu {
-            gap: 15px;
-        }
-        
-        .nav-menu li a {
-            padding: 10px 0;
-            font-size: 0.9rem;
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-wrap: wrap;
-                padding: 8px 15px;
-            }
-            
-            .logo-text {
-                font-size: 1.2rem;
-            }
-            
-            .buscador-pequeno {
-                max-width: 100%;
-                order: 3;
-                margin-top: 5px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .logo-text {
-                font-size: 1.1rem;
-            }
-            
-            .header-actions {
-                gap: 2px;
-            }
-            
-            .header-icon-btn {
-                width: 30px;
-                height: 30px;
-                font-size: 0.9rem;
-            }
-        }
-    </style>
-    
 </head>
 <body>
     <!-- HEADER MÁS ESTRECHO - SOLO LOGO TEXTO -->
     <header class="header-afiliado">
         <div class="header-content">
             <div class="logo">
-                <a href="/" class="logo-link" title="La Preferida - Inicio">
+                <a href="/" class="logo-link" title="Inicio">
                     <span class="logo-text">Filtro de afiliados</span>
                 </a>
             </div>
@@ -411,7 +287,6 @@
 
     <!-- SCRIPTS PRINCIPALES -->
     <script>
-        // Botón ir arriba
         window.onscroll = function() {
             const btnSubir = document.getElementById('btnSubir');
             if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
@@ -425,7 +300,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
-        // Modo oscuro
         const darkModeToggle = document.getElementById('darkModeToggle');
         if (darkModeToggle) {
             darkModeToggle.addEventListener('click', function() {
@@ -440,14 +314,12 @@
                 }
             });
             
-            // Cargar preferencia guardada
             if (localStorage.getItem('darkMode') === 'enabled') {
                 document.body.classList.add('dark-mode');
                 darkModeToggle.querySelector('i').className = 'fas fa-sun';
             }
         }
 
-        // Cerrar alerts automáticamente
         setTimeout(function() {
             document.querySelectorAll('.alert').forEach(function(alert) {
                 alert.style.display = 'none';

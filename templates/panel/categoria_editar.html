@@ -1,0 +1,67 @@
+{% extends "panel/base_admin.html" %}
+
+{% block title %}Editar Categoría - Panel de Control{% endblock %}
+
+{% block breadcrumb %}Editar Categoría{% endblock %}
+
+{% block content %}
+<div class="categorias-wrapper">
+    <div class="page-header-amazon">
+        <div class="header-title">
+            <h1><i class="fas fa-edit"></i> Editar Categoría</h1>
+            <p class="header-subtitle">Modifica los datos de la categoría</p>
+        </div>
+        <a href="{{ url_for('panel_categorias') }}" class="btn-volver">
+            <i class="fas fa-arrow-left"></i> Volver a categorías
+        </a>
+    </div>
+    
+    <div class="form-card">
+        <div class="card-header">
+            <h3><i class="fas fa-folder-edit"></i> Datos de la categoría</h3>
+        </div>
+        
+        <form method="POST" action="{{ url_for('panel_categoria_editar', categoria_id=categoria.categoria_id) }}" class="categoria-form">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="categoria_id" value="{{ categoria.categoria_id }}">
+            
+            <div class="form-group">
+                <label for="nombre" class="required-field">
+                    <i class="fas fa-tag"></i> Nombre de la categoría
+                </label>
+                <input type="text" 
+                       id="nombre" 
+                       name="nombre" 
+                       class="form-control"
+                       value="{{ categoria.nombre }}"
+                       required>
+                <small class="form-hint">Nombre visible para los usuarios</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="slug" class="required-field">
+                    <i class="fas fa-link"></i> Slug (URL)
+                </label>
+                <input type="text" 
+                       id="slug" 
+                       name="slug" 
+                       class="form-control"
+                       value="{{ categoria.categoria_id }}"
+                       required
+                       readonly
+                       disabled>
+                <small class="form-hint">El slug no se puede modificar por seguridad</small>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn-guardar">
+                    <i class="fas fa-save"></i> Guardar cambios
+                </button>
+                <a href="{{ url_for('panel_categorias') }}" class="btn-cancelar">
+                    <i class="fas fa-times"></i> Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
